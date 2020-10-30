@@ -1,0 +1,64 @@
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+     Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
+
+@model TabPlay.Models.TableStatus
+
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        <h3>
+            Select Direction:
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 text-center">
+        @if (Model.NSExists)
+        {
+            <button id="dNorth" class="btn btn-secondary btn-lg m-1" style="width:4.5em" ontouchstart="selectDirection('North')">
+                North
+            </button>
+        }
+        @if (Model.EWExists)
+        {
+            <button id="dEast" class="btn btn-secondary btn-lg m-1" style="width:4.5em" ontouchstart="selectDirection('East')">
+                East
+            </button>
+        }
+        @if (Model.NSExists)
+        {
+            <button id="dSouth" class="btn btn-secondary btn-lg m-1" style="width:4.5em" ontouchstart="selectDirection('South')">
+                South
+            </button>
+        }
+        @if (Model.EWExists)
+        {
+            <button id="dWest" class="btn btn-secondary btn-lg m-1" style="width:4.5em" ontouchstart="selectDirection('West')">
+                West
+            </button>
+        }
+    </div>
+</div>
+
+<script>
+    var direction = "";
+    var isSubmitted = false;
+
+    function selectDirection(dir) {
+        if (direction != "") {
+           document.getElementById("d" + direction).className = "btn btn-secondary btn-lg m-1";
+        }
+        document.getElementById("d" + dir).className = "btn btn-warning btn-lg m-1";
+        direction = dir;
+        document.getElementById("OKButton").disabled = false;
+    }
+
+    $(document).on('touchstart', '#OKButton:enabled', function () {
+        if (direction != "") {
+            if (!isSubmitted) {
+                isSubmitted = true;
+                location.href = '@Url.Action("OKButtonClick", "Direction")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=' + direction;
+            }
+        }
+    });
+</script>

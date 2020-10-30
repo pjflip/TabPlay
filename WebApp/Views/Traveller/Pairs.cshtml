@@ -1,0 +1,114 @@
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
+
+@model TabPlay.Models.Traveller
+
+<div class="row mt-4">
+</div>
+
+<div class="row">
+    <div class="container col-3">
+        <div class="card text-center bg-light">
+            <div class="card-body p-2">
+                <h4>Board @Model.BoardNumber</h4>
+                @if (Model.ContractLevel == 0)
+                {
+                    <h3><a style="color:darkgreen">PASSed Out</a></h3>
+                }
+                else
+                {
+                    <h3>@Html.Raw(Model.DisplayContract)</h3>
+                    <h4>by @Model.Declarer</h4>
+                    if (Model.Score > 0)
+                    {
+                        <h3>@Model.Score to NS</h3>
+                    }
+                    else
+                    {
+                        <h3>@(-Model.Score) to EW</h3>
+                    }
+                }
+                @if (Model.PercentageNS != -1)
+                {
+                    <h4>NS: @Model.PercentageNS%</h4>
+                    <h4>EW: @(100 - Model.PercentageNS)%</h4>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-9">
+        <table class="table-sm table-bordered text-center bg-light" style="margin:auto; width:70%">
+            <thead class="bg-dark text-white">
+                <tr>
+                    <th>NS</th>
+                    <th>EW</th>
+                    <th>Contract</th>
+                    <th>By</th>
+                    <th>Lead</th>
+                    <th>Tricks</th>
+                    <th>NS Score</th>
+                    <th>EW Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var Result in Model)
+                {
+                    string ScoreNS = "";
+                    string ScoreEW = "";
+                    if (Result.Score > 0)
+                    {
+                        ScoreNS = Result.Score.ToString();
+                    }
+                    else if (Result.Score < 0)
+                    {
+                        ScoreEW = (-Result.Score).ToString();
+                    }
+                    if (Result.CurrentResult)
+                    {
+                        <tr class="table-warning">
+                            <td>@Result.PairNS</td>
+                            <td>@Result.PairEW</td>
+                            <td>@Html.Raw(Result.DisplayTravellerContract())</td>
+                            <td>@Result.DeclarerNSEW</td>
+                            <td>@Html.Raw(Result.DisplayLeadCard())</td>
+                            <td>@Result.TricksTakenSymbol</td>
+                            <td>@ScoreNS</td>
+                            <td>@ScoreEW</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>@Result.PairNS</td>
+                            <td>@Result.PairEW</td>
+                            <td>@Html.Raw(Result.DisplayTravellerContract())</td>
+                            <td>@Result.DeclarerNSEW</td>
+                            <td>@Html.Raw(Result.DisplayLeadCard())</td>
+                            <td>@Result.TricksTakenSymbol</td>
+                            <td>@ScoreNS</td>
+                            <td>@ScoreEW</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    var isSubmitted = false;
+
+    function OKButtonClick() {
+        if (!isSubmitted) {
+            isSubmitted = true;
+            location.href = '@Url.Action("Index", "RegisterPlayers")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&boardNumber=@(Model.BoardNumber + 1)';
+        }
+    }
+
+    function handsButtonClick() {
+        if (!isSubmitted) {
+            isSubmitted = true;
+            location.href = '@Url.Action("Index", "HandsDisplay")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&boardNumber=@Model.BoardNumber&pairNumber=@Model.PairNumber';
+        }
+    }
+</script>

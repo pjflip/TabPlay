@@ -1,0 +1,172 @@
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
+
+@model TabPlay.Models.Round
+
+<style>
+    .btn-numeric {
+        font-size: 1.5rem;
+        width: 3em;
+    }
+</style>
+
+<div class="row">
+    <div class="container col-8">
+        <div class="row mt-4">
+            <div class="col-4"></div>
+            <div class="col-4 container">
+                <div id="NameBlock2" class="card bg-danger text-white">
+                    <div class="card-header">
+                        <h4 class="float-left" style="display: inline-block">@Model.Direction[2]</h4>
+                        <h4 class="float-right" style="display: inline-block">@Model.PairOrPlayer: @Model.PairNumber[2]</h4>
+                    </div>
+                    <div class="card-body" style="min-height: 6.5em">
+                        <h4 id="Name2" class="text-center">@Model.PlayerName[2]</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4"></div>
+        </div>
+        <div class="row mt-4 align-items-stretch">
+            <div class="col-4 container">
+                <div id="NameBlock1" class="card bg-danger text-white">
+                    <div class="card-header">
+                        <h4 class="float-left" style="display: inline-block">@Model.Direction[1]</h4>
+                        <h4 class="float-right" style="display: inline-block">@Model.PairOrPlayer: @Model.PairNumber[1]</h4>
+                    </div>
+                    <div class="card-body" style="min-height: 6.5em">
+                        <h4 id="Name1" class="text-center">@Model.PlayerName[1]</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 container d-flex align-items-center justify-content-center">
+                <div class="card text-white" style="background-color: darkgreen">
+                    <div class="card-body text-center">
+                        <h4>Round: @Model.RoundNumber</h4>
+                        <h4>Board: @Model.BoardNumber</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 container">
+                <div id="NameBlock3" class="card bg-danger text-white">
+                    <div class="card-header">
+                        <h4 class="float-left" style="display: inline-block">@Model.Direction[3]</h4>
+                        <h4 class="float-right" style="display: inline-block">@Model.PairOrPlayer: @Model.PairNumber[3]</h4>
+                    </div>
+                    <div class="card-body" style="min-height: 6.5em">
+                        <h4 id="Name3" class="text-center">@Model.PlayerName[3]</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-4"></div>
+            <div class="col-4 container">
+                <div id="NameBlock0" class="card bg-danger text-white">
+                    <div class="card-header">
+                        <h4 class="float-left" style="display: inline-block">@Model.Direction[0]</h4>
+                        <h4 class="float-right" style="display: inline-block">@Model.PairOrPlayer: @Model.PairNumber[0]</h4>
+                    </div>
+                    <div class="card-body" style="min-height: 6.5em">
+                        <h4 id="Name0" class="text-center">@Model.PlayerName[0]</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4"></div>
+        </div>
+    </div>
+    @if (Model.PlayerNumberEntry)
+    {
+        <div class="container border col-4">
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <input class="form-control-lg text-center mx-auto my-1" style="width: 8em" type="text" id="playerNumberBox" value="" readonly>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <button id="nk" class="btn btn-secondary btn-lg px-0 m-1" style="width: 6em" ontouchstart="unknown()">
+                        Unknown
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <button class="btn btn-primary btn-lg btn-numeric m-1" ontouchstart="addNumber(1)">
+                        1
+                    </button>
+                    <button class="btn btn-primary btn-lg btn-numeric m-1" ontouchstart="addNumber(2)">
+                        2
+                    </button>
+                    <button class="btn btn-primary btn-lg btn-numeric m-1" ontouchstart="addNumber(3)">
+                        3
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <button class="btn btn-primary btn-lg btn-numeric m-1" ontouchstart="addNumber(4)">
+                        4
+                    </button>
+                    <button class="btn btn-primary btn-lg btn-numeric m-1" ontouchstart="addNumber(5)">
+                        5
+                    </button>
+                    <button class="btn btn-primary btn-lg btn-numeric m-1" ontouchstart="addNumber(6)">
+                        6
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <button class="btn btn-primary btn-lg btn-numeric m-1" ontouchstart="addNumber(7)">
+                        7
+                    </button>
+                    <button class="btn btn-primary btn-lg btn-numeric m-1" ontouchstart="addNumber(8)">
+                        8
+                    </button>
+                    <button class="btn btn-primary btn-lg btn-numeric m-1" ontouchstart="addNumber(9)">
+                        9
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <button class="btn btn-warning btn-lg btn-numeric px-0 m-1" ontouchstart="clearLastEntry()">
+                        CE
+                    </button>
+                    <button class="btn btn-primary btn-lg btn-numeric m-1" ontouchstart="addNumber(0)">
+                        0
+                    </button>
+                    <button class="btn btn-danger btn-lg btn-numeric m-1" ontouchstart="clearplayerNumber()">
+                        C
+                    </button>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <button id="enterButton" class="btn btn-info btn-lg px-0 m-1" style="width: 6em" ontouchstart="enterNumber()" disabled>
+                        Enter
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="row mt-4">
+    <div class="col-12 text-center">
+        <h5 id="Message">
+            Please enter your Player Number or 'Unknown'
+        </h5>
+    </div>
+</div>
+
+<script>
+    var model = @Html.Raw(Json.Encode(Model));
+    var sitOut = false;
+    var enterPlayerNumberUrl = '@Url.Action("EnterPlayerNumber", "RegisterPlayers")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction[0]&pairNumber=@Model.PairNumber[0]&playerNumber=';
+    var OKButtonClickUrl = '@Url.Action("OKButtonClick", "RegisterPlayers")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber';
+    var pollRegisterUrl = '@Url.Action("PollRegister", "RegisterPlayers")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=@Model.Direction[0]';
+    var biddingUrl = '@Url.Action("Index", "Bidding")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction[0]&boardNumber=@Model.BoardNumber';
+</script>
+<script src='@Url.Content("~/Scripts/RegisterPlayers.js")' type="text/javascript"></script>

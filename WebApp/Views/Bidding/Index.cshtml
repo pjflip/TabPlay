@@ -1,0 +1,317 @@
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
+
+@model TabPlay.Models.Bidding
+
+<style>
+    .btn-bb {
+        width: 3.5em;
+    }
+
+    .btn-bbLarge {
+        width: 4.25em;
+    }
+
+    .btn-invisible {
+        display: none;
+    }
+
+    .btn-card {
+        background-color: white;
+        min-height: 92px;
+        min-width: 48px;
+        line-height: .9;
+        text-align: center;
+        padding: .1rem 0 .1rem 0;
+        margin: 0;
+        font-size: 3rem;
+        border-style: solid;
+        border-width: 1px;
+        border-color: black;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    .alertBid {
+        border: 2px solid red;
+        border-radius: 8px;
+    }
+
+    .thisDirection {
+        border: 2px solid black;
+        border-radius: 8px;
+    }
+</style>
+
+<div id="skipModal" class="modal" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-primary">
+                <p class="modal-title text-center">
+                    <h3>Warning</h3>
+                </p>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to skip this board and move to the next?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-lg btn-danger" data-dismiss="modal">
+                    Cancel <span class="far fa-times-circle"></span>
+                </button>
+                <button class="btn btn-lg btn-success" ontouchstart="skipYes()">
+                    Yes <span class="far fa-check-square"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="container border col-6">
+        <div class="row">
+            <div class="col-12 container">
+                <table class="table table-sm table-borderless text-center mt-2">
+                    <thead class="thead-light">
+                        <tr>
+                            @for (int i = 0; i < 4; i++)
+                            {
+                                if (Model.BidDirections[i] == Model.Direction)
+                                {
+                                    if ((Model.NSVulnerable && (Model.BidDirections[i] == "North" || Model.BidDirections[i] == "South")) || (Model.EWVulnerable && (Model.BidDirections[i] == "East" || Model.BidDirections[i] == "West")))
+                                    {
+                                        <th class="w-25"><h4><span class="badge badge-danger thisDirection">@Model.BidDirections[i]</span></h4></th>
+                                    }
+                                    else
+                                    {
+                                        <th class="w-25"><h4><span class="badge badge-success thisDirection">@Model.BidDirections[i]</span></h4></th>
+                                    }
+                                }
+                                else
+                                {
+                                    if ((Model.NSVulnerable && (Model.BidDirections[i] == "North" || Model.BidDirections[i] == "South")) || (Model.EWVulnerable && (Model.BidDirections[i] == "East" || Model.BidDirections[i] == "West")))
+                                    {
+                                        <th class="w-25"><h4><span class="badge badge-danger">@Model.BidDirections[i]</span></h4></th>
+                                    }
+                                    else
+                                    {
+                                        <th class="w-25"><h4><span class="badge badge-success">@Model.BidDirections[i]</span></h4></th>
+                                    }
+                                }
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><h3 id="bid00">@Html.Raw(Model.BidTable[0, 0])</h3></td>
+                            <td><h3 id="bid01">@Html.Raw(Model.BidTable[0, 1])</h3></td>
+                            <td><h3 id="bid02">@Html.Raw(Model.BidTable[0, 2])</h3></td>
+                            <td><h3 id="bid03">@Html.Raw(Model.BidTable[0, 3])</h3></td>
+                        </tr>
+                        <tr>
+                            <td><h3 id="bid10">@Html.Raw(Model.BidTable[1, 0])</h3></td>
+                            <td><h3 id="bid11">@Html.Raw(Model.BidTable[1, 1])</h3></td>
+                            <td><h3 id="bid12">@Html.Raw(Model.BidTable[1, 2])</h3></td>
+                            <td><h3 id="bid13">@Html.Raw(Model.BidTable[1, 3])</h3></td>
+                        </tr>
+                        <tr>
+                            <td><h3 id="bid20">@Html.Raw(Model.BidTable[2, 0])</h3></td>
+                            <td><h3 id="bid21">@Html.Raw(Model.BidTable[2, 1])</h3></td>
+                            <td><h3 id="bid22">@Html.Raw(Model.BidTable[2, 2])</h3></td>
+                            <td><h3 id="bid23">@Html.Raw(Model.BidTable[2, 3])</h3></td>
+                        </tr>
+                        <tr>
+                            <td><h3 id="bid30">@Html.Raw(Model.BidTable[3, 0])</h3></td>
+                            <td><h3 id="bid31">@Html.Raw(Model.BidTable[3, 1])</h3></td>
+                            <td><h3 id="bid32">@Html.Raw(Model.BidTable[3, 2])</h3></td>
+                            <td><h3 id="bid33">@Html.Raw(Model.BidTable[3, 3])</h3></td>
+                        </tr>
+                        <tr>
+                            <td><h3 id="bid40">@Html.Raw(Model.BidTable[4, 0])</h3></td>
+                            <td><h3 id="bid41">@Html.Raw(Model.BidTable[4, 1])</h3></td>
+                            <td><h3 id="bid42">@Html.Raw(Model.BidTable[4, 2])</h3></td>
+                            <td><h3 id="bid43">@Html.Raw(Model.BidTable[4, 3])</h3></td>
+                        </tr>
+                        <tr>
+                            <td><h3 id="bid50">@Html.Raw(Model.BidTable[5, 0])</h3></td>
+                            <td><h3 id="bid51">@Html.Raw(Model.BidTable[5, 1])</h3></td>
+                            <td><h3 id="bid52">@Html.Raw(Model.BidTable[5, 2])</h3></td>
+                            <td><h3 id="bid53">@Html.Raw(Model.BidTable[5, 3])</h3></td>
+                        </tr>
+                        <tr>
+                            <td><h3 id="bid60">@Html.Raw(Model.BidTable[6, 0])</h3></td>
+                            <td><h3 id="bid61">@Html.Raw(Model.BidTable[6, 1])</h3></td>
+                            <td><h3 id="bid62">@Html.Raw(Model.BidTable[6, 2])</h3></td>
+                            <td><h3 id="bid63">@Html.Raw(Model.BidTable[6, 3])</h3></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="container border col-6">
+        <div class="row">
+            <div id="bb" class="container my-3 col-12" style="display: none">
+                <div class="row">
+                    <div class="col-12 text-center mt-1">
+                        <button id="bb1" class="btn btn-light btn-lg btn-bb" onclick="selectLevel(1)">
+                            <h4>1</h4>
+                        </button>
+                        <button id="bb2" class="btn btn-light btn-lg btn-bb" onclick="selectLevel(2)">
+                            <h4>2</h4>
+                        </button>
+                        <button id="bb3" class="btn btn-light btn-lg btn-bb" onclick="selectLevel(3)">
+                            <h4>3</h4>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center mt-1">
+                        <button id="bb4" class="btn btn-light btn-lg btn-bb" onclick="selectLevel(4)">
+                            <h4>4</h4>
+                        </button>
+                        <button id="bb5" class="btn btn-light btn-lg btn-bb" onclick="selectLevel(5)">
+                            <h4>5</h4>
+                        </button>
+                        <button id="bb6" class="btn btn-light btn-lg btn-bb" onclick="selectLevel(6)">
+                            <h4>6</h4>
+                        </button>
+                        <button id="bb7" class="btn btn-light btn-lg btn-bb" onclick="selectLevel(7)">
+                            <h4>7</h4>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center mt-2">
+                        <button id="bbC" class="btn btn-light btn-lg btn-bb" onclick="selectSuit('C')">
+                            <h4 style="color:darkblue">&clubs;</h4>
+                        </button>
+                        <button id="bbD" class="btn btn-light btn-lg btn-bb" onclick="selectSuit('D')">
+                            <h4 style="color:orangered">&diams;</h4>
+                        </button>
+                        <button id="bbH" class="btn btn-light btn-lg btn-bb" onclick="selectSuit('H')">
+                            <h4 style="color:red">&hearts;</h4>
+                        </button>
+                        <button id="bbS" class="btn btn-light btn-lg btn-bb" onclick="selectSuit('S')">
+                            <h4 style="color:black">&spades;</h4>
+                        </button>
+                        <button id="bbNT" class="btn btn-light btn-lg btn-bb" onclick="selectSuit('NT')">
+                            <h4>NT</h4>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center my-1">
+                        <button id="bbPass" class="btn btn-success btn-lg btn-bbLarge" onclick="selectPass()">
+                            <h4>Pass</h4>
+                        </button>
+                        <button id="bbX" class="btn btn-danger btn-lg btn-bbLarge" onclick="selectX()">
+                            <h4>X</h4>
+                        </button>
+                        <button id="bbXX" class="btn btn-primary btn-lg btn-bbLarge" onclick="selectXX()">
+                            <h4>XX</h4>
+                        </button>
+                        <button id="bbAlert" class="btn btn-dark btn-lg btn-bbLarge" onclick="selectAlert()">
+                            <h4>Alert</h4>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center mt-4">
+                        <button id="bbMakeBid" class="btn btn-info btn-lg" disabled onclick="makeBid()">
+                            <h4>Make Bid</h4>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-1">
+    <div class="container col-2 px-2">
+    </div>
+    <div class="container col-8 px-2">
+        <div class="card">
+            <div id="dir0" class="card-header py-1">
+                @if ((Model.NSVulnerable && (Model.Direction == "North" || Model.Direction == "South")) || (Model.EWVulnerable && (Model.Direction == "East" || Model.Direction == "West")))
+                {
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-danger">@Model.Direction</span> Pair: @Model.PairNumber</h5>
+                }
+                else
+                {
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-success">@Model.Direction</span> Pair: @Model.PairNumber</h5>
+                }
+                <h5 class="float-right" style="display: inline-block">@Model.PlayerName</h5>
+            </div>
+            <div class="card-body p-1" style="display: flex; justify-content: center; background-color: mediumseagreen">
+                <button id="h0c1" class="btn btn-card">
+                    <p id="h0c1Rank">@Html.Raw(Model.DisplayRank[0])</p>
+                    <p id="h0c1Suit">@Html.Raw(Model.DisplaySuit[0])</p>
+                </button>
+                <button id="h0c2" class="btn btn-card">
+                    <p id="h0c2Rank">@Html.Raw(Model.DisplayRank[1])</p>
+                    <p id="h0c2Suit">@Html.Raw(Model.DisplaySuit[1])</p>
+                </button>
+                <button id="h0c3" class="btn btn-card">
+                    <p id="h0c3Rank">@Html.Raw(Model.DisplayRank[2])</p>
+                    <p id="h0c3Suit">@Html.Raw(Model.DisplaySuit[2])</p>
+                </button>
+                <button id="h0c4" class="btn btn-card">
+                    <p id="h0c4Rank">@Html.Raw(Model.DisplayRank[3])</p>
+                    <p id="h0c4Suit">@Html.Raw(Model.DisplaySuit[3])</p>
+                </button>
+                <button id="h0c5" class="btn btn-card">
+                    <p id="h0c5Rank">@Html.Raw(Model.DisplayRank[4])</p>
+                    <p id="h0c5Suit">@Html.Raw(Model.DisplaySuit[4])</p>
+                </button>
+                <button id="h0c6" class="btn btn-card">
+                    <p id="h0c6Rank">@Html.Raw(Model.DisplayRank[5])</p>
+                    <p id="h0c6Suit">@Html.Raw(Model.DisplaySuit[5])</p>
+                </button>
+                <button id="h0c7" class="btn btn-card">
+                    <p id="h0c7Rank">@Html.Raw(Model.DisplayRank[6])</p>
+                    <p id="h0c7Suit">@Html.Raw(Model.DisplaySuit[6])</p>
+                </button>
+                <button id="h0c8" class="btn btn-card">
+                    <p id="h0c8Rank">@Html.Raw(Model.DisplayRank[7])</p>
+                    <p id="h0c8Suit">@Html.Raw(Model.DisplaySuit[7])</p>
+                </button>
+                <button id="h0c9" class="btn btn-card">
+                    <p id="h0c9Rank">@Html.Raw(Model.DisplayRank[8])</p>
+                    <p id="h0c9Suit">@Html.Raw(Model.DisplaySuit[8])</p>
+                </button>
+                <button id="h0c10" class="btn btn-card">
+                    <p id="h0c10Rank">@Html.Raw(Model.DisplayRank[9])</p>
+                    <p id="h0c10Suit">@Html.Raw(Model.DisplaySuit[9])</p>
+                </button>
+                <button id="h0c11" class="btn btn-card">
+                    <p id="h0c11Rank">@Html.Raw(Model.DisplayRank[10])</p>
+                    <p id="h0c11Suit">@Html.Raw(Model.DisplaySuit[10])</p>
+                </button>
+                <button id="h0c12" class="btn btn-card">
+                    <p id="h0c12Rank">@Html.Raw(Model.DisplayRank[11])</p>
+                    <p id="h0c12Suit">@Html.Raw(Model.DisplaySuit[11])</p>
+                </button>
+                <button id="h0c13" class="btn btn-card">
+                    <p id="h0c13Rank">@Html.Raw(Model.DisplayRank[12])</p>
+                    <p id="h0c13Suit">@Html.Raw(Model.DisplaySuit[12])</p>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="container col-2 px-2">
+    </div>
+</div>
+
+<script>
+    var model = @Html.Raw(Json.Encode(Model));
+    var registerPlayersUrl = '@Url.Action("Index", "RegisterPlayers")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&boardNumber=@(Model.BoardNumber + 1)';
+    var travellerUrl = '@Url.Action("Index", "Traveller")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&boardNumber=@Model.BoardNumber&pairNumber=@Model.PairNumber';
+    var playingUrl = '@Url.Action("Index", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&boardNumber=@Model.BoardNumber';
+    var skipUrl = '@Url.Action("Skip", "Bidding")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&boardNumber=@Model.BoardNumber';
+    var sendBidUrl = '@Url.Action("SendBid", "Bidding")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&callDirection=@Model.Direction&boardNumber=@Model.BoardNumber';
+    var pollBidUrl = '@Url.Action("PollBid", "Bidding")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber';
+</script>
+<script src='@Url.Content("~/Scripts/Bidding.js")' type="text/javascript"></script>

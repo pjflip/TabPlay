@@ -1,0 +1,46 @@
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+     Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
+
+@model List<TabPlay.Models.Section>
+
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        <h3>
+            Select Section:
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 text-center">
+        @foreach (var section in Model)
+        {
+            <button id="s@(section.SectionLetter)" class="btn btn-primary btn-lg m-1" style="width:3em" ontouchstart="selectSection('@(section.SectionLetter)')">
+                @(section.SectionLetter)
+            </button>
+        }
+    </div>
+</div>
+
+<script>
+    var section = "";
+    var isSubmitted = false;
+
+    function selectSection(n) {
+        if (section != "") {
+            document.getElementById("s" + section).className = "btn btn-primary btn-lg m-1";
+        }
+        document.getElementById("s" + n).className = "btn btn-warning btn-lg m-1";
+        section = n;
+        document.getElementById("OKButton").disabled = false;
+    }
+
+    $(document).on('touchstart', '#OKButton:enabled', function () {
+        if (section != "") {
+            if (!isSubmitted) {
+                isSubmitted = true;
+                location.href = '@Url.Action("OKButtonClick", "Section")?sectionLetter=' + section;
+            }
+        }
+    });
+</script>

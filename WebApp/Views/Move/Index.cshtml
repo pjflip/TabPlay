@@ -1,0 +1,75 @@
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
+
+@model TabPlay.Models.Move
+
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        <h3>
+            Move for Round @Model.NewRoundNumber
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 mt-3 text-center">
+        @if (Model.NewTableNumber == 0)
+        {
+            <h3>Move to Sit Out</h3>
+        }
+        else
+        {
+            if (Model.Stay)
+            {
+                <h3>Stay at Table @Model.NewTableNumber @Model.NewDirection</h3>
+            }
+            else
+            {
+                <h3>Move to Table @Model.NewTableNumber @Model.NewDirection</h3>
+            }
+        }
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        <h4 style="color:darkgreen">
+            Boards: @Model.LowBoard to @Model.HighBoard
+        </h4>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 text-center">
+        @if (Model.BoardsNewTableNumber == 0)
+        {
+            <h4>
+                Pass to Relay Table
+            </h4>
+        }
+        else
+        {
+            <h4>
+                Pass to Table @Model.BoardsNewTableNumber
+            </h4>
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 mt-5 text-center">
+        <h5>When the director calls the move, please move for the next round</h5>
+        <h5>And then, when you are ready to play, press OK</h5>
+    </div>
+</div>
+
+<script>
+    var isSubmitted = false;
+
+    function OKButtonClick() {
+        if (!isSubmitted) {
+            isSubmitted = true;
+            location.href = '@Url.Action("OKButtonClick", "Move")?sectionID=@Model.SectionID&newTableNumber=@Model.NewTableNumber&newRoundNumber=@Model.NewRoundNumber&newDirection=@Model.NewDirection';
+        }
+    }
+</script>

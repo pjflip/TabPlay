@@ -1,0 +1,40 @@
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+     Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
+
+@model TabPlay.Models.Location
+
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        <h2>
+            Score entry complete
+        </h2>
+    </div>
+</div>
+<div>
+</div>
+<div class="row mt-4">
+    <div class="col">
+    </div>
+    <div class="col-8 text-center">
+        <img src="~/Chequered Flag Logo.png" style="width: 100%" />
+        <h5 class="mt-2">
+            If the event is finished, you can turn off the tablet
+        </h5>
+        <h5>
+            For Swiss events, wait until the TD tells you and then press OK to get the new movement
+        </h5>
+    </div>
+    <div class="col">
+    </div>
+</div>
+
+<script>
+    var isSubmitted = false;
+
+    function OKButtonClick() {
+        if (!isSubmitted) {
+            isSubmitted = true;
+            location.href = '@Url.Action("OKButtonClick", "EndScreen")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction';
+        }
+    }
+</script>

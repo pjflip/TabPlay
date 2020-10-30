@@ -1,0 +1,2 @@
+TabPlay is a tablet-based system for playing the card game bridge.
+It is a web application written using .Net 4.7.2, C#, MVC, Razor and basic Javascript that uses IIS to serve web pages across a local wireless LAN.  Hence it just requires a browser on the tablets.  It uses the standard Bridgemate .bws standard Access database, so can be used with any bridge scoring program that supports Bridgemate, BridgeTab, BridgePad etc. 

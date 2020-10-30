@@ -1,0 +1,80 @@
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
+
+<div id="warningModal" class="modal" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-danger">
+                <p class="modal-title text-center">
+                    <h3>Warning</h3>
+                </p>
+            </div>
+            <div class="modal-body">
+                <p>@TempData["WarningMessage"]</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-lg btn-success" data-dismiss="modal">
+                    OK <span class="fa fa-check-circle"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        <h2>
+            Welcome
+        </h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 text-center">
+        <h3>
+            to
+        </h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 text-center">
+        <h1>
+            TabPlay
+        </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 text-center">
+        <h6>
+            (Version @ViewData["Version"])
+        </h6>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col">
+    </div>
+    <div class="col-6 text-center">
+        <h5>
+            Please wait until the Tournament Director tells you to start, and then press OK
+        </h5>
+    </div>
+    <div class="col">
+    </div>
+</div>
+
+@if (null != TempData["WarningMessage"])
+{
+    <script>
+        $("#warningModal").modal("show");
+    </script>
+}
+
+<script>
+    var isSubmitted = false;
+
+    function OKButtonClick() {
+        if (!isSubmitted) {
+            isSubmitted = true;
+            location.href = '@Url.Action("OKButtonClick", "StartScreen")';
+        }
+   }
+</script>

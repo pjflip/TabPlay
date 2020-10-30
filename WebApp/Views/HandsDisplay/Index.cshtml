@@ -1,0 +1,288 @@
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
+
+@model TabPlay.Models.HandsDisplay
+
+<style>
+    .btn-cardLarge {
+        background-color: white;
+        min-height: 92px;
+        min-width: 48px;
+        line-height: .9;
+        text-align: center;
+        padding: .1rem 0 .1rem 0;
+        margin: 0;
+        font-size: 3rem;
+        border-style: solid;
+        border-width: 1px;
+        border-color: black;
+    }
+
+    .btn-cardSmall {
+        background-color: white;
+        min-height: 62px;
+        min-width: 37px;
+        line-height: .9;
+        text-align: center;
+        padding: .1rem 0 .1rem 0;
+        margin: 0;
+        font-size: 2rem;
+        border-style: solid;
+        border-width: 1px;
+        border-color: black;
+    }
+
+    p {
+        margin: 0;
+    }
+</style>
+
+<div class="row mt-2">
+    <div class="col-2 text-center">
+        <h5>Dealer:</h5>
+        <h5>@Model.Dealer</h5>
+    </div>
+    <div class="container col-8 px-2">
+        <div class="card">
+            <div id="dir2" class="card-header py-1">
+                @if (Model.Vuln02)
+                {
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-danger">@Model.Direction[2]</span></h5>
+                }
+                else
+                {
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-success">@Model.Direction[2]</span></h5>
+                }
+                <h5 class="float-right" style="display: inline-block">HCP: @Model.HCP[2]</h5>
+            </div>
+            <div class="card-body p-1" style="display: flex; justify-content: center; background-color: mediumseagreen">
+                @for (int i = 0; i < 13; i++)
+                {
+                    <button class="btn btn-cardSmall">
+                        <p>@Html.Raw(Model.DisplayRank[2, i])</p>
+                        <p>@Html.Raw(Model.DisplaySuit[2, i])</p>
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-2">
+    </div>
+</div>
+<div class="row align-items-center mt-2">
+    <div class="container col-5 px-2">
+        <div class="card">
+            <div id="dir1" class="card-header py-1">
+                @if (Model.Vuln13)
+                {
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-danger">@Model.Direction[1]</span></h5>
+                }
+                else
+                {
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-success">@Model.Direction[1]</span></h5>
+                }
+                <h5 class="float-right" style="display: inline-block">HCP: @Model.HCP[1]</h5>
+            </div>
+            <div class="card-body p-1" style="display: flex; justify-content: center; background-color: mediumseagreen">
+                <div class="container-fluid">
+                    <div class="row px-0">
+                        <div class="col px-0" style="display: flex; justify-content: left">
+                            @for (int i = 0; i < Model.SuitLengths[1, 0]; i++)
+                            {
+                                <button class="btn btn-cardSmall">
+                                    <p>@Html.Raw(Model.DisplayRank[1, i])</p>
+                                    <p>@Html.Raw(Model.DisplaySuit[1, i])</p>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                    <div class="row px-0">
+                        <div class="col px-0" style="display: flex; justify-content: left">
+                            @for (int i = Model.SuitLengths[1, 0]; i < Model.SuitLengths[1, 0] + Model.SuitLengths[1, 1]; i++)
+                            {
+                                <button class="btn btn-cardSmall">
+                                    <p>@Html.Raw(Model.DisplayRank[1, i])</p>
+                                    <p>@Html.Raw(Model.DisplaySuit[1, i])</p>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                    <div class="row px-0">
+                        <div class="col px-0" style="display: flex; justify-content: left">
+                            @for (int i = Model.SuitLengths[1, 0] + Model.SuitLengths[1, 1]; i < 13 - Model.SuitLengths[1, 3]; i++)
+                            {
+                                <button class="btn btn-cardSmall">
+                                    <p>@Html.Raw(Model.DisplayRank[1, i])</p>
+                                    <p>@Html.Raw(Model.DisplaySuit[1, i])</p>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                    <div class="row px-0">
+                        <div class="col px-0" style="display: flex; justify-content: left">
+                            @for (int i = 13 - Model.SuitLengths[1, 3]; i < 13; i++)
+                            {
+                                <button class="btn btn-cardSmall">
+                                    <p>@Html.Raw(Model.DisplayRank[1, i])</p>
+                                    <p>@Html.Raw(Model.DisplaySuit[1, i])</p>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container col-2 px-2">
+        <table class="table-sm table-bordered text-center m-auto bg-white">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>NT</th>
+                    <th style="color:black">&spades;</th>
+                    <th style="color:red">&hearts;</th>
+                    <th style="color:orangered">&diams;</th>
+                    <th style="color:darkblue">&clubs;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>N</td>
+                    <td>@Model.EvalNorthNT</td>
+                    <td>@Model.EvalNorthSpades</td>
+                    <td>@Model.EvalNorthHearts</td>
+                    <td>@Model.EvalNorthDiamonds</td>
+                    <td>@Model.EvalNorthClubs</td>
+                </tr>
+                <tr>
+                    <td>S</td>
+                    <td>@Model.EvalSouthNT</td>
+                    <td>@Model.EvalSouthSpades</td>
+                    <td>@Model.EvalSouthHearts</td>
+                    <td>@Model.EvalSouthDiamonds</td>
+                    <td>@Model.EvalSouthClubs</td>
+                </tr>
+                <tr>
+                    <td>E</td>
+                    <td>@Model.EvalEastNT</td>
+                    <td>@Model.EvalEastSpades</td>
+                    <td>@Model.EvalEastHearts</td>
+                    <td>@Model.EvalEastDiamonds</td>
+                    <td>@Model.EvalEastClubs</td>
+                </tr>
+                <tr>
+                    <td>W</td>
+                    <td>@Model.EvalWestNT</td>
+                    <td>@Model.EvalWestSpades</td>
+                    <td>@Model.EvalWestHearts</td>
+                    <td>@Model.EvalWestDiamonds</td>
+                    <td>@Model.EvalWestClubs</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="container col-5 px-2">
+        <div class="card">
+            <div id="dir3" class="card-header py-1">
+                @if (Model.Vuln13)
+                {
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-danger">@Model.Direction[3]</span></h5>
+                }
+                else
+                {
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-success">@Model.Direction[3]</span></h5>
+                }
+                <h5 class="float-right" style="display: inline-block">HCP: @Model.HCP[3]</h5>
+            </div>
+            <div class="card-body p-1" style="display: flex; justify-content: center; background-color: mediumseagreen">
+                <div class="container-fluid">
+                    <div class="row px-0">
+                        <div class="col px-0" style="display: flex; justify-content: left">
+                            @for (int i = 0; i < Model.SuitLengths[3, 0]; i++)
+                            {
+                                <button class="btn btn-cardSmall">
+                                    <p>@Html.Raw(Model.DisplayRank[3, i])</p>
+                                    <p>@Html.Raw(Model.DisplaySuit[3, i])</p>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                    <div class="row px-0">
+                        <div class="col px-0" style="display: flex; justify-content: left">
+                            @for (int i = Model.SuitLengths[3, 0]; i < Model.SuitLengths[3, 0] + Model.SuitLengths[3, 1]; i++)
+                            {
+                                <button class="btn btn-cardSmall">
+                                    <p>@Html.Raw(Model.DisplayRank[3, i])</p>
+                                    <p>@Html.Raw(Model.DisplaySuit[3, i])</p>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                    <div class="row px-0">
+                        <div class="col px-0" style="display: flex; justify-content: left">
+                            @for (int i = Model.SuitLengths[3, 0] + Model.SuitLengths[3, 1]; i < 13 - Model.SuitLengths[3, 3]; i++)
+                            {
+                                <button class="btn btn-cardSmall">
+                                    <p>@Html.Raw(Model.DisplayRank[3, i])</p>
+                                    <p>@Html.Raw(Model.DisplaySuit[3, i])</p>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                    <div class="row px-0">
+                        <div class="col px-0" style="display: flex; justify-content: left">
+                            @for (int i = 13 - Model.SuitLengths[3, 3]; i < 13; i++)
+                            {
+                                <button class="btn btn-cardSmall">
+                                    <p>@Html.Raw(Model.DisplayRank[3, i])</p>
+                                    <p>@Html.Raw(Model.DisplaySuit[3, i])</p>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="container col-2 px-2">
+    </div>
+    <div class="container col-8 px-2">
+        <div class="card">
+            <div id="dir0" class="card-header py-1">
+                @if (Model.Vuln02)
+                {
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-danger">@Model.Direction[0]</span></h5>
+                }
+                else
+                {
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-success">@Model.Direction[0]</span></h5>
+                }
+                <h5 class="float-right" style="display: inline-block">HCP: @Model.HCP[0]</h5>
+            </div>
+            <div class="card-body p-1" style="display: flex; justify-content: center; background-color: mediumseagreen">
+                @for (int i = 0; i < 13; i++)
+                {
+                    <button class="btn btn-cardSmall">
+                        <p>@Html.Raw(Model.DisplayRank[0, i])</p>
+                        <p>@Html.Raw(Model.DisplaySuit[0, i])</p>
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-2">
+    </div>
+</div>
+
+<script>
+    var isSubmitted = false;
+
+    function OKButtonClick() {
+        if (!isSubmitted) {
+            isSubmitted = true;
+            location.href = '@Url.Action("Index", "Traveller")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction[0]&boardNumber=@Model.BoardNumber&pairNumber=@Model.PairNumber';
+        }
+    }
+</script>

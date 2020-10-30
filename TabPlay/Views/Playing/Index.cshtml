@@ -1,0 +1,848 @@
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
+
+@model TabPlay.Models.Playing
+
+<style>
+    .btn-cardLarge {
+        background-color: white;
+        min-height: 92px;
+        min-width: 48px;
+        line-height: .9;
+        text-align: center;
+        padding: .1rem 0 .1rem 0;
+        margin: 0;
+        font-size: 3rem;
+        border-style: solid;
+        border-width: 1px;
+        border-color: black;
+    }
+
+    .btn-cardSmall {
+        background-color: white;
+        min-height: 62px;
+        min-width: 37px;
+        line-height: .9;
+        text-align: center;
+        padding: .1rem 0 .1rem 0;
+        margin: 0;
+        font-size: 2rem;
+        border-style: solid;
+        border-width: 1px;
+        border-color: black;
+    }
+
+    .btn-selected {
+        background-color: #ffc107;
+    }
+
+    .btn-invisible {
+        display: none;
+    }
+
+    .btn-cardBack {
+        background-color: blue;
+    }
+
+    p {
+        margin: 0;
+    }
+</style>
+
+<div id="claimExposeModal" class="modal" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4 class="text-center">
+                    Are you sure you want to expose your cards to make a claim?
+                </h4>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-lg btn-danger" data-dismiss="modal">
+                    Cancel <span class="far fa-times-circle"></span>
+                </button>
+                <button class="btn btn-lg btn-success" ontouchstart="claimExpose()">
+                    Yes <span class="far fa-check-square"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="claimTricksModal" class="modal" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4 class="text-center">
+                    Select the total number of tricks taken by declarer
+                </h4>
+            </div>
+            <div class="modal-body text-center">
+                <button id="tricks0" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(0)">
+                    0
+                </button>
+                <button id="tricks1" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(1)">
+                    1
+                </button>
+                <button id="tricks2" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(2)">
+                    2
+                </button>
+                <button id="tricks3" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(3)">
+                    3
+                </button>
+                <button id="tricks4" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(4)">
+                    4
+                </button>
+                <button id="tricks5" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(5)">
+                    5
+                </button>
+                <button id="tricks6" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(6)">
+                    6
+                </button>
+                <button id="tricks7" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(7)">
+                    7
+                </button>
+                <button id="tricks8" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(8)">
+                    8
+                </button>
+                <button id="tricks9" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(9)">
+                    9
+                </button>
+                <button id="tricks10" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(10)">
+                    10
+                </button>
+                <button id="tricks11" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(11)">
+                    11
+                </button>
+                <button id="tricks12" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(12)">
+                    12
+                </button>
+                <button id="tricks13" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(13)">
+                    13
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-lg btn-danger" data-dismiss="modal">
+                    Cancel <span class="far fa-times-circle"></span>
+                </button>
+                <button id="claimTricksYes" class="btn btn-lg btn-success" ontouchstart="confirmClaimTricks()" disabled>
+                    Yes <span class="far fa-check-square"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="container col-2 px-2">
+        <div class="card text-center bg-light">
+            <div class="card-body p-2">
+                <h4>@Html.Raw(Model.DisplayContract)</h4>
+                <h4>by @Model.Declarer</h4>
+            </div>
+        </div>
+    </div>
+    <div class="container col-8 px-2">
+        <div class="card">
+            <div id="dir2header" class="card-header py-1">
+                @if (Model.Vuln02)
+                {
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-danger">@Model.Direction[2]</span> @Model.PairOrPlayer: @Model.PairNumber[2]</h5>
+                }
+                else
+                {
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-success">@Model.Direction[2]</span> @Model.PairOrPlayer: @Model.PairNumber[2]</h5>
+                }
+                <h5 class="float-right" style="display: inline-block">@Model.PlayerName[2]</h5>
+            </div>
+            <div id="dir2body" class="card-body p-1" style="display: flex; justify-content: center; background-color: mediumseagreen; min-height: 70px">
+                <button id="h2c0" class="btn btn-cardSmall btn-cardBack" onclick="cardClick(0, 2)">
+                    <p id="h2c0Rank"></p>
+                    <p id="h2c0Suit"></p>
+                </button>
+                <button id="h2c1" class="btn btn-cardSmall btn-cardBack" onclick="cardClick(1, 2)">
+                    <p id="h2c1Rank"></p>
+                    <p id="h2c1Suit"></p>
+                </button>
+                <button id="h2c2" class="btn btn-cardSmall btn-cardBack" onclick="cardClick(2, 2)">
+                    <p id="h2c2Rank"></p>
+                    <p id="h2c2Suit"></p>
+                </button>
+                <button id="h2c3" class="btn btn-cardSmall btn-cardBack" onclick="cardClick(3, 2)">
+                    <p id="h2c3Rank"></p>
+                    <p id="h2c3Suit"></p>
+                </button>
+                <button id="h2c4" class="btn btn-cardSmall btn-cardBack" onclick="cardClick(4, 2)">
+                    <p id="h2c4Rank"></p>
+                    <p id="h2c4Suit"></p>
+                </button>
+                <button id="h2c5" class="btn btn-cardSmall btn-cardBack" onclick="cardClick(5, 2)">
+                    <p id="h2c5Rank"></p>
+                    <p id="h2c5Suit"></p>
+                </button>
+                <button id="h2c6" class="btn btn-cardSmall btn-cardBack" onclick="cardClick(6, 2)">
+                    <p id="h2c6Rank"></p>
+                    <p id="h2c6Suit"></p>
+                </button>
+                <button id="h2c7" class="btn btn-cardSmall btn-cardBack" onclick="cardClick(7, 2)">
+                    <p id="h2c7Rank"></p>
+                    <p id="h2c7Suit"></p>
+                </button>
+                <button id="h2c8" class="btn btn-cardSmall btn-cardBack" onclick="cardClick(8, 2)">
+                    <p id="h2c8Rank"></p>
+                    <p id="h2c8Suit"></p>
+                </button>
+                <button id="h2c9" class="btn btn-cardSmall btn-cardBack" onclick="cardClick(9, 2)">
+                    <p id="h2c9Rank"></p>
+                    <p id="h2c9Suit"></p>
+                </button>
+                <button id="h2c10" class="btn btn-cardSmall btn-cardBack" onclick="cardClick(10, 2)">
+                    <p id="h2c10Rank"></p>
+                    <p id="h2c10Suit"></p>
+                </button>
+                <button id="h2c11" class="btn btn-cardSmall btn-cardBack" onclick="cardClick(11, 2)">
+                    <p id="h2c11Rank"></p>
+                    <p id="h2c11Suit"></p>
+                </button>
+                <button id="h2c12" class="btn btn-cardSmall btn-cardBack" onclick="cardClick(12, 2)">
+                    <p id="h2c12Rank"></p>
+                    <p id="h2c12Suit"></p>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="container col-2 text-center py-3">
+        <button id="buttonMakePlay" class="btn btn-info btn-lg" disabled onclick="makePlay()">
+            <h4>Make Play</h4>
+        </button>
+    </div>
+</div>
+<div class="row align-items-center mt-2">
+    <div class="container col-5 px-2">
+        <div class="card">
+            <div id="dir1header" class="card-header py-1">
+                @if (Model.Vuln13)
+                {
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-danger">@Model.Direction[1]</span> @Model.PairOrPlayer: @Model.PairNumber[1]</h5>
+                }
+                else
+                {
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-success">@Model.Direction[1]</span> @Model.PairOrPlayer: @Model.PairNumber[1]</h5>
+                }
+                <h5 class="float-right" style="display: inline-block">@Model.PlayerName[1]</h5>
+            </div>
+            <div id="dir1body" class="card-body p-1" style="display: flex; justify-content: center; background-color: mediumseagreen; min-height: 256px">
+                <div class="container-fluid">
+                    <div class="row px-0">
+                        <div class="col px-0" style="display: flex; justify-content: left">
+                            <button id="h1r0c0" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h1r0c0Rank"></p>
+                                <p id="h1r0c0Suit"></p>
+                            </button>
+                            <button id="h1r0c1" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h1r0c1Rank"></p>
+                                <p id="h1r0c1Suit"></p>
+                            </button>
+                            <button id="h1r0c2" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h1r0c2Rank"></p>
+                                <p id="h1r0c2Suit"></p>
+                            </button>
+                            <button id="h1r0c3" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h1r0c3Rank"></p>
+                                <p id="h1r0c3Suit"></p>
+                            </button>
+                            <button id="h1r0c4" class="btn btn-invisible">
+                                <p id="h1r0c4Rank"></p>
+                                <p id="h1r0c4Suit"></p>
+                            </button>
+                            <button id="h1r0c5" class="btn btn-invisible">
+                                <p id="h1r0c5Rank"></p>
+                                <p id="h1r0c5Suit"></p>
+                            </button>
+                            <button id="h1r0c6" class="btn btn-invisible">
+                                <p id="h1r0c6Rank"></p>
+                                <p id="h1r0c6Suit"></p>
+                            </button>
+                            <button id="h1r0c7" class="btn btn-invisible">
+                                <p id="h1r0c7Rank"></p>
+                                <p id="h1r0c7Suit"></p>
+                            </button>
+                            <button id="h1r0c8" class="btn btn-invisible">
+                                <p id="h1r0c8Rank"></p>
+                                <p id="h1r0c8Suit"></p>
+                            </button>
+                            <button id="h1r0c9" class="btn btn-invisible">
+                                <p id="h1r0c9Rank"></p>
+                                <p id="h1r0c9Suit"></p>
+                            </button>
+                            <button id="h1r0c10" class="btn btn-invisible">
+                                <p id="h1r0c10Rank"></p>
+                                <p id="h1r0c10Suit"></p>
+                            </button>
+                            <button id="h1r0c11" class="btn btn-invisible">
+                                <p id="h1r0c11Rank"></p>
+                                <p id="h1r0c11Suit"></p>
+                            </button>
+                            <button id="h1r0c12" class="btn btn-invisible">
+                                <p id="h1r0c12Rank"></p>
+                                <p id="h1r0c12Suit"></p>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row px-0">
+                        <div class="col px-0" style="display: flex; justify-content: left">
+                            <button id="h1r1c0" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h1r1c0Rank"></p>
+                                <p id="h1r1c0Suit"></p>
+                            </button>
+                            <button id="h1r1c1" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h1r1c1Rank"></p>
+                                <p id="h1r1c1Suit"></p>
+                            </button>
+                            <button id="h1r1c2" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h1r1c2Rank"></p>
+                                <p id="h1r1c2Suit"></p>
+                            </button>
+                            <button id="h1r1c3" class="btn btn-invisible">
+                                <p id="h1r1c3Rank"></p>
+                                <p id="h1r1c3Suit"></p>
+                            </button>
+                            <button id="h1r1c4" class="btn btn-invisible">
+                                <p id="h1r1c4Rank"></p>
+                                <p id="h1r1c4Suit"></p>
+                            </button>
+                            <button id="h1r1c5" class="btn btn-invisible">
+                                <p id="h1r1c5Rank"></p>
+                                <p id="h1r1c5Suit"></p>
+                            </button>
+                            <button id="h1r1c6" class="btn btn-invisible">
+                                <p id="h1r1c6Rank"></p>
+                                <p id="h1r1c6Suit"></p>
+                            </button>
+                            <button id="h1r1c7" class="btn btn-invisible">
+                                <p id="h1r1c7Rank"></p>
+                                <p id="h1r1c7Suit"></p>
+                            </button>
+                            <button id="h1r1c8" class="btn btn-invisible">
+                                <p id="h1r1c8Rank"></p>
+                                <p id="h1r1c8Suit"></p>
+                            </button>
+                            <button id="h1r1c9" class="btn btn-invisible">
+                                <p id="h1r1c9Rank"></p>
+                                <p id="h1r1c9Suit"></p>
+                            </button>
+                            <button id="h1r1c10" class="btn btn-invisible">
+                                <p id="h1r1c10Rank"></p>
+                                <p id="h1r1c10Suit"></p>
+                            </button>
+                            <button id="h1r1c11" class="btn btn-invisible">
+                                <p id="h1r1c11Rank"></p>
+                                <p id="h1r1c11Suit"></p>
+                            </button>
+                            <button id="h1r1c12" class="btn btn-invisible">
+                                <p id="h1r1c12Rank"></p>
+                                <p id="h1r1c12Suit"></p>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row px-0">
+                        <div class="col px-0" style="display: flex; justify-content: left">
+                            <button id="h1r2c0" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h1r2c0Rank"></p>
+                                <p id="h1r2c0Suit"></p>
+                            </button>
+                            <button id="h1r2c1" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h1r2c1Rank"></p>
+                                <p id="h1r2c1Suit"></p>
+                            </button>
+                            <button id="h1r2c2" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h1r2c2Rank"></p>
+                                <p id="h1r2c2Suit"></p>
+                            </button>
+                            <button id="h1r2c3" class="btn btn-invisible">
+                                <p id="h1r2c3Rank"></p>
+                                <p id="h1r2c3Suit"></p>
+                            </button>
+                            <button id="h1r2c4" class="btn btn-invisible">
+                                <p id="h1r2c4Rank"></p>
+                                <p id="h1r2c4Suit"></p>
+                            </button>
+                            <button id="h1r2c5" class="btn btn-invisible">
+                                <p id="h1r2c5Rank"></p>
+                                <p id="h1r2c5Suit"></p>
+                            </button>
+                            <button id="h1r2c6" class="btn btn-invisible">
+                                <p id="h1r2c6Rank"></p>
+                                <p id="h1r2c6Suit"></p>
+                            </button>
+                            <button id="h1r2c7" class="btn btn-invisible">
+                                <p id="h1r2c7Rank"></p>
+                                <p id="h1r2c7Suit"></p>
+                            </button>
+                            <button id="h1r2c8" class="btn btn-invisible">
+                                <p id="h1r2c8Rank"></p>
+                                <p id="h1r2c8Suit"></p>
+                            </button>
+                            <button id="h1r2c9" class="btn btn-invisible">
+                                <p id="h1r2c9Rank"></p>
+                                <p id="h1r2c9Suit"></p>
+                            </button>
+                            <button id="h1r2c10" class="btn btn-invisible">
+                                <p id="h1r2c10Rank"></p>
+                                <p id="h1r2c10Suit"></p>
+                            </button>
+                            <button id="h1r2c11" class="btn btn-invisible">
+                                <p id="h1r2c11Rank"></p>
+                                <p id="h1r2c11Suit"></p>
+                            </button>
+                            <button id="h1r2c12" class="btn btn-invisible">
+                                <p id="h1r2c12Rank"></p>
+                                <p id="h1r2c12Suit"></p>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row px-0">
+                        <div class="col px-0" style="display: flex; justify-content: left">
+                            <button id="h1r3c0" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h1r3c0Rank"></p>
+                                <p id="h1r3c0Suit"></p>
+                            </button>
+                            <button id="h1r3c1" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h1r3c1Rank"></p>
+                                <p id="h1r3c1Suit"></p>
+                            </button>
+                            <button id="h1r3c2" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h1r3c2Rank"></p>
+                                <p id="h1r3c2Suit"></p>
+                            </button>
+                            <button id="h1r3c3" class="btn btn-invisible">
+                                <p id="h1r3c3Rank"></p>
+                                <p id="h1r3c3Suit"></p>
+                            </button>
+                            <button id="h1r3c4" class="btn btn-invisible">
+                                <p id="h1r3c4Rank"></p>
+                                <p id="h1r3c4Suit"></p>
+                            </button>
+                            <button id="h1r3c5" class="btn btn-invisible">
+                                <p id="h1r3c5Rank"></p>
+                                <p id="h1r3c5Suit"></p>
+                            </button>
+                            <button id="h1r3c6" class="btn btn-invisible">
+                                <p id="h1r3c6Rank"></p>
+                                <p id="h1r3c6Suit"></p>
+                            </button>
+                            <button id="h1r3c7" class="btn btn-invisible">
+                                <p id="h1r3c7Rank"></p>
+                                <p id="h1r3c7Suit"></p>
+                            </button>
+                            <button id="h1r3c8" class="btn btn-invisible">
+                                <p id="h1r3c8Rank"></p>
+                                <p id="h1r3c8Suit"></p>
+                            </button>
+                            <button id="h1r3c9" class="btn btn-invisible">
+                                <p id="h1r3c9Rank"></p>
+                                <p id="h1r3c9Suit"></p>
+                            </button>
+                            <button id="h1r3c10" class="btn btn-invisible">
+                                <p id="h1r3c10Rank"></p>
+                                <p id="h1r3c10Suit"></p>
+                            </button>
+                            <button id="h1r3c11" class="btn btn-invisible">
+                                <p id="h1r3c11Rank"></p>
+                                <p id="h1r3c11Suit"></p>
+                            </button>
+                            <button id="h1r3c12" class="btn btn-invisible">
+                                <p id="h1r3c12Rank"></p>
+                                <p id="h1r3c12Suit"></p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container col-2 px-0">
+        <div class="card" style="min-width: 160px; background-color: darkgreen">
+            <div class="card-body p-2 d-flex align-items-center text-center">
+                <div class="container">
+                    <div class="row h-100">
+                        <div class="col-4 px-0 d-flex justify-content-center align-items-center">
+                            <button id="playCard1" class="btn btn-invisible">
+                                <p id="playCard1Rank"></p>
+                                <p id="playCard1Suit"></p>
+                            </button>
+                        </div>
+                        <div class="col-4">
+                            <div class="row" style="min-height: 95px">
+                                <div class="col px-0">
+                                    <button id="playCard2" class="btn btn-invisible">
+                                        <p id="playCard2Rank"></p>
+                                        <p id="playCard2Suit"></p>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row" style="min-height: 95px">
+                                <div class="col px-0">
+                                    <button id="playCard0" class="btn btn-invisible">
+                                        <p id="playCard0Rank"></p>
+                                        <p id="playCard0Suit"></p>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4 px-0 d-flex justify-content-center align-items-center">
+                            <button id="playCard3" class="btn btn-invisible">
+                                <p id="playCard3Rank"></p>
+                                <p id="playCard3Suit"></p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container col-5 px-2">
+        <div class="card">
+            <div id="dir3header" class="card-header py-1">
+                @if (Model.Vuln13)
+                {
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-danger">@Model.Direction[3]</span> @Model.PairOrPlayer: @Model.PairNumber[3]</h5>
+                }
+                else
+                {
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-success">@Model.Direction[3]</span> @Model.PairOrPlayer: @Model.PairNumber[3]</h5>
+                }
+                <h5 class="float-right" style="display: inline-block">@Model.PlayerName[3]</h5>
+            </div>
+            <div id="dir3body" class="card-body p-1" style="display: flex; justify-content: center; background-color: mediumseagreen; min-height: 256px">
+                <div class="container-fluid">
+                    <div class="row px-0">
+                        <div class="col px-0" style="display: flex; justify-content: left">
+                            <button id="h3r0c0" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h3r0c0Rank"></p>
+                                <p id="h3r0c0Suit"></p>
+                            </button>
+                            <button id="h3r0c1" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h3r0c1Rank"></p>
+                                <p id="h3r0c1Suit"></p>
+                            </button>
+                            <button id="h3r0c2" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h3r0c2Rank"></p>
+                                <p id="h3r0c2Suit"></p>
+                            </button>
+                            <button id="h3r0c3" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h3r0c3Rank"></p>
+                                <p id="h3r0c3Suit"></p>
+                            </button>
+                            <button id="h3r0c4" class="btn btn-invisible">
+                                <p id="h3r0c4Rank"></p>
+                                <p id="h3r0c4Suit"></p>
+                            </button>
+                            <button id="h3r0c5" class="btn btn-invisible">
+                                <p id="h3r0c5Rank"></p>
+                                <p id="h3r0c5Suit"></p>
+                            </button>
+                            <button id="h3r0c6" class="btn btn-invisible">
+                                <p id="h3r0c6Rank"></p>
+                                <p id="h3r0c6Suit"></p>
+                            </button>
+                            <button id="h3r0c7" class="btn btn-invisible">
+                                <p id="h3r0c7Rank"></p>
+                                <p id="h3r0c7Suit"></p>
+                            </button>
+                            <button id="h3r0c8" class="btn btn-invisible">
+                                <p id="h3r0c8Rank"></p>
+                                <p id="h3r0c8Suit"></p>
+                            </button>
+                            <button id="h3r0c9" class="btn btn-invisible">
+                                <p id="h3r0c9Rank"></p>
+                                <p id="h3r0c9Suit"></p>
+                            </button>
+                            <button id="h3r0c10" class="btn btn-invisible">
+                                <p id="h3r0c10Rank"></p>
+                                <p id="h3r0c10Suit"></p>
+                            </button>
+                            <button id="h3r0c11" class="btn btn-invisible">
+                                <p id="h3r0c11Rank"></p>
+                                <p id="h3r0c11Suit"></p>
+                            </button>
+                            <button id="h3r0c12" class="btn btn-invisible">
+                                <p id="h3r0c12Rank"></p>
+                                <p id="h3r0c12Suit"></p>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row px-0">
+                        <div class="col px-0" style="display: flex; justify-content: left">
+                            <button id="h3r1c0" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h3r1c0Rank"></p>
+                                <p id="h3r1c0Suit"></p>
+                            </button>
+                            <button id="h3r1c1" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h3r1c1Rank"></p>
+                                <p id="h3r1c1Suit"></p>
+                            </button>
+                            <button id="h3r1c2" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h3r1c2Rank"></p>
+                                <p id="h3r1c2Suit"></p>
+                            </button>
+                            <button id="h3r1c3" class="btn btn-invisible">
+                                <p id="h3r1c3Rank"></p>
+                                <p id="h3r1c3Suit"></p>
+                            </button>
+                            <button id="h3r1c4" class="btn btn-invisible">
+                                <p id="h3r1c4Rank"></p>
+                                <p id="h3r1c4Suit"></p>
+                            </button>
+                            <button id="h3r1c5" class="btn btn-invisible">
+                                <p id="h3r1c5Rank"></p>
+                                <p id="h3r1c5Suit"></p>
+                            </button>
+                            <button id="h3r1c6" class="btn btn-invisible">
+                                <p id="h3r1c6Rank"></p>
+                                <p id="h3r1c6Suit"></p>
+                            </button>
+                            <button id="h3r1c7" class="btn btn-invisible">
+                                <p id="h3r1c7Rank"></p>
+                                <p id="h3r1c7Suit"></p>
+                            </button>
+                            <button id="h3r1c8" class="btn btn-invisible">
+                                <p id="h3r1c8Rank"></p>
+                                <p id="h3r1c8Suit"></p>
+                            </button>
+                            <button id="h3r1c9" class="btn btn-invisible">
+                                <p id="h3r1c9Rank"></p>
+                                <p id="h3r1c9Suit"></p>
+                            </button>
+                            <button id="h3r1c10" class="btn btn-invisible">
+                                <p id="h3r1c10Rank"></p>
+                                <p id="h3r1c10Suit"></p>
+                            </button>
+                            <button id="h3r1c11" class="btn btn-invisible">
+                                <p id="h3r1c11Rank"></p>
+                                <p id="h3r1c11Suit"></p>
+                            </button>
+                            <button id="h3r1c12" class="btn btn-invisible">
+                                <p id="h3r1c12Rank"></p>
+                                <p id="h3r1c12Suit"></p>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row px-0">
+                        <div class="col px-0" style="display: flex; justify-content: left">
+                            <button id="h3r2c0" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h3r2c0Rank"></p>
+                                <p id="h3r2c0Suit"></p>
+                            </button>
+                            <button id="h3r2c1" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h3r2c1Rank"></p>
+                                <p id="h3r2c1Suit"></p>
+                            </button>
+                            <button id="h3r2c2" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h3r2c2Rank"></p>
+                                <p id="h3r2c2Suit"></p>
+                            </button>
+                            <button id="h3r2c3" class="btn btn-invisible">
+                                <p id="h3r2c3Rank"></p>
+                                <p id="h3r2c3Suit"></p>
+                            </button>
+                            <button id="h3r2c4" class="btn btn-invisible">
+                                <p id="h3r2c4Rank"></p>
+                                <p id="h3r2c4Suit"></p>
+                            </button>
+                            <button id="h3r2c5" class="btn btn-invisible">
+                                <p id="h3r2c5Rank"></p>
+                                <p id="h3r2c5Suit"></p>
+                            </button>
+                            <button id="h3r2c6" class="btn btn-invisible">
+                                <p id="h3r2c6Rank"></p>
+                                <p id="h3r2c6Suit"></p>
+                            </button>
+                            <button id="h3r2c7" class="btn btn-invisible">
+                                <p id="h3r2c7Rank"></p>
+                                <p id="h3r2c7Suit"></p>
+                            </button>
+                            <button id="h3r2c8" class="btn btn-invisible">
+                                <p id="h3r2c8Rank"></p>
+                                <p id="h3r2c8Suit"></p>
+                            </button>
+                            <button id="h3r2c9" class="btn btn-invisible">
+                                <p id="h3r2c9Rank"></p>
+                                <p id="h3r2c9Suit"></p>
+                            </button>
+                            <button id="h3r2c10" class="btn btn-invisible">
+                                <p id="h3r2c10Rank"></p>
+                                <p id="h3r2c10Suit"></p>
+                            </button>
+                            <button id="h3r2c11" class="btn btn-invisible">
+                                <p id="h3r2c11Rank"></p>
+                                <p id="h3r2c11Suit"></p>
+                            </button>
+                            <button id="h3r2c12" class="btn btn-invisible">
+                                <p id="h3r2c12Rank"></p>
+                                <p id="h3r2c12Suit"></p>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row px-0">
+                        <div class="col px-0" style="display: flex; justify-content: left">
+                            <button id="h3r3c0" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h3r3c0Rank"></p>
+                                <p id="h3r3c0Suit"></p>
+                            </button>
+                            <button id="h3r3c1" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h3r3c1Rank"></p>
+                                <p id="h3r3c1Suit"></p>
+                            </button>
+                            <button id="h3r3c2" class="btn btn-cardSmall btn-cardBack">
+                                <p id="h3r3c2Rank"></p>
+                                <p id="h3r3c2Suit"></p>
+                            </button>
+                            <button id="h3r3c3" class="btn btn-invisible">
+                                <p id="h3r3c3Rank"></p>
+                                <p id="h3r3c3Suit"></p>
+                            </button>
+                            <button id="h3r3c4" class="btn btn-invisible">
+                                <p id="h3r3c4Rank"></p>
+                                <p id="h3r3c4Suit"></p>
+                            </button>
+                            <button id="h3r3c5" class="btn btn-invisible">
+                                <p id="h3r3c5Rank"></p>
+                                <p id="h3r3c5Suit"></p>
+                            </button>
+                            <button id="h3r3c6" class="btn btn-invisible">
+                                <p id="h3r3c6Rank"></p>
+                                <p id="h3r3c6Suit"></p>
+                            </button>
+                            <button id="h3r3c7" class="btn btn-invisible">
+                                <p id="h3r3c7Rank"></p>
+                                <p id="h3r3c7Suit"></p>
+                            </button>
+                            <button id="h3r3c8" class="btn btn-invisible">
+                                <p id="h3r3c8Rank"></p>
+                                <p id="h3r3c8Suit"></p>
+                            </button>
+                            <button id="h3r3c9" class="btn btn-invisible">
+                                <p id="h3r3c9Rank"></p>
+                                <p id="h3r3c9Suit"></p>
+                            </button>
+                            <button id="h3r3c10" class="btn btn-invisible">
+                                <p id="h3r3c10Rank"></p>
+                                <p id="h3r3c10Suit"></p>
+                            </button>
+                            <button id="h3r3c11" class="btn btn-invisible">
+                                <p id="h3r3c11Rank"></p>
+                                <p id="h3r3c11Suit"></p>
+                            </button>
+                            <button id="h3r3c12" class="btn btn-invisible">
+                                <p id="h3r3c12Rank"></p>
+                                <p id="h3r3c12Suit"></p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="container col-2 pl-2 pr-0">
+        <div id="claimBox" class="card btn-invisible">
+            <div class="card-header text-center p-1">
+                <h5>Claim: <span id="claimDirection"></span></h5>
+            </div>
+            <div class="card-body text-center p-1">
+                North can enter the agreed number of tricks taken by clicking the claim button
+            </div>
+        </div>
+    </div>
+    <div class="container col-8 px-2">
+        <div class="card">
+            <div id="dir0header" class="card-header py-1">
+                @if (Model.Vuln02)
+                {
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-danger">@Model.Direction[0]</span> @Model.PairOrPlayer: @Model.PairNumber[0]</h5>
+                }
+                else
+                {
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-success">@Model.Direction[0]</span> @Model.PairOrPlayer: @Model.PairNumber[0]</h5>
+                }
+                <h5 class="float-right" style="display: inline-block">@Model.PlayerName[0]</h5>
+            </div>
+            <div id="dir0body" class="card-body p-1" style="display: flex; justify-content: center; background-color: mediumseagreen; min-height: 100px">
+                <button id="h0c0" class="btn btn-cardLarge" onclick="cardClick(0, 0)">
+                    <p id="h0c0Rank">@Html.Raw(Model.DisplayRank[0, 0])</p>
+                    <p id="h0c0Suit">@Html.Raw(Model.DisplaySuit[0, 0])</p>
+                </button>
+                <button id="h0c1" class="btn btn-cardLarge" onclick="cardClick(1, 0)">
+                    <p id="h0c1Rank">@Html.Raw(Model.DisplayRank[0, 1])</p>
+                    <p id="h0c1Suit">@Html.Raw(Model.DisplaySuit[0, 1])</p>
+                </button>
+                <button id="h0c2" class="btn btn-cardLarge" onclick="cardClick(2, 0)">
+                    <p id="h0c2Rank">@Html.Raw(Model.DisplayRank[0, 2])</p>
+                    <p id="h0c2Suit">@Html.Raw(Model.DisplaySuit[0, 2])</p>
+                </button>
+                <button id="h0c3" class="btn btn-cardLarge" onclick="cardClick(3, 0)">
+                    <p id="h0c3Rank">@Html.Raw(Model.DisplayRank[0, 3])</p>
+                    <p id="h0c3Suit">@Html.Raw(Model.DisplaySuit[0, 3])</p>
+                </button>
+                <button id="h0c4" class="btn btn-cardLarge" onclick="cardClick(4, 0)">
+                    <p id="h0c4Rank">@Html.Raw(Model.DisplayRank[0, 4])</p>
+                    <p id="h0c4Suit">@Html.Raw(Model.DisplaySuit[0, 4])</p>
+                </button>
+                <button id="h0c5" class="btn btn-cardLarge" onclick="cardClick(5, 0)">
+                    <p id="h0c5Rank">@Html.Raw(Model.DisplayRank[0, 5])</p>
+                    <p id="h0c5Suit">@Html.Raw(Model.DisplaySuit[0, 5])</p>
+                </button>
+                <button id="h0c6" class="btn btn-cardLarge" onclick="cardClick(6, 0)">
+                    <p id="h0c6Rank">@Html.Raw(Model.DisplayRank[0, 6])</p>
+                    <p id="h0c6Suit">@Html.Raw(Model.DisplaySuit[0, 6])</p>
+                </button>
+                <button id="h0c7" class="btn btn-cardLarge" onclick="cardClick(7, 0)">
+                    <p id="h0c7Rank">@Html.Raw(Model.DisplayRank[0, 7])</p>
+                    <p id="h0c7Suit">@Html.Raw(Model.DisplaySuit[0, 7])</p>
+                </button>
+                <button id="h0c8" class="btn btn-cardLarge" onclick="cardClick(8, 0)">
+                    <p id="h0c8Rank">@Html.Raw(Model.DisplayRank[0, 8])</p>
+                    <p id="h0c8Suit">@Html.Raw(Model.DisplaySuit[0, 8])</p>
+                </button>
+                <button id="h0c9" class="btn btn-cardLarge" onclick="cardClick(9, 0)">
+                    <p id="h0c9Rank">@Html.Raw(Model.DisplayRank[0, 9])</p>
+                    <p id="h0c9Suit">@Html.Raw(Model.DisplaySuit[0, 9])</p>
+                </button>
+                <button id="h0c10" class="btn btn-cardLarge" onclick="cardClick(10, 0)">
+                    <p id="h0c10Rank">@Html.Raw(Model.DisplayRank[0, 10])</p>
+                    <p id="h0c10Suit">@Html.Raw(Model.DisplaySuit[0, 10])</p>
+                </button>
+                <button id="h0c11" class="btn btn-cardLarge" onclick="cardClick(11, 0)">
+                    <p id="h0c11Rank">@Html.Raw(Model.DisplayRank[0, 11])</p>
+                    <p id="h0c11Suit">@Html.Raw(Model.DisplaySuit[0, 11])</p>
+                </button>
+                <button id="h0c12" class="btn btn-cardLarge" onclick="cardClick(12, 0)">
+                    <p id="h0c12Rank">@Html.Raw(Model.DisplayRank[0, 12])</p>
+                    <p id="h0c12Suit">@Html.Raw(Model.DisplaySuit[0, 12])</p>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="container col-2 px-2">
+        <div class="card text-center bg-light">
+            <div class="card-body p-2">
+                <h4>Tricks</h4>
+                <h4>NS: <span id="tricksNS">@Model.TricksNS</span></h4>
+                <h4>EW: <span id="tricksEW">@Model.TricksEW</span></h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var model = @Html.Raw(Json.Encode(Model));
+    var travellerUrl = '@Url.Action("Index", "Traveller")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction[0]&boardNumber=@Model.BoardNumber&pairNumber=@Model.PairNumber[0]';
+    var sendResultUrl = '@Url.Action("SendResult", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&boardNumber=@Model.BoardNumber';
+    var sendOpeningLeadUrl = '@Url.Action("SendOpeningLead", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber';
+    var sendPlayUrl = '@Url.Action("SendPlay", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&boardNumber=@Model.BoardNumber';
+    var sendClaimExposeUrl = '@Url.Action("SendClaimExpose", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&claimDirection=@Model.Direction[0]';
+    var pollPlayUrl = '@Url.Action("PollPlay", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber';
+</script>
+<script src='@Url.Content("~/Scripts/Playing.js")' type="text/javascript"></script>
