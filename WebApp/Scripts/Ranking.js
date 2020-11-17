@@ -27,7 +27,7 @@ function pollRankingListener() {
             var cellScore = row.insertCell(2);
             cellRank.innerHTML = rankingList[i].Rank;
             cellPairNumber.innerHTML = rankingList[i].PairNumber;
-            cellScore.innerHTML = rankingList[i].Score;
+            cellScore.innerHTML = rankingList[i].Score + "%";
         }
         var old_tbodyNS = document.getElementById("tableBodyNS");
         old_tbodyNS.parentNode.replaceChild(new_tbodyNS, old_tbodyNS);
@@ -46,7 +46,7 @@ function pollRankingListener() {
             var cellScore = row.insertCell(2);
             cellRank.innerHTML = rankingList[i].Rank;
             cellPairNumber.innerHTML = rankingList[i].PairNumber;
-            cellScore.innerHTML = rankingList[i].Score;
+            cellScore.innerHTML = rankingList[i].Score + "%";
         }
         var old_tbody = document.getElementById("tableBody");
         old_tbody.parentNode.replaceChild(new_tbody, old_tbody);

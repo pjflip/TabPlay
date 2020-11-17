@@ -838,7 +838,7 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
 
 <script>
     var model = @Html.Raw(Json.Encode(Model));
-    var travellerUrl = '@Url.Action("Index", "Traveller")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction[0]&boardNumber=@Model.BoardNumber&pairNumber=@Model.PairNumber[0]';
+    var travellerUrl = '@Url.Action("Index", "Traveller")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=@Model.Direction[0]';
     var sendResultUrl = '@Url.Action("SendResult", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&boardNumber=@Model.BoardNumber';
     var sendOpeningLeadUrl = '@Url.Action("SendOpeningLead", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber';
     var sendPlayUrl = '@Url.Action("SendPlay", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&boardNumber=@Model.BoardNumber';

@@ -13,11 +13,6 @@ namespace TabPlay.Models
         public int TableNumber { get; private set; }
         public int RoundNumber { get; private set; }
         public int BoardNumber { get; private set; }
-        public int PairNS { get; set; }   // Doubles as North player number for individuals
-        public int PairEW { get; set; }   // Doubles as East player number for individuals
-        public int HighBoard { get; set; }
-        public int South { get; set; }
-        public int West { get; set; }
         public int ContractLevel { get; private set; }
         public string ContractSuit { get; private set; }
         public string ContractX { get; private set; }
@@ -50,32 +45,39 @@ namespace TabPlay.Models
         public string PairOrPlayer { get; private set; }
         public int PollInterval { get; private set; }
 
-        public Playing(int sectionID, int tableNumber, int roundNumber, string direction, int boardNumber)
+        public Playing(TableStatus tableStatus, string direction)
         {
-            SectionID = sectionID;
-            TableNumber = tableNumber;
-            RoundNumber = roundNumber;
-            BoardNumber = boardNumber;
-            
-            // All directionNumbers are relative to the direction that is 0, so we need to know which directionNumber is North
-            int northDirectionNumber = (4 - Utilities.DirectionToNumber(direction)) % 4;
+            SectionID = tableStatus.SectionID;
+            TableNumber = tableStatus.TableNumber;
+            RoundNumber = tableStatus.RoundNumber;
+            BoardNumber = tableStatus.BoardNumber;
+
+            // All directionNumbers are relative to the direction that is 0
+            int directionNumber = Utilities.DirectionToNumber(direction);
+            int northDirectionNumber = (4 - directionNumber) % 4;
             Direction = new string[4];
             Direction[northDirectionNumber] = "North";
             Direction[(northDirectionNumber + 1) % 4] = "East";
             Direction[(northDirectionNumber + 2) % 4] = "South";
             Direction[(northDirectionNumber + 3) % 4] = "West";
+            PairNumber = new int[4];
+            PlayerName = new string[4];
+            for (int i = 0; i < 4; i++)
+            {
+                PairNumber[i] = tableStatus.PairNumber[(directionNumber + i) % 4];
+                PlayerName[i] = tableStatus.PlayerName[(directionNumber + i) % 4];
+            }
+
             if (northDirectionNumber % 2 == 0)
             {
-                Vuln02 = Utilities.NSVulnerability[(boardNumber - 1) % 16];
-                Vuln13 = Utilities.EWVulnerability[(boardNumber - 1) % 16];
+                Vuln02 = Utilities.NSVulnerability[(BoardNumber - 1) % 16];
+                Vuln13 = Utilities.EWVulnerability[(BoardNumber - 1) % 16];
             }
             else
             {
-                Vuln02 = Utilities.EWVulnerability[(boardNumber - 1) % 16];
-                Vuln13 = Utilities.NSVulnerability[(boardNumber - 1) % 16];
+                Vuln02 = Utilities.EWVulnerability[(BoardNumber - 1) % 16];
+                Vuln13 = Utilities.NSVulnerability[(BoardNumber - 1) % 16];
             }
-            PairNumber = new int[4];
-            PlayerName = new string[4];
 
             // Set default values for no plays
             PlayCounter = -999;
@@ -99,85 +101,17 @@ namespace TabPlay.Models
                 TrickDisplaySuit[i] = "";
             }
             PollInterval = Settings.PollInterval;
+            if (AppData.IsIndividual) PairOrPlayer = "Player"; else PairOrPlayer = "Pair";
             List<Play> playList = new List<Play>();
 
             using (OdbcConnection connection = new OdbcConnection(AppData.DBConnectionString))
             {
                 connection.Open();
-                string SQLString;
-                OdbcCommand cmd = null;
-                OdbcDataReader reader = null;
-
-                // Get player names and pair numbers
-                Utilities.CheckTabPlayPairNos(connection);
-                if (AppData.IsIndividual)
-                {
-                    PairOrPlayer = "Player";
-                    SQLString = $"SELECT NSPair, EWPair, South, West FROM RoundData WHERE Section={SectionID} AND Table={TableNumber} AND Round={RoundNumber}";
-                    cmd = new OdbcCommand(SQLString, connection);
-                    try
-                    {
-                        ODBCRetryHelper.ODBCRetry(() =>
-                        {
-                            reader = cmd.ExecuteReader();
-                            if (reader.Read())
-                            {
-                                PairNS = reader.GetInt32(0);
-                                PairEW = reader.GetInt32(1);
-                                South = reader.GetInt32(2);
-                                West = reader.GetInt32(3);
-                            }
-                        });
-                    }
-                    finally
-                    {
-                        reader.Close();
-                        cmd.Dispose();
-                    }
-                    PairNumber[northDirectionNumber] = PairNS;
-                    PairNumber[(northDirectionNumber + 1) % 4] = PairEW;
-                    PairNumber[(northDirectionNumber + 2) % 4] = South;
-                    PairNumber[(northDirectionNumber + 3) % 4] = West;
-                    for (int i = 0; i < 4; i++)
-                    {
-                        PlayerName[i] = Utilities.GetNameFromPlayerNumbersTableIndividual(connection, SectionID, RoundNumber, PairNumber[i]);
-                    }
-                }
-                else  // Not individual
-                {
-                    PairOrPlayer = "Pair";
-                    SQLString = $"SELECT NSPair, EWPair FROM RoundData WHERE Section={SectionID} AND Table={TableNumber} AND Round={RoundNumber}";
-                    cmd = new OdbcCommand(SQLString, connection);
-                    try
-                    {
-                        ODBCRetryHelper.ODBCRetry(() =>
-                        {
-                            reader = cmd.ExecuteReader();
-                            if (reader.Read())
-                            {
-                                PairNS = reader.GetInt32(0);
-                                PairEW = reader.GetInt32(1);
-                            }
-                        });
-                    }
-                    finally
-                    {
-                        reader.Close();
-                        cmd.Dispose();
-                    }
-                    PairNumber[northDirectionNumber] = PairNS;
-                    PairNumber[(northDirectionNumber + 1) % 4] = PairEW;
-                    PairNumber[(northDirectionNumber + 2) % 4] = PairNS;
-                    PairNumber[(northDirectionNumber + 3) % 4] = PairEW;
-                    for (int i = 0; i < 4; i++)
-                    {
-                        PlayerName[i] = Utilities.GetNameFromPlayerNumbersTable(connection, SectionID, RoundNumber, PairNumber[i], Direction[i]);
-                    }
-                }
 
                 // Get contract details
-                SQLString = $"SELECT [NS/EW], Contract FROM IntermediateData WHERE Section={SectionID} AND [Table]={TableNumber} AND Round={RoundNumber} AND Board={BoardNumber}";
-                cmd = new OdbcCommand(SQLString, connection);
+                string SQLString = $"SELECT [NS/EW], Contract FROM IntermediateData WHERE Section={SectionID} AND [Table]={TableNumber} AND Round={RoundNumber} AND Board={BoardNumber}";
+                OdbcCommand cmd = new OdbcCommand(SQLString, connection);
+                OdbcDataReader reader = null;
                 string declarerNSEW = "";
                 try
                 {
@@ -210,10 +144,10 @@ namespace TabPlay.Models
                 DummyDirectionNumber = (northDirectionNumber + Utilities.DirectionToNumber(Declarer) + 2) % 4;
 
                 // Get hand records and set cards
-                HandRecord handRecord = HandRecords.HandRecordsList.Find(x => x.SectionID == sectionID && x.BoardNumber == boardNumber);
+                HandRecord handRecord = HandRecords.HandRecordsList.Find(x => x.SectionID == SectionID && x.BoardNumber == BoardNumber);
                 if (handRecord == null)     // Can't find matching hand record, so use default SectionID = 1
                 {
-                    handRecord = HandRecords.HandRecordsList.Find(x => x.SectionID == 1 && x.BoardNumber == boardNumber);
+                    handRecord = HandRecords.HandRecordsList.Find(x => x.SectionID == 1 && x.BoardNumber == BoardNumber);
                 }
                 CardString = handRecord.HandTable(northDirectionNumber, ContractSuit);
                 DisplayRank = new string[4, 13];
@@ -231,7 +165,7 @@ namespace TabPlay.Models
                 SuitLengths = handRecord.SuitLengths(northDirectionNumber, ContractSuit);
 
                 // Check PlayData table for any previous plays
-                SQLString = $"SELECT Counter, Direction, Card FROM PlayData WHERE Section={sectionID} AND Table={tableNumber} AND Round={roundNumber} AND Board={boardNumber}";
+                SQLString = $"SELECT Counter, Direction, Card FROM PlayData WHERE Section={SectionID} AND Table={TableNumber} AND Round={RoundNumber} AND Board={BoardNumber}";
                 cmd = new OdbcCommand(SQLString, connection);
                 try
                 {
@@ -335,7 +269,7 @@ namespace TabPlay.Models
             }
 
             // Update TableStatus static class
-            AppData.TableStatusList.Find(x => x.SectionID == SectionID && x.TableNumber == TableNumber).LastPlay = new Play(Utilities.Directions[PlayDirectionNumber], LastCardNumber, LastCardString, PlayCounter);
+            tableStatus.LastPlay = new Play(Utilities.Directions[PlayDirectionNumber], LastCardNumber, LastCardString, PlayCounter);
         }
     }
 }

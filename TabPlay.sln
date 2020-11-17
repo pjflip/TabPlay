@@ -7,7 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TabPlay", "TabPlay\TabPlay.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4347D6D2-6E33-4F3D-A55F-5474060B9FB9}"
 	ProjectSection(SolutionItems) = preProject
+		TabPlay Documents\LICENSE = TabPlay Documents\LICENSE
+		TabPlay Documents\NOTICE = TabPlay Documents\NOTICE
 		README.md = README.md
+		TabPlay Documents\TabPlay ReadMe 1.0.0.txt = TabPlay Documents\TabPlay ReadMe 1.0.0.txt
+		TabPlay Documents\TabPlayDB.txt = TabPlay Documents\TabPlayDB.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TabPlayStarter", "TabPlayStarter\TabPlayStarter.csproj", "{9EE6B38E-5CBA-4A82-A3FF-12C784125E8A}"

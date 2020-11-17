@@ -519,23 +519,6 @@ namespace TabPlay.Models
             int declarerNumber = 0;
             string remarks = "";
 
-            if (ContractLevel == -1)
-            {
-                remarks = "Not played";
-                tricksTakenSymbol = "";
-            }
-            if (ContractLevel > 0)
-            {
-                if (DeclarerNSEW == "N" || DeclarerNSEW == "S")   // Only use N or E player numbers for both pairs and individuals
-                {
-                    declarerNumber = PairNS;
-                }
-                else
-                {
-                    declarerNumber = PairEW;
-                }
-            }
-
             using (OdbcConnection connection = new OdbcConnection(AppData.DBConnectionString))
             {
                 connection.Open();
@@ -545,7 +528,7 @@ namespace TabPlay.Models
                 // Get pair numbers
                 if (AppData.IsIndividual)
                 {
-                    SQLString = $"SELECT NSPair, EWPair, South, West, LowBoard, HighBoard FROM RoundData WHERE Section={SectionID} AND Table={TableNumber} AND Round={RoundNumber}";
+                    SQLString = $"SELECT NSPair, EWPair, South, West FROM RoundData WHERE Section={SectionID} AND Table={TableNumber} AND Round={RoundNumber}";
                     cmd = new OdbcCommand(SQLString, connection);
                     OdbcDataReader reader = null;
                     try
@@ -570,7 +553,7 @@ namespace TabPlay.Models
                 }
                 else  // Not individual
                 {
-                    SQLString = $"SELECT NSPair, EWPair, LowBoard, HighBoard FROM RoundData WHERE Section={SectionID} AND Table={TableNumber} AND Round={RoundNumber}";
+                    SQLString = $"SELECT NSPair, EWPair FROM RoundData WHERE Section={SectionID} AND Table={TableNumber} AND Round={RoundNumber}";
                     cmd = new OdbcCommand(SQLString, connection);
                     OdbcDataReader reader = null;
                     try
@@ -589,6 +572,24 @@ namespace TabPlay.Models
                     {
                         reader.Close();
                         cmd.Dispose();
+                    }
+                }
+
+                // Set remarks and declarer
+                if (ContractLevel == -1)
+                {
+                    remarks = "Not played";
+                    tricksTakenSymbol = "";
+                }
+                if (ContractLevel > 0)
+                {
+                    if (DeclarerNSEW == "N" || DeclarerNSEW == "S")   // Only use N or E player numbers for both pairs and individuals
+                    {
+                        declarerNumber = PairNS;
+                    }
+                    else
+                    {
+                        declarerNumber = PairEW;
                     }
                 }
 

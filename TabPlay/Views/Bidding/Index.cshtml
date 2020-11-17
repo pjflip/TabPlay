@@ -237,11 +237,11 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
             <div id="dir0" class="card-header py-1">
                 @if ((Model.NSVulnerable && (Model.Direction == "North" || Model.Direction == "South")) || (Model.EWVulnerable && (Model.Direction == "East" || Model.Direction == "West")))
                 {
-                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-danger">@Model.Direction</span> Pair: @Model.PairNumber</h5>
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-danger">@Model.Direction</span> @Model.PairOrPlayer: @Model.PairNumber</h5>
                 }
                 else
                 {
-                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-success">@Model.Direction</span> Pair: @Model.PairNumber</h5>
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-success">@Model.Direction</span> @Model.PairOrPlayer: @Model.PairNumber</h5>
                 }
                 <h5 class="float-right" style="display: inline-block">@Model.PlayerName</h5>
             </div>
@@ -308,8 +308,8 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
 <script>
     var model = @Html.Raw(Json.Encode(Model));
     var registerPlayersUrl = '@Url.Action("Index", "RegisterPlayers")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&boardNumber=@(Model.BoardNumber + 1)';
-    var travellerUrl = '@Url.Action("Index", "Traveller")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&boardNumber=@Model.BoardNumber&pairNumber=@Model.PairNumber';
-    var playingUrl = '@Url.Action("Index", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&boardNumber=@Model.BoardNumber';
+    var travellerUrl = '@Url.Action("Index", "Traveller")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=@Model.Direction';
+    var playingUrl = '@Url.Action("Index", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=@Model.Direction';
     var skipUrl = '@Url.Action("Skip", "Bidding")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&boardNumber=@Model.BoardNumber';
     var sendBidUrl = '@Url.Action("SendBid", "Bidding")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&callDirection=@Model.Direction&boardNumber=@Model.BoardNumber';
     var pollBidUrl = '@Url.Action("PollBid", "Bidding")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber';

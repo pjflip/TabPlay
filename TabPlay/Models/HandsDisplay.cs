@@ -7,9 +7,6 @@ namespace TabPlay.Models
     {
         public int SectionID { get; private set; }
         public int TableNumber { get; private set; }
-        public int RoundNumber { get; private set; }
-        public int BoardNumber { get; private set; }
-        public int PairNumber { get; private set; }
         public string[] Direction { get; private set; }
         public string Dealer { get; private set; }
         public string[,] CardString { get; private set; }
@@ -41,19 +38,16 @@ namespace TabPlay.Models
         public string EvalWestDiamonds { get; private set; }
         public string EvalWestClubs { get; private set; }
 
-        public HandsDisplay(int sectionID, int tableNumber, int roundNumber, string direction, int boardNumber, int pairNumber)
+        public HandsDisplay(TableStatus tableStatus, string direction)
         {
-            SectionID = sectionID;
-            TableNumber = tableNumber;
-            RoundNumber = roundNumber;
-            BoardNumber = boardNumber;
-            PairNumber = pairNumber;
+            SectionID = tableStatus.SectionID;
+            TableNumber = tableStatus.TableNumber;
             int northDirectionNumber = (4 - Utilities.DirectionToNumber(direction)) % 4;
 
-            HandRecord handRecord = HandRecords.HandRecordsList.Find(x => x.SectionID == sectionID && x.BoardNumber == boardNumber);
+            HandRecord handRecord = HandRecords.HandRecordsList.Find(x => x.SectionID == SectionID && x.BoardNumber == tableStatus.BoardNumber);
             if (handRecord == null)     // Can't find matching hand record, so use default SectionID = 1
             {
-                handRecord = HandRecords.HandRecordsList.Find(x => x.SectionID == 1 && x.BoardNumber == boardNumber);
+                handRecord = HandRecords.HandRecordsList.Find(x => x.SectionID == 1 && x.BoardNumber == tableStatus.BoardNumber);
             }
             Dealer = handRecord.Dealer;
 
@@ -81,13 +75,13 @@ namespace TabPlay.Models
             SuitLengths = handRecord.SuitLengths(northDirectionNumber, "NT");
             if (northDirectionNumber % 2 == 0)
             {
-                Vuln02 = Utilities.NSVulnerability[(boardNumber - 1) % 16];
-                Vuln13 = Utilities.EWVulnerability[(boardNumber - 1) % 16];
+                Vuln02 = Utilities.NSVulnerability[(tableStatus.BoardNumber - 1) % 16];
+                Vuln13 = Utilities.EWVulnerability[(tableStatus.BoardNumber - 1) % 16];
             }
             else
             {
-                Vuln02 = Utilities.EWVulnerability[(boardNumber - 1) % 16];
-                Vuln13 = Utilities.NSVulnerability[(boardNumber - 1) % 16];
+                Vuln02 = Utilities.EWVulnerability[(tableStatus.BoardNumber - 1) % 16];
+                Vuln13 = Utilities.NSVulnerability[(tableStatus.BoardNumber - 1) % 16];
             }
 
             EvalNorthNT = handRecord.EvalNorthNT;

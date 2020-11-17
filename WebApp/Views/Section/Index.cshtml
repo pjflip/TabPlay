@@ -15,7 +15,7 @@
     <div class="col-12 text-center">
         @foreach (var section in Model)
         {
-            <button id="s@(section.SectionLetter)" class="btn btn-primary btn-lg m-1" style="width:3em" ontouchstart="selectSection('@(section.SectionLetter)')">
+            <button id="s@(section.SectionID)" class="btn btn-primary btn-lg m-1" style="width:3em" ontouchstart="selectSection('@(section.SectionID)')">
                 @(section.SectionLetter)
             </button>
         }
@@ -39,7 +39,7 @@
         if (section != "") {
             if (!isSubmitted) {
                 isSubmitted = true;
-                location.href = '@Url.Action("OKButtonClick", "Section")?sectionLetter=' + section;
+                location.href = '@Url.Action("Index", "TableNumber")?sectionID=' + section;
             }
         }
     });

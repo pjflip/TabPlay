@@ -117,14 +117,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BiddingController.cs" />
     <Compile Include="Controllers\DirectionController.cs" />
     <Compile Include="Controllers\EndScreenController.cs" />
     <Compile Include="Controllers\ErrorScreenController.cs" />
-    <Compile Include="Controllers\FinalRankingListController.cs" />
     <Compile Include="Controllers\HandsDisplayController.cs" />
     <Compile Include="Controllers\MoveController.cs" />
     <Compile Include="Controllers\PlayingController.cs" />
@@ -157,8 +155,7 @@
     <Compile Include="Models\Ranking.cs" />
     <Compile Include="Models\RankingList.cs" />
     <Compile Include="Models\Result.cs" />
-    <Compile Include="Models\ResultsList.cs" />
-    <Compile Include="Models\Round.cs" />
+    <Compile Include="Models\RegisterPlayers.cs" />
     <Compile Include="Models\Section.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\TableStatus.cs" />
@@ -322,8 +319,8 @@
     <Content Include="Views\RegisterPlayers\FullTable.cshtml" />
     <Content Include="Views\RegisterPlayers\SitOut.cshtml" />
     <Content Include="Views\Section\Index.cshtml" />
-    <Content Include="Views\Shared\OneWinnerRankingList.cshtml" />
-    <Content Include="Views\Shared\TwoWinnersRankingList.cshtml" />
+    <Content Include="Views\RankingList\OneWinner.cshtml" />
+    <Content Include="Views\RankingList\TwoWinners.cshtml" />
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Views\StartScreen\Index.cshtml" />
     <Content Include="Views\TableNumber\Index.cshtml" />

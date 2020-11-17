@@ -10,17 +10,21 @@ setTimeout(function () {
 function pollRankingListener() {
    rankingList = JSON.parse(this.responseText);
     if (twoWinners) {
-        var new_tbodyNS = document.createElement("tbodyNS");
-        var new_tbodyEW = document.createElement("tbodyEW");
+        var new_tbodyNS = document.createElement("tbody");
+        var new_tbodyEW = document.createElement("tbody");
+        var iRowNS = 0;
+        var iRowEW = 0;
         for (var i = 0; i < rankingList.length; i++) {
             var row = null;
-            if (rankingList[i].Orientation = "E") {
-                row = new_tbodyEW.insertRow(i);
+            if (rankingList[i].Orientation == "E") {
+                row = new_tbodyEW.insertRow(iRowEW);
                 if ((direction == "East" || direction == "West") && rankingList[i].PairNumber == pairNumber) row.className = "table-warning";
+                iRowEW++;
             }
             else {
-                row = new_tbodyNS.insertRow(i);
+                row = new_tbodyNS.insertRow(iRowNS);
                 if ((direction == "North" || direction == "South") && rankingList[i].PairNumber == pairNumber) row.className = "table-warning";
+                iRowNS++;
             }
             var cellRank = row.insertCell(0);
             var cellPairNumber = row.insertCell(1);

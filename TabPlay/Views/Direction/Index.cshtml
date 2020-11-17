@@ -13,25 +13,25 @@
 
 <div class="row">
     <div class="col-12 text-center">
-        @if (Model.NSExists)
+        @if (Model.PairNumber[0] != 0)
         {
             <button id="dNorth" class="btn btn-secondary btn-lg m-1" style="width:4.5em" ontouchstart="selectDirection('North')">
                 North
             </button>
         }
-        @if (Model.EWExists)
+        @if (Model.PairNumber[1] != 0)
         {
             <button id="dEast" class="btn btn-secondary btn-lg m-1" style="width:4.5em" ontouchstart="selectDirection('East')">
                 East
             </button>
         }
-        @if (Model.NSExists)
+        @if (Model.PairNumber[2] != 0)
         {
             <button id="dSouth" class="btn btn-secondary btn-lg m-1" style="width:4.5em" ontouchstart="selectDirection('South')">
                 South
             </button>
         }
-        @if (Model.EWExists)
+        @if (Model.PairNumber[3] != 0)
         {
             <button id="dWest" class="btn btn-secondary btn-lg m-1" style="width:4.5em" ontouchstart="selectDirection('West')">
                 West

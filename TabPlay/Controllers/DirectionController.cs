@@ -27,25 +27,25 @@ namespace TabPlay.Controllers
         public ActionResult OKButtonClick(int sectionID, int tableNumber, string direction)
         {
             TableStatus tableStatus = AppData.TableStatusList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
-            if (tableStatus.RoundComplete)
+            if (tableStatus.ReadyForNextRound[Utilities.DirectionToNumber(direction)])
             {
-                return RedirectToAction("Index", "Move", new { sectionID, tableNumber, tableStatus.RoundNumber, direction, pairNumber = 0 });
+                return RedirectToAction("Index", "Move", new { sectionID, tableNumber, roundNumber = tableStatus.RoundNumber, direction, pairNumber = 0 });
             }
             else if (tableStatus.PlayComplete)
             {
-                return RedirectToAction("Index", "RegisterPlayers", new { sectionID, tableNumber, tableStatus.RoundNumber, direction, boardNumber = tableStatus.BoardNumber + 1 });
+                return RedirectToAction("Index", "RegisterPlayers", new { sectionID, tableNumber, roundNumber = tableStatus.RoundNumber, direction, boardNumber = tableStatus.BoardNumber + 1 });
             }
             else if (tableStatus.BiddingComplete)
             {
-                return RedirectToAction("Index", "Playing", new { sectionID, tableNumber, tableStatus.RoundNumber, direction, tableStatus.BoardNumber });
+                return RedirectToAction("Index", "Playing", new { sectionID, tableNumber, direction });
             }
             else if (tableStatus.BiddingStarted)
             {
-                return RedirectToAction("Index", "Bidding", new { sectionID, tableNumber, tableStatus.RoundNumber, direction, tableStatus.BoardNumber });
+                return RedirectToAction("Index", "Bidding", new { sectionID, tableNumber, direction });
             }
             else
             {
-                return RedirectToAction("Index", "RegisterPlayers", new { sectionID, tableNumber, tableStatus.RoundNumber, direction, tableStatus.BoardNumber });
+                return RedirectToAction("Index", "RegisterPlayers", new { sectionID, tableNumber, roundNumber = tableStatus.RoundNumber, direction, boardNumber = tableStatus.BoardNumber });
             }
         }
     }

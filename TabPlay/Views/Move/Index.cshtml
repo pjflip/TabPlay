@@ -3,6 +3,26 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
 
 @model TabPlay.Models.Move
 
+<div id="cantMoveYetModal" class="modal" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-primary">
+                <p class="modal-title text-center">
+                    <h3>Warning</h3>
+                </p>
+            </div>
+            <div class="modal-body">
+                <p>The table you are trying to move to is not yet ready</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-lg btn-success" data-dismiss="modal">
+                    OK <span class="far fa-check-square"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row mt-5">
     <div class="col-12 text-center">
         <h3>
@@ -31,45 +51,53 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
     </div>
 </div>
 
-<div class="row mt-5">
-    <div class="col-12 text-center">
-        <h4 style="color:darkgreen">
-            Boards: @Model.LowBoard to @Model.HighBoard
-        </h4>
+@if (Model.LowBoard > 0)
+{
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <h4 style="color:darkgreen">
+                Boards: @Model.LowBoard to @Model.HighBoard
+            </h4>
+        </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-12 text-center">
-        @if (Model.BoardsNewTableNumber == 0)
-        {
-            <h4>
-                Pass to Relay Table
-            </h4>
-        }
-        else
-        {
-            <h4>
-                Pass to Table @Model.BoardsNewTableNumber
-            </h4>
-        }
+    <div class="row">
+        <div class="col-12 text-center">
+            @if (Model.BoardsNewTableNumber == 0)
+            {
+                <h4>
+                    Pass to Relay Table
+                </h4>
+            }
+            else
+            {
+                <h4>
+                    Pass to Table @Model.BoardsNewTableNumber
+                </h4>
+            }
+        </div>
     </div>
-</div>
+}
 
 <div class="row">
     <div class="col-12 mt-5 text-center">
-        <h5>When the director calls the move, please move for the next round</h5>
-        <h5>And then, when you are ready to play, press OK</h5>
+        <h5>When the director calls the move, please move for the next round.</h5>
+        <h5>And then, when you are seated at the next table</h5>
+        <h5>and ready to play, press OK</h5>
     </div>
 </div>
 
 <script>
     var isSubmitted = false;
 
+    if (@((TempData["TableNotReady"] != null).ToString().ToLower())) {
+        $("#cantMoveYetModal").modal("show");
+    }
+
     function OKButtonClick() {
         if (!isSubmitted) {
             isSubmitted = true;
-            location.href = '@Url.Action("OKButtonClick", "Move")?sectionID=@Model.SectionID&newTableNumber=@Model.NewTableNumber&newRoundNumber=@Model.NewRoundNumber&newDirection=@Model.NewDirection';
+            location.href = '@Url.Action("OKButtonClick", "Move")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&pairNumber=@Model.PairNumber&newTableNumber=@Model.NewTableNumber&newRoundNumber=@Model.NewRoundNumber&newDirection=@Model.NewDirection';
         }
     }
 </script>

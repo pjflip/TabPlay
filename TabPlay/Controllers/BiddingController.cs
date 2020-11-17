@@ -5,9 +5,10 @@ namespace TabPlay.Controllers
 {
     public class BiddingController : Controller
     {
-        public ActionResult Index(int sectionID, int tableNumber, int roundNumber, string direction, int boardNumber)
+        public ActionResult Index(int sectionID, int tableNumber, string direction)
         {
-            Bidding bidding= new Bidding(sectionID, tableNumber, roundNumber, direction, boardNumber);
+            TableStatus tableStatus = AppData.TableStatusList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
+            Bidding bidding = new Bidding(tableStatus, direction);
             if (direction == "North")
             {
                 ViewData["Buttons"] = ButtonOptions.Skip;
@@ -16,16 +17,16 @@ namespace TabPlay.Controllers
             {
                 ViewData["Buttons"] = ButtonOptions.None;
             }
-            Section section = AppData.SectionsList.Find(x => x.SectionID == sectionID);
+            string sectionLetter = AppData.SectionsList.Find(x => x.SectionID == sectionID).SectionLetter;
             if (AppData.IsIndividual)
             {
-                ViewData["Header"] = $"Table {section.SectionLetter + tableNumber.ToString()} - Round {roundNumber} - Board {boardNumber} - {Utilities.ColourPairByVulnerability("NS", boardNumber, $"{bidding.PairNS}+{bidding.South}")} v {Utilities.ColourPairByVulnerability("EW", boardNumber, $"{bidding.PairEW}+{bidding.West}")} - Dealer {bidding.Dealer}";
+                ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} - Round {tableStatus.RoundNumber} - Board {tableStatus.BoardNumber} - {Utilities.ColourPairByVulnerability("NS", tableStatus.BoardNumber, $"{tableStatus.PairNumber[0]}+{tableStatus.PairNumber[2]}")} v {Utilities.ColourPairByVulnerability("EW", tableStatus.BoardNumber, $"{tableStatus.PairNumber[1]}+{tableStatus.PairNumber[3]}")} - Dealer {bidding.Dealer}";
             }
             else
             {
-                ViewData["Header"] = $"Table {section.SectionLetter + tableNumber.ToString()} - Round {roundNumber} - Board {boardNumber} - {Utilities.ColourPairByVulnerability("NS", boardNumber, $"NS {bidding.PairNS}")} v {Utilities.ColourPairByVulnerability("EW", boardNumber, $"EW {bidding.PairEW}")} - Dealer {bidding.Dealer}";
+                ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} - Round {tableStatus.RoundNumber} - Board {tableStatus.BoardNumber} - {Utilities.ColourPairByVulnerability("NS", tableStatus.BoardNumber, $"NS {tableStatus.PairNumber[0]}")} v {Utilities.ColourPairByVulnerability("EW", tableStatus.BoardNumber, $"EW {tableStatus.PairNumber[1]}")} - Dealer {bidding.Dealer}";
             }
-            ViewData["Title"] = $"Bidding - {section.SectionLetter + tableNumber.ToString()} {direction}";
+            ViewData["Title"] = $"Bidding - {sectionLetter + tableNumber.ToString()} {direction}";
             return View(bidding);
         }
 
@@ -38,16 +39,19 @@ namespace TabPlay.Controllers
             tableStatus.LastBid = bid;
             if ((lastBidLevel > 0 && passCount > 2) || passCount > 3)
             {
-                tableStatus.BiddingComplete = true;
-                if (passCount > 3) {
+                if (passCount > 3) 
+                {
                     // Passed out, so no play
-                    new Result(sectionID, tableNumber, roundNumber, boardNumber, 0).UpdateDB("ReceivedData");
+                    Result result = new Result(sectionID, tableNumber, roundNumber, boardNumber, 0);
+                    result.UpdateDB("ReceivedData");
                     tableStatus.PlayComplete = true;
                 }
                 else
                 {
-                    new Result(sectionID, tableNumber, roundNumber, boardNumber, lastBidLevel, lastBidSuit, lastBidX).UpdateDB("IntermediateData");
+                    Result result = new Result(sectionID, tableNumber, roundNumber, boardNumber, lastBidLevel, lastBidSuit, lastBidX);
+                    result.UpdateDB("IntermediateData");
                 }
+                tableStatus.BiddingComplete = true;
             }
             return Json(bid, JsonRequestBehavior.AllowGet);
         }
@@ -55,11 +59,12 @@ namespace TabPlay.Controllers
         public EmptyResult Skip(int sectionID, int tableNumber, int roundNumber, int boardNumber)
         {
             HttpContext.Response.AppendHeader("Connection", "close");
-            new Result(sectionID, tableNumber, roundNumber, boardNumber, -1).UpdateDB("ReceivedData");
+            Result result = new Result(sectionID, tableNumber, roundNumber, boardNumber, -1);
+            result.UpdateDB("ReceivedData");
             TableStatus tableStatus = AppData.TableStatusList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
-            tableStatus.BiddingComplete = true;
             tableStatus.PlayComplete = true;
             tableStatus.LastBid.LastBidLevel = -1;
+            tableStatus.BiddingComplete = true;
             return new EmptyResult();
         }
 

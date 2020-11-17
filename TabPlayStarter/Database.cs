@@ -152,7 +152,7 @@ namespace TabPlayStarter
                         individualEvent = false;
                     }
 
-                    // If this is an individual event, add extra columns South and West to ReceivedData if they dont exist
+                    // If this is an individual event, add extra columns South and West to ReceivedData and IntermediateData if they don't exist
                     if (individualEvent)
                     {
                         SQLString = "ALTER TABLE ReceivedData ADD South SHORT";
@@ -169,6 +169,32 @@ namespace TabPlayStarter
                             }
                         }
                         SQLString = "ALTER TABLE ReceivedData ADD West SHORT";
+                        cmd = new OdbcCommand(SQLString, connection);
+                        try
+                        {
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (OdbcException e)
+                        {
+                            if (e.Errors.Count != 1 || e.Errors[0].SQLState != "HYS21")
+                            {
+                                throw e;
+                            }
+                        }
+                        SQLString = "ALTER TABLE IntermediateData ADD South SHORT";
+                        cmd = new OdbcCommand(SQLString, connection);
+                        try
+                        {
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (OdbcException e)
+                        {
+                            if (e.Errors.Count != 1 || e.Errors[0].SQLState != "HYS21")
+                            {
+                                throw e;
+                            }
+                        }
+                        SQLString = "ALTER TABLE IntermediateData ADD West SHORT";
                         cmd = new OdbcCommand(SQLString, connection);
                         try
                         {

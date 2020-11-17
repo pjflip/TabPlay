@@ -8,11 +8,12 @@ namespace TabPlay.Controllers
 {
     public class TravellerController : Controller
     {
-        public ActionResult Index(int sectionID, int tableNumber, int roundNumber, string direction, int boardNumber, int pairNumber)
+        public ActionResult Index(int sectionID, int tableNumber, string direction)
         {
+            TableStatus tableStatus = AppData.TableStatusList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
             if (!Settings.ShowResults)
             {
-                return RedirectToAction("Index", "RegisterPlayers", new { sectionID, tableNumber, roundNumber, direction, boardNumber = boardNumber + 1 });
+                return RedirectToAction("Index", "RegisterPlayers", new { sectionID, tableNumber, tableStatus.RoundNumber, direction, boardNumber = tableStatus.BoardNumber + 1 });
             }
             if (Settings.ShowHandRecord)
             {
@@ -22,18 +23,18 @@ namespace TabPlay.Controllers
             {
                 ViewData["Buttons"] = ButtonOptions.OKEnabled;
             }
-            Traveller traveller = new Traveller(sectionID, tableNumber, roundNumber, direction, boardNumber, pairNumber);
+            Traveller traveller = new Traveller(tableStatus, direction);
 
             string sectionLetter = AppData.SectionsList.Find(x => x.SectionID == sectionID).SectionLetter;
-            ViewData["Title"] = $"Ranking List - {sectionLetter + tableNumber.ToString()} {direction}";
+            ViewData["Title"] = $"Traveller - {sectionLetter + tableNumber.ToString()} {direction}";
             if (AppData.IsIndividual)
             {
-                ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} - Round {roundNumber} - Board {boardNumber} - {Utilities.ColourPairByVulnerability("NS", boardNumber, $"{traveller.PairNS}+{traveller.South}")} v {Utilities.ColourPairByVulnerability("EW", boardNumber, $"{traveller.PairEW}+{traveller.West}")}";
+                ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} - Round {tableStatus.RoundNumber} - Board {tableStatus.BoardNumber} - {Utilities.ColourPairByVulnerability("NS", tableStatus.BoardNumber, $"{tableStatus.PairNumber[0]}+{tableStatus.PairNumber[2]}")} v {Utilities.ColourPairByVulnerability("EW", tableStatus.BoardNumber, $"{tableStatus.PairNumber[1]}+{tableStatus.PairNumber[3]}")}";
                 return View("Individual", traveller);
             }
             else 
             {
-                ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} - Round {roundNumber} - Board {boardNumber} - {Utilities.ColourPairByVulnerability("NS", boardNumber, $"NS {traveller.PairNS}")} v {Utilities.ColourPairByVulnerability("EW", boardNumber, $"EW {traveller.PairEW}")}";
+                ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} - Round {tableStatus.RoundNumber} - Board {tableStatus.BoardNumber} - {Utilities.ColourPairByVulnerability("NS", tableStatus.BoardNumber, $"NS {tableStatus.PairNumber[0]}")} v {Utilities.ColourPairByVulnerability("EW", tableStatus.BoardNumber, $"EW {tableStatus.PairNumber[1]}")}";
                 return View("Pairs", traveller);
             }
         }

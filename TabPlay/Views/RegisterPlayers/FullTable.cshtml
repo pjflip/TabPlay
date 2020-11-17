@@ -1,7 +1,7 @@
 ﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
 Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
 
-@model TabPlay.Models.Round
+@model TabPlay.Models.RegisterPlayers
 
 <style>
     .btn-numeric {
@@ -167,6 +167,6 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
     var enterPlayerNumberUrl = '@Url.Action("EnterPlayerNumber", "RegisterPlayers")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction[0]&pairNumber=@Model.PairNumber[0]&playerNumber=';
     var OKButtonClickUrl = '@Url.Action("OKButtonClick", "RegisterPlayers")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber';
     var pollRegisterUrl = '@Url.Action("PollRegister", "RegisterPlayers")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=@Model.Direction[0]';
-    var biddingUrl = '@Url.Action("Index", "Bidding")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction[0]&boardNumber=@Model.BoardNumber';
+    var biddingUrl = '@Url.Action("Index", "Bidding")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=@Model.Direction[0]';
 </script>
 <script src='@Url.Content("~/Scripts/RegisterPlayers.js")' type="text/javascript"></script>

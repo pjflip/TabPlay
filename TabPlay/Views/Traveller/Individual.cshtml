@@ -108,7 +108,7 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
     function handsButtonClick() {
         if (!isSubmitted) {
             isSubmitted = true;
-            location.href = '@Url.Action("Index", "HandsDisplay")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&boardNumber=@Model.BoardNumber&pairNumber=@Model.PairNumber';
+            location.href = '@Url.Action("Index", "HandsDisplay")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=@Model.Direction';
         }
     }
 </script>

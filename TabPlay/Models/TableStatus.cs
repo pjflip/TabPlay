@@ -7,42 +7,29 @@ namespace TabPlay.Models
     {
         public int SectionID { get; private set; }
         public int TableNumber { get; private set; }
-        public string Direction { get; set; }
-        public int RoundNumber { get; set; }
-        public int BoardNumber { get; set; }
-        public bool NSExists { get; private set; }
-        public bool EWExists { get; private set; }
+        public int RoundNumber { get; set; } = 1;
+        public int BoardNumber { get; set; } = 0;
+        public int LowBoard { get; set; }
+        public int HighBoard { get; set; }
         public bool BiddingStarted { get; set; }
         public bool BiddingComplete { get; set; }
         public bool PlayComplete { get; set; }
-        public bool RoundComplete { get; set; }
-        public bool[] Registered { get; set; }
-        public string[] PlayerName { get; set; }
-        public DateTime[] UpdateTime { get; set; }
+        public bool[] ReadyForNextRound { get; set; } = { false, false, false, false };
+        public bool[] Registered { get; set; } = { false, false, false, false };
+        public string[] PlayerName { get; set; } = { "", "", "", "" };
+        public int[] PairNumber { get; set; } = { 0, 0, 0, 0 };
+        public DateTime[] UpdateTime { get; set; } = { DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now };
         public Bid LastBid { get; set; }
         public Play LastPlay { get; set; }
-        public bool ClaimExpose { get; set; }
+        public bool ClaimExpose { get; set; } = false;
         public string ClaimDirection { get; set; }
 
         public TableStatus(int sectionID, int tableNumber)
         {
             SectionID = sectionID;
             TableNumber = tableNumber;
-            RoundNumber = 1;
-            BiddingComplete = false;
-            BiddingStarted = false;
-            PlayComplete = false;
-            RoundComplete = false;
             LastBid = new Bid("", 0, "", "", false, "", 0, -1);
             LastPlay = new Play("", 0, "", -999);
-            ClaimExpose = false;
-
-            // Direction numbers in TableStatus are absolute (North=0)
-            PlayerName = new string[4] { "", "", "", "" };
-            Registered = new bool[4] { false, false, false, false };
-            UpdateTime = new DateTime[4] { DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now };
-            int pairNS = 0;
-            int pairEW = 0;
 
             using (OdbcConnection connection = new OdbcConnection(AppData.DBConnectionString))
             {
@@ -58,7 +45,7 @@ namespace TabPlay.Models
                     ODBCRetryHelper.ODBCRetry(() =>
                     {
                         reader = cmd.ExecuteReader();
-                        while (reader.Read())
+                        if (reader.Read())
                         {
                             queryResult = reader.GetValue(0);
                             if (queryResult != DBNull.Value && queryResult != null)
@@ -97,9 +84,44 @@ namespace TabPlay.Models
                     cmd.Dispose();
                 }
 
-                // Get the pair numbers for this round
-                SQLString = $"SELECT NSPair, EWPair FROM RoundData WHERE Section={sectionID} AND [Table]={tableNumber} AND Round={RoundNumber}";
-                cmd = new OdbcCommand(SQLString, connection);
+                // Get the pair numbers and boards for this round
+                GetRoundData(connection);
+            }
+            // Check for invalid board number and set accordingly
+            if (BoardNumber < LowBoard || BoardNumber > HighBoard) BoardNumber = LowBoard;
+        }
+
+        public void NewBoard(int boardNumber)
+        {
+            BoardNumber = boardNumber;
+            using (OdbcConnection connection = new OdbcConnection(AppData.DBConnectionString))
+            {
+                connection.Open();
+                ResetStatus(connection);
+            }
+        }
+
+        public void NewRound(int roundNumber)
+        {
+            RoundNumber = roundNumber;
+            using (OdbcConnection connection = new OdbcConnection(AppData.DBConnectionString))
+            {
+                connection.Open();
+                GetRoundData(connection);
+                BoardNumber = LowBoard;
+                ResetStatus(connection);
+                ReadyForNextRound = new bool[] { false, false, false, false };
+            }
+        }
+
+        private void GetRoundData(OdbcConnection connection)
+        {
+            Utilities.CheckTabPlayPairNos(connection);
+            if (AppData.IsIndividual)
+            {
+                string SQLString = $"SELECT NSPair, EWPair, South, West, LowBoard, HighBoard FROM RoundData WHERE Section={SectionID} AND Table={TableNumber} AND Round={RoundNumber}";
+                OdbcCommand cmd = new OdbcCommand(SQLString, connection);
+                OdbcDataReader reader = null;
                 try
                 {
                     ODBCRetryHelper.ODBCRetry(() =>
@@ -107,8 +129,12 @@ namespace TabPlay.Models
                         reader = cmd.ExecuteReader();
                         if (reader.Read())
                         {
-                            pairNS = reader.GetInt32(0);
-                            pairEW = reader.GetInt32(1);
+                            PairNumber[0] = reader.GetInt32(0);
+                            PairNumber[1] = reader.GetInt32(1);
+                            PairNumber[2] = reader.GetInt32(2);
+                            PairNumber[3] = reader.GetInt32(3);
+                            LowBoard = reader.GetInt32(4);
+                            HighBoard = reader.GetInt32(5);
                         }
                     });
                 }
@@ -117,36 +143,64 @@ namespace TabPlay.Models
                     reader.Close();
                     cmd.Dispose();
                 }
-                NSExists = (pairNS != 0);
-                EWExists = (pairEW != 0);
+                for (int i = 0; i < 4; i++)
+                {
+                    PlayerName[i] = Utilities.GetNameFromPlayerNumbersTableIndividual(connection, SectionID, RoundNumber, PairNumber[i]);
+                }
+            }
+            else  // Not individual
+            {
+                string SQLString = $"SELECT NSPair, EWPair, LowBoard, HighBoard FROM RoundData WHERE Section={SectionID} AND Table={TableNumber} AND Round={RoundNumber}";
+                OdbcCommand cmd = new OdbcCommand(SQLString, connection);
+                OdbcDataReader reader = null;
+                try
+                {
+                    ODBCRetryHelper.ODBCRetry(() =>
+                    {
+                        reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+                            PairNumber[0] = PairNumber[2] = reader.GetInt32(0);
+                            PairNumber[1] = PairNumber[3] = reader.GetInt32(1);
+                            LowBoard = reader.GetInt32(2);
+                            HighBoard = reader.GetInt32(3);
+                        }
+                    });
+                }
+                finally
+                {
+                    reader.Close();
+                    cmd.Dispose();
+                }
+                PlayerName[0] = Utilities.GetNameFromPlayerNumbersTable(connection, SectionID, RoundNumber, PairNumber[0], "North");
+                PlayerName[1] = Utilities.GetNameFromPlayerNumbersTable(connection, SectionID, RoundNumber, PairNumber[1], "East");
+                PlayerName[2] = Utilities.GetNameFromPlayerNumbersTable(connection, SectionID, RoundNumber, PairNumber[2], "South");
+                PlayerName[3] = Utilities.GetNameFromPlayerNumbersTable(connection, SectionID, RoundNumber, PairNumber[3], "West");
             }
         }
 
-        public void Reset(Round round, string direction)
+        private void ResetStatus(OdbcConnection connection)
         {
-            int directionNumber = Utilities.DirectionToNumber(direction);
-            Registered[directionNumber] = true;
-            UpdateTime[directionNumber] = DateTime.Now;
-            for (int i = 0; i < 4; i++)
-            {
-                // Convert from absolute (North=0) to relative (my direction=0) direction numbers
-                round.Registered[i] = Registered[(directionNumber + i) % 4];
-                PlayerName[(directionNumber + i) % 4] = round.PlayerName[i];
-            }
+            BiddingStarted = false;
+            BiddingComplete = false;
+            PlayComplete = false;
+            LastBid = new Bid("", 0, "", "", false, "", 0, -1);
+            LastPlay = new Play("", 0, "", -999);
+            ClaimExpose = false;
+            ClaimDirection = "";
 
-            // Reset TableStatus for next board, if not done yet
-            if (BiddingStarted == true)
+            string SQLString = $"UPDATE Tables SET CurrentRound={RoundNumber}, CurrentBoard={BoardNumber}, BiddingStarted=False, BiddingComplete=False, PlayComplete=False WHERE Section={SectionID} AND [Table]={TableNumber}";
+            OdbcCommand cmd = new OdbcCommand(SQLString, connection);
+            try
             {
-                BiddingStarted = false;
-                BiddingComplete = false;
-                PlayComplete = false;
-                RoundComplete = false;
-                LastBid = new Bid("", 0, "", "", false, "", 0, -1);
-                LastPlay = new Play("", 0, "", -999);
-                ClaimExpose = false;
-                ClaimDirection = "";
-                NSExists = (round.PairNS != 0);
-                EWExists = (round.PairEW != 0);
+                ODBCRetryHelper.ODBCRetry(() =>
+                {
+                    cmd.ExecuteNonQuery();
+                });
+            }
+            finally
+            {
+                cmd.Dispose();
             }
         }
     }

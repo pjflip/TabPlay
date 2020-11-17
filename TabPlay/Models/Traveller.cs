@@ -14,25 +14,19 @@ namespace TabPlay.Models
         public int RoundNumber { get; private set; }
         public string Direction { get; private set; }
         public int BoardNumber { get; private set; }
-        public int PairNumber { get; private set; }
-        public int PairNS { get; set; }   // Doubles as North player number for individuals
-        public int PairEW { get; set; }   // Doubles as East player number for individuals
-        public int South { get; set; }
-        public int West { get; set; }
         public int ContractLevel { get; private set; }
         public string DisplayContract { get; private set; }
         public string Declarer { get; private set; }
         public int Score { get; private set; }
         public int PercentageNS { get; private set; }
 
-        public Traveller(int sectionID, int tableNumber, int roundNumber, string direction, int boardNumber, int pairNumber)
+        public Traveller(TableStatus tableStatus, string direction)
         {
-            SectionID = sectionID;
-            TableNumber = tableNumber;
-            RoundNumber = roundNumber;
-            BoardNumber = boardNumber;
+            SectionID = tableStatus.SectionID;
+            TableNumber = tableStatus.TableNumber;
+            RoundNumber = tableStatus.RoundNumber;
+            BoardNumber = tableStatus.BoardNumber;
             Direction = direction;
-            PairNumber = pairNumber;
 
             using (OdbcConnection connection = new OdbcConnection(AppData.DBConnectionString))
             {
@@ -44,7 +38,7 @@ namespace TabPlay.Models
                 {
                     if (AppData.IsIndividual)
                     {
-                        SQLString = $"SELECT PairNS, PairEW, South, West, [NS/EW], Contract, LeadCard, Result FROM ReceivedData WHERE Section={sectionID} AND Board={boardNumber}";
+                        SQLString = $"SELECT PairNS, PairEW, South, West, [NS/EW], Contract, LeadCard, Result FROM ReceivedData WHERE Section={SectionID} AND Board={BoardNumber}";
                         cmd = new OdbcCommand(SQLString, connection);
                         ODBCRetryHelper.ODBCRetry(() =>
                         {
@@ -53,7 +47,7 @@ namespace TabPlay.Models
                             {
                                 Result result = new Result()
                                 {
-                                    BoardNumber = boardNumber,
+                                    BoardNumber = BoardNumber,
                                     PairNS = reader.GetInt32(0),
                                     PairEW = reader.GetInt32(1),
                                     South = reader.GetInt32(2),
@@ -66,14 +60,10 @@ namespace TabPlay.Models
                                 if (result.Contract.Length > 2)  // Testing for unplayed boards and corrupt ReceivedData table
                                 {
                                     result.CalculateScore();
-                                    if ((direction == "North" && pairNumber == result.PairNS) || (direction == "East" && pairNumber == result.PairEW) || (direction == "South" && pairNumber == result.South) || (direction == "West" && pairNumber == result.West))
+                                    if (tableStatus.PairNumber[0] == result.PairNS)
                                     {
                                         ContractLevel = result.ContractLevel;
                                         DisplayContract = Utilities.DisplayContract(ContractLevel, result.ContractSuit, result.ContractX) + " " + result.TricksTakenSymbol;
-                                        PairNS = result.PairNS;
-                                        PairEW = result.PairEW;
-                                        South = result.South;
-                                        West = result.West;
                                         Declarer = result.Declarer;
                                         Score = result.Score;
                                         result.CurrentResult = true;
@@ -85,7 +75,7 @@ namespace TabPlay.Models
                     }
                     else
                     {
-                        SQLString = $"SELECT PairNS, PairEW, [NS/EW], Contract, LeadCard, Result FROM ReceivedData WHERE Section={sectionID} AND Board={boardNumber}";
+                        SQLString = $"SELECT PairNS, PairEW, [NS/EW], Contract, LeadCard, Result FROM ReceivedData WHERE Section={SectionID} AND Board={BoardNumber}";
                         cmd = new OdbcCommand(SQLString, connection);
                         ODBCRetryHelper.ODBCRetry(() =>
                         {
@@ -94,7 +84,7 @@ namespace TabPlay.Models
                             {
                                 Result result = new Result()
                                 {
-                                    BoardNumber = boardNumber,
+                                    BoardNumber = BoardNumber,
                                     PairNS = reader.GetInt32(0),
                                     PairEW = reader.GetInt32(1),
                                     DeclarerNSEW = reader.GetString(2),
@@ -105,12 +95,10 @@ namespace TabPlay.Models
                                 if (result.Contract.Length > 2)  // Testing for unplayed boards and corrupt ReceivedData table
                                 {
                                     result.CalculateScore();
-                                    if ((direction == "North" && pairNumber == result.PairNS) || (direction == "East" && pairNumber == result.PairEW) || (direction == "South" && pairNumber == result.PairNS) || (direction == "West" && pairNumber == result.PairEW))
+                                    if (tableStatus.PairNumber[0] == result.PairNS)
                                     {
                                         ContractLevel = result.ContractLevel;
                                         DisplayContract = Utilities.DisplayContract(ContractLevel, result.ContractSuit, result.ContractX) + " " + result.TricksTakenSymbol;
-                                        PairNS = result.PairNS;
-                                        PairEW = result.PairEW;
                                         Declarer = result.Declarer;
                                         Score = result.Score;
                                         result.CurrentResult = true;

@@ -11,19 +11,33 @@ namespace TabPlay.Controllers
     {
         public ActionResult Index(int sectionID, int tableNumber, int roundNumber, string direction, int boardNumber)
         {
-            Round round = new Round(sectionID, tableNumber, roundNumber, direction, boardNumber);
             TableStatus tableStatus = AppData.TableStatusList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
-            if (boardNumber > round.HighBoard)
+            if (boardNumber > tableStatus.HighBoard)
             {
-                tableStatus.RoundComplete = true;
-                return RedirectToAction("Index", "RankingList", new { sectionID, tableNumber, roundNumber, direction, pairNumber = round.PairNumber[0] });
+                return RedirectToAction("Index", "RankingList", new { sectionID, tableNumber, roundNumber, direction, pairNumber = tableStatus.PairNumber[Utilities.DirectionToNumber(direction)] });
             }
-            tableStatus.Reset(round, direction);
+            
+            // Only the first player to reach this screen will do the refresh
+            if (roundNumber > tableStatus.RoundNumber)
+            {
+                tableStatus.NewRound(roundNumber);
+            }
+            else if (boardNumber > tableStatus.BoardNumber)
+            {
+                tableStatus.NewBoard(boardNumber);
+            }
+
+            int directionNumber = Utilities.DirectionToNumber(direction);
+            tableStatus.Registered[directionNumber] = true;
+            tableStatus.UpdateTime[directionNumber] = DateTime.Now;
 
             Section section = AppData.SectionsList.Find(x => x.SectionID == sectionID);
+            if (tableStatus.PairNumber[0] == section.MissingPair) tableStatus.PairNumber[0] = tableStatus.PairNumber[2] = 0;
+            if (tableStatus.PairNumber[1] == section.MissingPair) tableStatus.PairNumber[1] = tableStatus.PairNumber[3] = 0;
+            RegisterPlayers registerPlayers = new RegisterPlayers(tableStatus, direction);
+
             ViewData["Header"] = $"Table {section.SectionLetter + tableNumber.ToString()} - {direction}";
             ViewData["Title"] = $"Register Players - {section.SectionLetter + tableNumber.ToString()} {direction}";
-
             if (direction == "North")
             {
                 ViewData["Buttons"] = ButtonOptions.OKDisabled;
@@ -32,15 +46,14 @@ namespace TabPlay.Controllers
             {
                 ViewData["Buttons"] = ButtonOptions.None;
             }
-            if (round.PairNS == section.MissingPair) round.PairNS = 0;
-            if (round.PairEW == section.MissingPair) round.PairEW = 0;
-            if (round.PairNS == 0 || round.PairEW == 0)  // Sit out
+
+            if (tableStatus.PairNumber[0] == 0 || tableStatus.PairNumber[1] == 0)  // Sit out
             {
-                return View("SitOut", round);
+                return View("SitOut", registerPlayers);
             }
             else
             {
-                return View("FullTable", round);
+                return View("FullTable", registerPlayers);
             }
         }
 
@@ -59,7 +72,9 @@ namespace TabPlay.Controllers
         {
             TableStatus tableStatus = AppData.TableStatusList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
             tableStatus.BiddingStarted = true;
-            tableStatus.Registered = new bool[4]{ false, false, false, false};
+            
+            // Refresh registrations now to avoid any race condition when moving to new table
+            tableStatus.Registered = new bool[4] { false, false, false, false };
             return new EmptyResult();
         }
 

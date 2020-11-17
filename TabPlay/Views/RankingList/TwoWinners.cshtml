@@ -13,8 +13,8 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
 
 <div class="row">
     <div class="col-6">
-        <table class="table-sm table-bordered text-center" style="margin:auto; width:70%">
-            <thead class="thead-dark">
+        <table class="table-sm table-bordered bg-light text-center" style="margin:auto; width:70%">
+            <thead class="bg-dark text-white">
                 <tr>
                     <th>Rank NS</th>
                     <th>Pair Number</th>
@@ -28,7 +28,7 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
                     {
                         if ((Model.Direction == "North" || Model.Direction == "South") && Model.PairNumber == Rank.PairNumber)
                         {
-                            <tr class="table-success">
+                            <tr class="table-warning">
                                 <td>@Rank.Rank</td>
                                 <td>@Rank.PairNumber</td>
                                 <td>@Rank.Score%</td>
@@ -49,8 +49,8 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
     </div>
 
     <div class="col-6">
-        <table class="table-sm table-bordered text-center" style="margin:auto; width:70%">
-            <thead>
+        <table class="table-sm table-bordered bg-light text-center" style="margin:auto; width:70%">
+            <thead class="bg-dark text-white">
                 <tr>
                     <th>Rank EW</th>
                     <th>Pair Number</th>
@@ -64,7 +64,7 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
                     {
                         if ((Model.Direction == "East" || Model.Direction == "West") && Model.PairNumber == Rank.PairNumber)
                         {
-                            <tr class="table-success">
+                            <tr class="table-warning">
                                 <td>@Rank.Rank</td>
                                 <td>@Rank.PairNumber</td>
                                 <td>@Rank.Score%</td>

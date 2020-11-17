@@ -8,19 +8,20 @@ namespace TabPlay.Controllers
 {
     public class PlayingController : Controller
     {
-        public ActionResult Index(int sectionID, int tableNumber, int roundNumber, string direction, int boardNumber)
+        public ActionResult Index(int sectionID, int tableNumber, string direction)
         {
-            Playing playing = new Playing(sectionID, tableNumber, roundNumber, direction, boardNumber);
+            TableStatus tableStatus = AppData.TableStatusList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
+            Playing playing = new Playing(tableStatus, direction);
 
             ViewData["Buttons"] = ButtonOptions.Claim;
             string sectionLetter = AppData.SectionsList.Find(x => x.SectionID == sectionID).SectionLetter;
             if (AppData.IsIndividual)
             {
-                ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} - Round {roundNumber} - Board {boardNumber} - {Utilities.ColourPairByVulnerability("NS", boardNumber, $"{playing.PairNS}+{playing.South}")} v {Utilities.ColourPairByVulnerability("EW", boardNumber, $"{playing.PairEW}+{playing.West}")}";
+                ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} - Round {tableStatus.RoundNumber} - Board {tableStatus.BoardNumber} - {Utilities.ColourPairByVulnerability("NS", tableStatus.BoardNumber, $"{tableStatus.PairNumber[0]}+{tableStatus.PairNumber[2]}")} v {Utilities.ColourPairByVulnerability("EW", tableStatus.BoardNumber, $"{tableStatus.PairNumber[1]}+{tableStatus.PairNumber[3]}")}";
             }
             else
             {
-                ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} - Round {roundNumber} - Board {boardNumber} - {Utilities.ColourPairByVulnerability("NS", boardNumber, $"NS {playing.PairNS}")} v {Utilities.ColourPairByVulnerability("EW", boardNumber, $"EW {playing.PairEW}")}";
+                ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} - Round {tableStatus.RoundNumber} - Board {tableStatus.BoardNumber} - {Utilities.ColourPairByVulnerability("NS", tableStatus.BoardNumber, $"NS {tableStatus.PairNumber[0]}")} v {Utilities.ColourPairByVulnerability("EW", tableStatus.BoardNumber, $"EW {tableStatus.PairNumber[1]}")}";
             }
             ViewData["Title"] = $"Playing - {sectionLetter + tableNumber.ToString()} {direction}";
             return View(playing);

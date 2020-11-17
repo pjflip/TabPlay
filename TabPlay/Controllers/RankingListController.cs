@@ -19,19 +19,47 @@ namespace TabPlay.Controllers
                 if (rankingList != null && rankingList.Count != 0 && rankingList[0].ScoreDecimal != 0 && rankingList[0].ScoreDecimal != 50)
                 {
                     ViewData["Buttons"] = ButtonOptions.OKEnabled;
-                    ViewData["Header"] = $"Table {AppData.SectionsList.Find(x => x.SectionID == sectionID).SectionLetter + tableNumber.ToString()} {direction} - Round {roundNumber}";
-                    ViewData["Title"] = $"Ranking List - {AppData.SectionsList.Find(x => x.SectionID == sectionID).SectionLetter + tableNumber.ToString()} {direction}";
+                    string sectionLetter = AppData.SectionsList.Find(x => x.SectionID == sectionID).SectionLetter;
+                    ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} {direction} - Round {roundNumber}";
+                    ViewData["Title"] = $"Ranking List - {sectionLetter + tableNumber.ToString()} {direction}";
                     if (rankingList.TwoWinners)
                     {
-                        return View("TwoWinnersRankingList", rankingList);
+                        return View("TwoWinners", rankingList);
                     }
                     else
                     {
-                        return View("OneWinnerRankingList", rankingList);
+                        return View("OneWinner", rankingList);
                     }
                 }
             }
             return RedirectToAction("Index", "Move", new { sectionID, tableNumber, roundNumber, direction, pairNumber});
+        }
+
+        public ActionResult Final(int sectionID, int tableNumber, int roundNumber, string direction, int pairNumber)
+        {
+            RankingList rankingList = new RankingList(sectionID, tableNumber, roundNumber, direction, pairNumber);
+
+            // Don't show the ranking list if it doesn't contain anything useful
+            if (rankingList == null || rankingList.Count == 0 || rankingList[0].ScoreDecimal == 0 || rankingList[0].ScoreDecimal == 50)
+            {
+                return RedirectToAction("Index", "EndScreen", new { sectionID, tableNumber, roundNumber, direction });
+            }
+            else
+            {
+                rankingList.FinalRankingList = true;
+                ViewData["Buttons"] = ButtonOptions.OKEnabled;
+                string sectionLetter = AppData.SectionsList.Find(x => x.SectionID == sectionID).SectionLetter;
+                ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} {direction} - Round {roundNumber}";
+                ViewData["Title"] = $"Ranking List - {sectionLetter + tableNumber.ToString()} {direction}";
+                if (rankingList.TwoWinners)
+                {
+                    return View("TwoWinners", rankingList);
+                }
+                else
+                {
+                    return View("OneWinner", rankingList);
+                }
+            }
         }
 
         public JsonResult PollRanking(int sectionID, int tableNumber, int roundNumber, string direction, int pairNumber)

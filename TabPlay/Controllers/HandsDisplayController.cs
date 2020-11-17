@@ -8,20 +8,21 @@ namespace TabPlay.Controllers
 {
     public class HandsDisplayController : Controller
     {
-        public ActionResult Index(int sectionID, int tableNumber, int roundNumber, string direction, int boardNumber, int pairNumber)
+        public ActionResult Index(int sectionID, int tableNumber, string direction)
         {
-            HandsDisplay handsDisplay = new HandsDisplay (sectionID, tableNumber, roundNumber, direction, boardNumber, pairNumber);
+            TableStatus tableStatus = AppData.TableStatusList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
+            HandsDisplay handsDisplay = new HandsDisplay (tableStatus, direction);
             ViewData["Buttons"] = ButtonOptions.OKEnabled;
-            Section section = AppData.SectionsList.Find(x => x.SectionID == sectionID);
+            string sectionLetter = AppData.SectionsList.Find(x => x.SectionID == sectionID).SectionLetter;
             if (AppData.IsIndividual)
             {
-                ViewData["Header"] = $"Table {section.SectionLetter + tableNumber.ToString()} - Round {roundNumber} - Board {boardNumber}";
+                ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} - Round {tableStatus.RoundNumber} - Board {tableStatus.BoardNumber}";
             }
             else
             {
-                ViewData["Header"] = $"Table {section.SectionLetter + tableNumber.ToString()} - Round {roundNumber} - Board {boardNumber}";
+                ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} - Round {tableStatus.RoundNumber} - Board {tableStatus.BoardNumber}";
             }
-            ViewData["Title"] = $"Hands - {AppData.SectionsList.Find(x => x.SectionID == sectionID).SectionLetter + tableNumber.ToString()} {direction}";
+            ViewData["Title"] = $"Hands - {sectionLetter + tableNumber.ToString()} {direction}";
             return View(handsDisplay);
         }
     }
