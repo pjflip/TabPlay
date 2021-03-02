@@ -1,0 +1,3 @@
+rem Batch file to harvest PUBLISHED version of TabPlay WebApp files
+rem It will overwrite previous versions
+"C:\Users\Peter\source\repos\TabPlay\packages\WiX.3.11.2\tools\heat.exe" dir "C:\Users\Peter\source\repos\TabPlay\WebApp" -var var.TabPlayWebAppSourceDir -nologo -cg WebAppComponents -gg -scom -sreg -sfrag -srd -dr WebAppInstallFolder -out "C:\Users\Peter\source\repos\TabPlay\TabPlaySetup\WebApp.wxs"

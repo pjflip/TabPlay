@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- TabPlay installer for required Windows IIS features -->
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
+     xmlns:fire="http://schemas.microsoft.com/wix/FirewallExtension">
+  
+  <Product Id="{E1BF8A69-293D-4422-ADC0-C889B5E52E51}" Name="TabPlayIISSetup" Language="1033" Version="1.0.0" Manufacturer="TabPlay" UpgradeCode="{DA02749F-AA77-404A-974C-09A73A418613}">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of TabPlay is already installed." />
+    <MediaTemplate EmbedCab="yes"/>
+
+    <!-- Empty Directory, Component and Feature without which MSI doesn't seem to work properly -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Component Id="EmptyComponent" Guid="{3C51D042-61FF-456A-9B13-1D004DF4C12E}" />
+    </Directory>
+    <Feature Id="Feature" Title="Feature" Level="1">
+      <ComponentRef Id="EmptyComponent" />
+      <ComponentRef Id="SetFirewallPortComponent"/>
+    </Feature>
+
+    <!-- IIS-DefaultDocument -->
+    <CustomAction Id='AddIISDefaultDocument' Property='IISDefaultDocument' Value='"[system64folder]dism.exe" /norestart /quiet /online /enable-feature /featurename:IIS-DefaultDocument /all' Execute='immediate'/>
+    <CustomAction Id="IISDefaultDocument" BinaryKey="WixCA" DllEntry="CAQuietExec64" Execute="deferred" Return="ignore" Impersonate="no" />
+    <!-- IIS-DefaultDocument -->
+    <CustomAction Id='AddIISManagementConsole' Property='IISManagementConsole' Value='"[system64folder]dism.exe" /norestart /quiet /online /enable-feature /featurename:IIS-ManagementConsole /all' Execute='immediate'/>
+    <CustomAction Id="IISManagementConsole" BinaryKey="WixCA" DllEntry="CAQuietExec64" Execute="deferred" Return="ignore" Impersonate="no" />
+    <!-- IIS-ASPNET45 - this requires reboot -->
+    <CustomAction Id='AddIISASPNET45' Property='IISASPNET45' Value='"[system64folder]dism.exe" /norestart /quiet /online /enable-feature /featurename:IIS-ASPNET45 /all' Execute='immediate'/>
+    <CustomAction Id="IISASPNET45" BinaryKey="WixCA" DllEntry="CAQuietExec64" Execute="deferred" Return="ignore" Impersonate="no" />
+
+    <InstallExecuteSequence>
+      <!-- IIS-DefaultDocument -->
+      <Custom Action="AddIISDefaultDocument" After="CostFinalize" />
+      <Custom Action="IISDefaultDocument" After="InstallInitialize"></Custom>
+      <!-- IIS-DefaultDocument -->
+      <Custom Action="AddIISManagementConsole" After="CostFinalize" />
+      <Custom Action="IISManagementConsole" After="InstallInitialize"></Custom>
+      <!-- IIS-ASPNET45 - this requires reboot -->
+      <Custom Action="AddIISASPNET45" After="CostFinalize" />
+      <Custom Action="IISASPNET45" After="InstallInitialize"></Custom>
+    </InstallExecuteSequence>
+
+    <Component Id="SetFirewallPortComponent" Directory="TARGETDIR" Guid="{D5D0299B-CE7E-4BF0-8FF0-DABD605AC7D1}">
+      <fire:FirewallException Id="FirewallPort80" Name="TabScore Port 80" Protocol="tcp" Port="80" Scope="localSubnet" IgnoreFailure="yes" Profile="private" />
+    </Component>
+
+  </Product>
+
+</Wix>

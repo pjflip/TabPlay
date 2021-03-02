@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+  xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
+  xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension">
+
+  <!-- File source definitions -->
+  <?define TabPlayStarterSourceDir = "C:\Users\Peter\source\repos\TabPlay\TabPlayStarter\bin\x86\Release" ?>
+  <?define TabPlayDocumentsSourceDir = "C:\Users\Peter\source\repos\TabPlay\TabPlay Documents" ?>
+
+  <Product Id="{0AB6D3E2-0E85-4C76-B6F2-27E108BA448A}" Name="TabPlaySetup" Language="1033" Version="1.0.0" Manufacturer="TabPlay" UpgradeCode="{F379C55E-A0E1-408F-92FE-3E7444D89BAE}">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of TabPlay is already installed." />
+
+    <MediaTemplate EmbedCab="yes" />
+
+    <!-- Common documents folder for TabPlayDB.txt install -->
+    <SetDirectory Id="UsersPublicFolder" Value="[%PUBLIC]" Sequence="both" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="TabPlayInstallFolder" Name="TabPlay">
+          <Directory Id="WebAppInstallFolder" Name="WebApp" />
+        </Directory>
+      </Directory>
+      <Directory Id="UsersPublicFolder">
+        <Directory Id="TabPlayDBtxtInstallFolder" Name="TabPlay" />
+      </Directory>
+    </Directory>
+
+    <Feature Id="TabPlayFeature" Title="TabPlay" Level="1">
+      <ComponentGroupRef Id="TabPlayStarterComponents" />
+      <ComponentGroupRef Id="WebAppComponents" />
+      <!-- Link to WebApp.wxs file -->
+      <ComponentRef Id="TabPlayDB.txtComponent"/>
+      <ComponentRef Id="IISConfigurationComponent" />
+      <ComponentRef Id="RegistryEntryComponent" />
+    </Feature>
+
+    <ComponentGroup Id="TabPlayStarterComponents" Directory="TabPlayInstallFolder">
+      <Component Id="TabPlayStarter.exe" Guid="{18EC996A-BD53-4311-8D67-98BB21CA3134}">
+        <File Id="TabPlayStarter.exe" Source="$(var.TabPlayStarterSourceDir)\TabPlayStarter.exe" KeyPath="yes" Checksum="yes"/>
+      </Component>
+      <Component Id="dds.dll" Guid="{4DC2B560-EACB-46A7-81B8-83D06AF5E1D2}">
+        <File Id="dds.dll" Source="$(var.TabPlayStarterSourceDir)\dds.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="TabPlayStarter.exe.config" Guid="{D7E72A15-1CB1-4092-8128-45D90C4D60B8}">
+        <File Id="TabPlayStarter.exe.config" Source="$(var.TabPlayStarterSourceDir)\TabPlayStarter.exe.config" KeyPath="yes"/>
+      </Component>
+      <Component Id="TabPlayStarter.pdb" Guid="{CD01532F-5B79-43D2-BB57-787DAF0538ED}">
+        <File Id="TabPlayStarter.pdb" Source="$(var.TabPlayStarterSourceDir)\TabPlayStarter.pdb" KeyPath="yes"/>
+      </Component>
+    </ComponentGroup>
+
+    <Component Id="TabPlayDB.txtComponent" Directory="TabPlayDBtxtInstallFolder" Guid="{79F576D8-CF7B-4D19-A7C6-95EB232BD04C}">
+      <File Id="TabPlayDB.txt" Source="$(var.TabPlayDocumentsSourceDir)\TabPlayDB.txt" KeyPath="yes"/>
+    </Component>
+
+    <!-- Use built-in Default Web Site to enable binding to Port 80 -->
+    <iis:WebSite Id="DefaultWebSite" Description="Default Web Site">
+      <iis:WebAddress Id="AllUnassigned" Port="80"/>
+    </iis:WebSite>
+
+    <Component Id="IISConfigurationComponent" Guid="{7A1C5B34-FD68-452E-B7F0-DD92BDCE03A8}" Directory="WebAppInstallFolder">
+      <iis:WebAppPool Id="TabPlayAppPool" Name="TabPlayAppPool" Identity="applicationPoolIdentity" ManagedRuntimeVersion="v4.0" ManagedPipelineMode="integrated" />
+      <iis:WebVirtualDir Id="TabPlayVirtualDirectory" Alias="TabPlay" Directory="WebAppInstallFolder" WebSite="DefaultWebSite">
+        <iis:WebApplication Id="TabPlayWebApp" Name="TabPlay" WebAppPool="TabPlayAppPool" />
+      </iis:WebVirtualDir>
+      <CreateFolder/>
+    </Component>
+
+    <!-- Reduce TCP TIME_WAIT state to improve socket availability  -->
+    <DirectoryRef Id="TARGETDIR">
+      <Component Id="RegistryEntryComponent" Guid="{F1F5E9E5-A3C5-411C-9587-DD4062325E47}">
+        <RegistryKey Root="HKLM" Key="SYSTEM\CurrentControlSet\Services\Tcpip\Parameters">
+          <RegistryValue Type="integer" Name="TcpTimedWaitDelay" Value="30" KeyPath="yes"/>
+        </RegistryKey>
+      </Component>
+    </DirectoryRef>
+
+  </Product>
+</Wix>

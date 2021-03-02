@@ -372,10 +372,11 @@ namespace TabPlayStarter
                     }
                     SQLString = "ALTER TABLE Settings ADD PollInterval SHORT";
                     cmd = new OdbcCommand(SQLString, connection);
+                    int pollInterval = Properties.Settings.Default.PollInterval;
                     try
                     {
                         cmd.ExecuteNonQuery();
-                        SQLString = "UPDATE Settings SET PollInterval=1000";
+                        SQLString = $"UPDATE Settings SET PollInterval={pollInterval}";
                         cmd = new OdbcCommand(SQLString, connection);
                         cmd.ExecuteNonQuery();
                     }

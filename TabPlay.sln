@@ -7,6 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TabPlay", "TabPlay\TabPlay.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4347D6D2-6E33-4F3D-A55F-5474060B9FB9}"
 	ProjectSection(SolutionItems) = preProject
+		HarvestWebApp.bat = HarvestWebApp.bat
 		TabPlay Documents\LICENSE = TabPlay Documents\LICENSE
 		TabPlay Documents\NOTICE = TabPlay Documents\NOTICE
 		README.md = README.md
@@ -16,30 +17,32 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TabPlayStarter", "TabPlayStarter\TabPlayStarter.csproj", "{9EE6B38E-5CBA-4A82-A3FF-12C784125E8A}"
 EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "TabPlaySetup", "TabPlaySetup\TabPlaySetup.wixproj", "{3A31830D-CADE-41D2-9F4C-9754211D8EB3}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "TabPlayIISSetup", "TabPlayIISSetup\TabPlayIISSetup.wixproj", "{06BB7A78-9138-4EF2-B557-5DFA51DB8F1C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
-		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{98689C78-814C-4E4C-915F-D86F1B9FB467}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{98689C78-814C-4E4C-915F-D86F1B9FB467}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98689C78-814C-4E4C-915F-D86F1B9FB467}.Debug|x86.ActiveCfg = Debug|x86
 		{98689C78-814C-4E4C-915F-D86F1B9FB467}.Debug|x86.Build.0 = Debug|x86
-		{98689C78-814C-4E4C-915F-D86F1B9FB467}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{98689C78-814C-4E4C-915F-D86F1B9FB467}.Release|Any CPU.Build.0 = Release|Any CPU
 		{98689C78-814C-4E4C-915F-D86F1B9FB467}.Release|x86.ActiveCfg = Release|x86
 		{98689C78-814C-4E4C-915F-D86F1B9FB467}.Release|x86.Build.0 = Release|x86
-		{9EE6B38E-5CBA-4A82-A3FF-12C784125E8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9EE6B38E-5CBA-4A82-A3FF-12C784125E8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EE6B38E-5CBA-4A82-A3FF-12C784125E8A}.Debug|x86.ActiveCfg = Debug|x86
 		{9EE6B38E-5CBA-4A82-A3FF-12C784125E8A}.Debug|x86.Build.0 = Debug|x86
-		{9EE6B38E-5CBA-4A82-A3FF-12C784125E8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9EE6B38E-5CBA-4A82-A3FF-12C784125E8A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9EE6B38E-5CBA-4A82-A3FF-12C784125E8A}.Release|x86.ActiveCfg = Release|x86
 		{9EE6B38E-5CBA-4A82-A3FF-12C784125E8A}.Release|x86.Build.0 = Release|x86
+		{3A31830D-CADE-41D2-9F4C-9754211D8EB3}.Debug|x86.ActiveCfg = Debug|x86
+		{3A31830D-CADE-41D2-9F4C-9754211D8EB3}.Debug|x86.Build.0 = Debug|x86
+		{3A31830D-CADE-41D2-9F4C-9754211D8EB3}.Release|x86.ActiveCfg = Release|x86
+		{3A31830D-CADE-41D2-9F4C-9754211D8EB3}.Release|x86.Build.0 = Release|x86
+		{06BB7A78-9138-4EF2-B557-5DFA51DB8F1C}.Debug|x86.ActiveCfg = Debug|x86
+		{06BB7A78-9138-4EF2-B557-5DFA51DB8F1C}.Debug|x86.Build.0 = Debug|x86
+		{06BB7A78-9138-4EF2-B557-5DFA51DB8F1C}.Release|x86.ActiveCfg = Release|x86
+		{06BB7A78-9138-4EF2-B557-5DFA51DB8F1C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

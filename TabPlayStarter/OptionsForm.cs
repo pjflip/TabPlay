@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 
-
 namespace TabPlayStarter
 {
     public partial class OptionsForm : Form
@@ -45,6 +44,8 @@ namespace TabPlayStarter
                 PollInterval = Convert.ToInt32(PollIntervalNud.Value)
             };
             opt.UpdateDB();
+            TabPlayStarter.Properties.Settings.Default.PollInterval = opt.PollInterval;
+            TabPlayStarter.Properties.Settings.Default.Save();
             Close();
         }
 
