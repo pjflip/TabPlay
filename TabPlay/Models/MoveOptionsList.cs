@@ -14,7 +14,7 @@ namespace TabPlay.Models
             {
                 if (AppData.IsIndividual)
                 {
-                    string SQLString = $"SELECT Table, NSPair, EWPair, South, West, LowBoard FROM RoundData WHERE Section={sectionID} AND Round={roundNumber}";
+                    string SQLString = $"SELECT Table, NSPair, EWPair, South, West FROM RoundData WHERE Section={sectionID} AND Round={roundNumber}";
                     OdbcCommand cmd = new OdbcCommand(SQLString, conn);
                     OdbcDataReader reader = null;
                     try
@@ -31,7 +31,6 @@ namespace TabPlay.Models
                                     PairEW = reader.GetInt32(2),
                                     South = reader.GetInt32(3),
                                     West = reader.GetInt32(4),
-                                    LowBoard = reader.GetInt32(5)
                                 };
                                 Add(moveOption);
                             }
@@ -45,7 +44,7 @@ namespace TabPlay.Models
                 }
                 else  // Not individual
                 {
-                    string SQLString = $"SELECT Table, NSPair, EWPair, LowBoard FROM RoundData WHERE Section={sectionID} AND Round={roundNumber}";
+                    string SQLString = $"SELECT Table, NSPair, EWPair FROM RoundData WHERE Section={sectionID} AND Round={roundNumber}";
                     OdbcCommand cmd = new OdbcCommand(SQLString, conn);
                     OdbcDataReader reader = null;
                     try
@@ -60,7 +59,6 @@ namespace TabPlay.Models
                                     TableNumber = reader.GetInt32(0),
                                     PairNS = reader.GetInt32(1),
                                     PairEW = reader.GetInt32(2),
-                                    LowBoard = reader.GetInt32(3),
                                 };
                                 Add(moveOption);
                             }
@@ -184,35 +182,6 @@ namespace TabPlay.Models
                     playerMove.Stay = false;
                     return playerMove;
                 }
-            }
-        }
-
-        public int GetBoardsNewTableNumber(int tableNumber, int lowBoard)
-        {
-            // Get a list of all possible tables to which boards could move
-            List<MoveOption> boardOptionsList = FindAll(x => x.LowBoard == lowBoard);
-            if (boardOptionsList.Count == 0)
-            {
-                // No table, so move to relay table
-                return 0;
-            }
-            else if (boardOptionsList.Count == 1)
-            {
-                // Just one table, so use it
-                return boardOptionsList[0].TableNumber;
-            }
-            else
-            {
-                // Find the next table down to which the boards could move
-                boardOptionsList.Sort((x, y) => x.TableNumber.CompareTo(y.TableNumber));
-                MoveOption boardMoveTable = boardOptionsList.FindLast(x => x.TableNumber < tableNumber);
-                if (boardMoveTable != null)
-                {
-                    return boardMoveTable.TableNumber;
-                }
-
-                // Next table down must be highest table number in the list
-                return boardOptionsList[boardOptionsList.Count - 1].TableNumber;
             }
         }
     }

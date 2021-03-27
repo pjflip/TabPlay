@@ -47,8 +47,8 @@ namespace TabPlay.Models
             PlayerName = tableStatus.PlayerName[directionNumber];
             NSVulnerable = Utilities.NSVulnerability[(BoardNumber - 1) % 16];
             EWVulnerable = Utilities.EWVulnerability[(BoardNumber - 1) % 16];
-            BidTable = new string[7, 4];
-            for (int i = 0; i < 7; i++)
+            BidTable = new string[10, 4];
+            for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 4; j++)
                 {

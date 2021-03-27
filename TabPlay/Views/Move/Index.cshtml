@@ -51,34 +51,6 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
     </div>
 </div>
 
-@if (Model.LowBoard > 0)
-{
-    <div class="row mt-5">
-        <div class="col-12 text-center">
-            <h4 style="color:darkgreen">
-                Boards: @Model.LowBoard to @Model.HighBoard
-            </h4>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-12 text-center">
-            @if (Model.BoardsNewTableNumber == 0)
-            {
-                <h4>
-                    Pass to Relay Table
-                </h4>
-            }
-            else
-            {
-                <h4>
-                    Pass to Table @Model.BoardsNewTableNumber
-                </h4>
-            }
-        </div>
-    </div>
-}
-
 <div class="row">
     <div class="col-12 mt-5 text-center">
         <h5>When the director calls the move, please move for the next round.</h5>

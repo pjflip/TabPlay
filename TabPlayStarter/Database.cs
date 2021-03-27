@@ -1,11 +1,11 @@
-﻿// TabPlay - TabPlay, a wireless bridge scoring program.  Copyright(C) 2020 by Peter Flippant
+﻿// TabScore - TabScore, a wireless bridge scoring program.  Copyright(C) 2020 by Peter Flippant
 // Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License
 
 using System;
 using System.Data.Odbc;
 using System.Windows.Forms;
 
-namespace TabPlayStarter
+namespace TabScoreStarter
 {
     class Database
     {
@@ -42,66 +42,21 @@ namespace TabPlayStarter
                         if (sectionID < 1 || sectionID > 4 || (sectionLetter != "A" && sectionLetter != "B" && sectionLetter != "C" && sectionLetter != "D"))
                         {
                             reader.Close();
-                            MessageBox.Show("Database countains incorrect Sections.  Maximum 4 Sections labelled A, B, C, D", "TabPlayStarter", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Database countains incorrect Sections.  Maximum 4 Sections labelled A, B, C, D", "TabScoreStarter", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return false;
                         }
                         if (numTables > 30)
                         {
                             reader.Close();
-                            MessageBox.Show("Database countains > 30 Tables in a Section", "TabPlayStarter", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Database countains > 30 Tables in a Section", "TabScoreStarter", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return false;
                         }
                     }
                     reader.Close();
                     if (sectionID == 0)
                     {
-                        MessageBox.Show("Database contains no Sections", "TabPlayStarter", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Database contains no Sections", "TabScoreStarter", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
-                    }
-
-                    // Add column 'BiddingStarted' to table 'Tables' if it doesn't already exist
-                    SQLString = "ALTER TABLE [Tables] ADD BiddingStarted YESNO";
-                    cmd = new OdbcCommand(SQLString, connection);
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
-                    catch (OdbcException e)
-                    {
-                        if (e.Errors.Count != 1 || e.Errors[0].SQLState != "HYS21")
-                        {
-                            throw e;
-                        }
-                    }
-
-                    // Add column 'BiddingComplete' to table 'Tables' if it doesn't already exist
-                    SQLString = "ALTER TABLE [Tables] ADD BiddingComplete YESNO";
-                    cmd = new OdbcCommand(SQLString, connection);
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
-                    catch (OdbcException e)
-                    {
-                        if (e.Errors.Count != 1 || e.Errors[0].SQLState != "HYS21")
-                        {
-                            throw e;
-                        }
-                    }
-
-                    // Add column 'BiddingStarted' to table 'Tables' if it doesn't already exist
-                    SQLString = "ALTER TABLE [Tables] ADD PlayComplete YESNO";
-                    cmd = new OdbcCommand(SQLString, connection);
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
-                    catch (OdbcException e)
-                    {
-                        if (e.Errors.Count != 1 || e.Errors[0].SQLState != "HYS21")
-                        {
-                            throw e;
-                        }
                     }
 
                     // Add column 'Name' to table 'PlayerNumbers' if it doesn't already exist
@@ -152,7 +107,7 @@ namespace TabPlayStarter
                         individualEvent = false;
                     }
 
-                    // If this is an individual event, add extra columns South and West to ReceivedData and IntermediateData if they don't exist
+                    // If this is an individual event, add extra columns South and West to ReceivedData if they dont exist
                     if (individualEvent)
                     {
                         SQLString = "ALTER TABLE ReceivedData ADD South SHORT";
@@ -181,36 +136,10 @@ namespace TabPlayStarter
                                 throw e;
                             }
                         }
-                        SQLString = "ALTER TABLE IntermediateData ADD South SHORT";
-                        cmd = new OdbcCommand(SQLString, connection);
-                        try
-                        {
-                            cmd.ExecuteNonQuery();
-                        }
-                        catch (OdbcException e)
-                        {
-                            if (e.Errors.Count != 1 || e.Errors[0].SQLState != "HYS21")
-                            {
-                                throw e;
-                            }
-                        }
-                        SQLString = "ALTER TABLE IntermediateData ADD West SHORT";
-                        cmd = new OdbcCommand(SQLString, connection);
-                        try
-                        {
-                            cmd.ExecuteNonQuery();
-                        }
-                        catch (OdbcException e)
-                        {
-                            if (e.Errors.Count != 1 || e.Errors[0].SQLState != "HYS21")
-                            {
-                                throw e;
-                            }
-                        }
                     }
 
-                    // Add a new column 'TabPlayPairNo' to table 'PlayerNumbers' if it doesn't exist and populate it if possible
-                    SQLString = "ALTER TABLE PlayerNumbers ADD TabPlayPairNo SHORT";
+                    // Add a new column 'TabScorePairNo' to table 'PlayerNumbers' if it doesn't exist and populate it if possible
+                    SQLString = "ALTER TABLE PlayerNumbers ADD TabScorePairNo SHORT";
                     cmd = new OdbcCommand(SQLString, connection);
                     try
                     {
@@ -267,7 +196,7 @@ namespace TabPlayStarter
                         cmd2 = new OdbcCommand(SQLString, connection);
                         object queryResult = cmd2.ExecuteScalar();
                         string pairNo = queryResult.ToString();
-                        SQLString = $"UPDATE PlayerNumbers SET TabPlayPairNo={pairNo} WHERE Section={section} AND [Table]={table} AND Direction='{direction}'";
+                        SQLString = $"UPDATE PlayerNumbers SET TabScorePairNo={pairNo} WHERE Section={section} AND [Table]={table} AND Direction='{direction}'";
                         cmd2 = new OdbcCommand(SQLString, connection);
                         cmd2.ExecuteNonQuery();
                     }
@@ -296,6 +225,38 @@ namespace TabPlayStarter
                     {
                         cmd.ExecuteNonQuery();
                         SQLString = "UPDATE Settings SET ShowPercentage=YES";
+                        cmd = new OdbcCommand(SQLString, connection);
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (OdbcException e)
+                    {
+                        if (e.Errors.Count != 1 || e.Errors[0].SQLState != "HYS21")
+                        {
+                            throw e;
+                        }
+                    }
+                    SQLString = "ALTER TABLE Settings ADD LeadCard YESNO";
+                    cmd = new OdbcCommand(SQLString, connection);
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        SQLString = "UPDATE Settings SET LeadCard=YES";
+                        cmd = new OdbcCommand(SQLString, connection);
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (OdbcException e)
+                    {
+                        if (e.Errors.Count != 1 || e.Errors[0].SQLState != "HYS21")
+                        {
+                            throw e;
+                        }
+                    }
+                    SQLString = "ALTER TABLE Settings ADD BM2ValidateLeadCard YESNO";
+                    cmd = new OdbcCommand(SQLString, connection);
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        SQLString = "UPDATE Settings SET BM2ValidateLeadCard=YES";
                         cmd = new OdbcCommand(SQLString, connection);
                         cmd.ExecuteNonQuery();
                     }
@@ -370,13 +331,19 @@ namespace TabPlayStarter
                             throw e;
                         }
                     }
-                    SQLString = "ALTER TABLE Settings ADD PollInterval SHORT";
+                    SQLString = "ALTER TABLE Settings ADD TabletMoves YESNO";
                     cmd = new OdbcCommand(SQLString, connection);
-                    int pollInterval = Properties.Settings.Default.PollInterval;
                     try
                     {
                         cmd.ExecuteNonQuery();
-                        SQLString = $"UPDATE Settings SET PollInterval={pollInterval}";
+                        if (Properties.Settings.Default.TabletMoves)
+                        {
+                            SQLString = "UPDATE Settings SET TabletMoves=YES";
+                        }
+                        else
+                        {
+                            SQLString = "UPDATE Settings SET TabletMoves=NO";
+                        }
                         cmd = new OdbcCommand(SQLString, connection);
                         cmd.ExecuteNonQuery();
                     }
@@ -388,7 +355,6 @@ namespace TabPlayStarter
                         }
                     }
 
-
                     // Check if any previous results in database
                     object Result;
                     SQLString = "SELECT * FROM ReceivedData";
@@ -396,13 +362,13 @@ namespace TabPlayStarter
                     Result = cmd.ExecuteScalar();
                     if (Result != null)
                     {
-                        MessageBox.Show("Database contains previous results", "TabPlayStarter", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Database contains previous results", "TabScoreStarter", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                     cmd.Dispose();
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "TabPlayStarter", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(e.Message, "TabScoreStarter", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
             }

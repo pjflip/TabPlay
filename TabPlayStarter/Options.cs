@@ -1,20 +1,23 @@
-﻿// TabPlay - TabPlay, a wireless bridge scoring program.  Copyright(C) 2020 by Peter Flippant
+﻿// TabScore - TabScore, a wireless bridge scoring program.  Copyright(C) 2020 by Peter Flippant
 // Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License
 
 using System.Data.Odbc;
 using System.Text;
 
-namespace TabPlayStarter
+namespace TabScoreStarter
 {
     class Options
     {
-        public bool ShowTraveller {get; set;}
-        public bool ShowPercentage {get; set;}
-        public int ShowRanking {get; set;}
-        public bool ShowHandRecord {get; set;}
-        public bool NumberEntryEachRound {get; set;}
-        public int NameSource {get; set;}
-        public int PollInterval {get; set;}
+        public bool ShowTraveller { get; set; }
+        public bool ShowPercentage { get; set; }
+        public bool EnterLeadCard { get; set; }
+        public bool ValidateLeadCard { get; set; }
+        public int ShowRanking { get; set; }
+        public bool ShowHandRecord { get; set; }
+        public bool NumberEntryEachRound { get; set; }
+        public int NameSource { get; set; }
+        public int EnterResultsMethod { get; set; }
+        public bool TabletMoves { get; set; }
 
         private readonly string dbConnectionString;
 
@@ -23,18 +26,22 @@ namespace TabPlayStarter
             dbConnectionString = db.ConnectionString;
             using (OdbcConnection connection = new OdbcConnection(dbConnectionString))
             {
-                string SQLString = $"SELECT ShowResults, ShowPercentage, BM2Ranking, BM2ViewHandRecord, BM2NumberEntryEachRound, BM2NameSource, PollInterval FROM Settings";
+                string SQLString = $"SELECT ShowResults, ShowPercentage, LeadCard, BM2ValidateLeadCard, BM2Ranking, BM2ViewHandRecord, BM2NumberEntryEachRound, BM2NameSource, EnterResultsMethod, TabletMoves FROM Settings";
                 OdbcCommand cmd = new OdbcCommand(SQLString, connection);
                 connection.Open();
                 OdbcDataReader reader = cmd.ExecuteReader();
                 reader.Read();
                 ShowTraveller = reader.GetBoolean(0);
                 ShowPercentage = reader.GetBoolean(1);
-                ShowRanking = reader.GetInt32(2);
-                ShowHandRecord = reader.GetBoolean(3);
-                NumberEntryEachRound = reader.GetBoolean(4);
-                NameSource = reader.GetInt32(5);
-                PollInterval = reader.GetInt32(6);
+                EnterLeadCard = reader.GetBoolean(2);
+                ValidateLeadCard = reader.GetBoolean(3);
+                ShowRanking = reader.GetInt32(4);
+                ShowHandRecord = reader.GetBoolean(5);
+                NumberEntryEachRound = reader.GetBoolean(6);
+                NameSource = reader.GetInt32(7);
+                EnterResultsMethod = reader.GetInt32(8);
+                if (EnterResultsMethod != 1) EnterResultsMethod = 0;
+                TabletMoves = reader.GetBoolean(9);
                 reader.Close();
                 cmd.Dispose();
             }
@@ -62,6 +69,22 @@ namespace TabPlayStarter
                 {
                     SQLString.Append(" ShowPercentage=NO,");
                 }
+                if (EnterLeadCard)
+                {
+                    SQLString.Append(" LeadCard=YES,");
+                }
+                else
+                {
+                    SQLString.Append(" LeadCard=NO,");
+                }
+                if (ValidateLeadCard)
+                {
+                    SQLString.Append(" BM2ValidateLeadCard=YES,");
+                }
+                else
+                {
+                    SQLString.Append(" BM2ValidateLeadCard=NO,");
+                }
                 SQLString.Append($" BM2Ranking={ShowRanking},");
                 if (ShowHandRecord)
                 {
@@ -80,7 +103,15 @@ namespace TabPlayStarter
                     SQLString.Append(" BM2NumberEntryEachRound=NO,");
                 }
                 SQLString.Append($" BM2NameSource={NameSource},");
-                SQLString.Append($" PollInterval={PollInterval}");
+                SQLString.Append($" EnterResultsMethod={EnterResultsMethod},");
+                if (TabletMoves)
+                {
+                    SQLString.Append(" TabletMoves=YES");
+                }
+                else
+                {
+                    SQLString.Append(" TabletMoves=NO");
+                }
                 OdbcCommand cmd = new OdbcCommand(SQLString.ToString(), connection);
                 connection.Open();
                 cmd.ExecuteNonQuery();

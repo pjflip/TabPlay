@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace TabPlayStarter
+
+namespace TabScoreStarter
 {
     public partial class OptionsForm : Form
     {
@@ -18,12 +19,16 @@ namespace TabPlayStarter
             ShowPercentageCheckbox.Checked = opt.ShowPercentage;
             ShowHandRecordCheckbox.Checked = opt.ShowHandRecord;
             ShowRankingCombobox.SelectedIndex = opt.ShowRanking;
+            EnterLeadCardCheckbox.Checked = opt.EnterLeadCard;
+            ValidateLeadCardCheckbox.Checked = opt.ValidateLeadCard;
             NameSourceCombobox.SelectedIndex = opt.NameSource;
             NumberEntryEachRoundCheckbox.Checked = opt.NumberEntryEachRound;
-            PollIntervalNud.Value = opt.PollInterval;
+            EnterResultsMethodCombobox.SelectedIndex = opt.EnterResultsMethod;
+            TabletMovesCheckbox.Checked = opt.TabletMoves;
 
             ShowPercentageCheckbox.Enabled = ShowTravellerCheckbox.Checked;
             ShowHandRecordCheckbox.Enabled = ShowTravellerCheckbox.Checked;
+            ValidateLeadCardCheckbox.Enabled = EnterLeadCardCheckbox.Checked;
         }
 
         private void CancelButton_Click(object sender, EventArgs e)
@@ -39,13 +44,16 @@ namespace TabPlayStarter
                 ShowPercentage = ShowPercentageCheckbox.Checked,
                 ShowHandRecord = ShowHandRecordCheckbox.Checked,
                 ShowRanking = ShowRankingCombobox.SelectedIndex,
+                EnterLeadCard = EnterLeadCardCheckbox.Checked,
+                ValidateLeadCard = ValidateLeadCardCheckbox.Checked,
                 NameSource = NameSourceCombobox.SelectedIndex,
                 NumberEntryEachRound = NumberEntryEachRoundCheckbox.Checked,
-                PollInterval = Convert.ToInt32(PollIntervalNud.Value)
+                EnterResultsMethod = EnterResultsMethodCombobox.SelectedIndex,
+                TabletMoves = TabletMovesCheckbox.Checked
             };
             opt.UpdateDB();
-            TabPlayStarter.Properties.Settings.Default.PollInterval = opt.PollInterval;
-            TabPlayStarter.Properties.Settings.Default.Save();
+            Properties.Settings.Default.TabletMoves = opt.TabletMoves;
+            Properties.Settings.Default.Save();
             Close();
         }
 
@@ -53,6 +61,11 @@ namespace TabPlayStarter
         {
             ShowPercentageCheckbox.Enabled = ShowTravellerCheckbox.Checked;
             ShowHandRecordCheckbox.Enabled = ShowTravellerCheckbox.Checked;
+        }
+
+        private void EnterLeadCard_CheckedChanged(object sender, EventArgs e)
+        {
+            ValidateLeadCardCheckbox.Enabled = EnterLeadCardCheckbox.Checked;
         }
     }
 }

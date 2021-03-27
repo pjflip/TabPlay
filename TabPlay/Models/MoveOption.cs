@@ -10,6 +10,5 @@ namespace TabPlay.Models
         public int PairEW { get; set; }
         public int South { get; set; }
         public int West { get; set; }
-        public int LowBoard { get; set; }
     }
 }

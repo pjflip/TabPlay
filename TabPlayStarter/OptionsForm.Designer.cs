@@ -1,4 +1,4 @@
-﻿namespace TabPlayStarter
+﻿namespace TabScoreStarter
 {
     partial class OptionsForm
     {
@@ -39,14 +39,20 @@
             this.RankingListGroup = new System.Windows.Forms.GroupBox();
             this.ShowRankingCombobox = new System.Windows.Forms.ComboBox();
             this.LeadCardGroup = new System.Windows.Forms.GroupBox();
-            this.PollIntervalNud = new System.Windows.Forms.NumericUpDown();
+            this.ValidateLeadCardCheckbox = new System.Windows.Forms.CheckBox();
+            this.EnterLeadCardCheckbox = new System.Windows.Forms.CheckBox();
             this.CanxButton = new System.Windows.Forms.Button();
             this.OKButton = new System.Windows.Forms.Button();
+            this.EnterResultsMethodGroup = new System.Windows.Forms.GroupBox();
+            this.EnterResultsMethodCombobox = new System.Windows.Forms.ComboBox();
+            this.TabletMovesGroupBox = new System.Windows.Forms.GroupBox();
+            this.TabletMovesCheckbox = new System.Windows.Forms.CheckBox();
             this.TravellerGroup.SuspendLayout();
             this.PlayersGroup.SuspendLayout();
             this.RankingListGroup.SuspendLayout();
             this.LeadCardGroup.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PollIntervalNud)).BeginInit();
+            this.EnterResultsMethodGroup.SuspendLayout();
+            this.TabletMovesGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // TravellerGroup
@@ -55,7 +61,7 @@
             this.TravellerGroup.Controls.Add(this.ShowHandRecordCheckbox);
             this.TravellerGroup.Controls.Add(this.ShowTravellerCheckbox);
             this.TravellerGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TravellerGroup.Location = new System.Drawing.Point(12, 12);
+            this.TravellerGroup.Location = new System.Drawing.Point(12, 74);
             this.TravellerGroup.Name = "TravellerGroup";
             this.TravellerGroup.Size = new System.Drawing.Size(220, 99);
             this.TravellerGroup.TabIndex = 0;
@@ -104,7 +110,7 @@
             this.PlayersGroup.Controls.Add(this.NameSourceCombobox);
             this.PlayersGroup.Controls.Add(this.NumberEntryEachRoundCheckbox);
             this.PlayersGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PlayersGroup.Location = new System.Drawing.Point(238, 12);
+            this.PlayersGroup.Location = new System.Drawing.Point(238, 91);
             this.PlayersGroup.Name = "PlayersGroup";
             this.PlayersGroup.Size = new System.Drawing.Size(251, 82);
             this.PlayersGroup.TabIndex = 0;
@@ -142,7 +148,7 @@
             // 
             this.RankingListGroup.Controls.Add(this.ShowRankingCombobox);
             this.RankingListGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RankingListGroup.Location = new System.Drawing.Point(12, 117);
+            this.RankingListGroup.Location = new System.Drawing.Point(12, 179);
             this.RankingListGroup.Name = "RankingListGroup";
             this.RankingListGroup.Size = new System.Drawing.Size(220, 56);
             this.RankingListGroup.TabIndex = 0;
@@ -165,42 +171,45 @@
             // 
             // LeadCardGroup
             // 
-            this.LeadCardGroup.Controls.Add(this.PollIntervalNud);
+            this.LeadCardGroup.Controls.Add(this.ValidateLeadCardCheckbox);
+            this.LeadCardGroup.Controls.Add(this.EnterLeadCardCheckbox);
             this.LeadCardGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LeadCardGroup.Location = new System.Drawing.Point(238, 102);
+            this.LeadCardGroup.Location = new System.Drawing.Point(238, 12);
             this.LeadCardGroup.Name = "LeadCardGroup";
-            this.LeadCardGroup.Size = new System.Drawing.Size(251, 53);
+            this.LeadCardGroup.Size = new System.Drawing.Size(251, 73);
             this.LeadCardGroup.TabIndex = 0;
             this.LeadCardGroup.TabStop = false;
-            this.LeadCardGroup.Text = "Poll Interval (in milliseconds)";
+            this.LeadCardGroup.Text = "Lead Card";
             // 
-            // PollIntervalNud
+            // ValidateLeadCardCheckbox
             // 
-            this.PollIntervalNud.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PollIntervalNud.Increment = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-            this.PollIntervalNud.Location = new System.Drawing.Point(7, 22);
-            this.PollIntervalNud.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.PollIntervalNud.Name = "PollIntervalNud";
-            this.PollIntervalNud.Size = new System.Drawing.Size(238, 22);
-            this.PollIntervalNud.TabIndex = 0;
-            this.PollIntervalNud.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
+            this.ValidateLeadCardCheckbox.AutoSize = true;
+            this.ValidateLeadCardCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ValidateLeadCardCheckbox.Location = new System.Drawing.Point(6, 46);
+            this.ValidateLeadCardCheckbox.Name = "ValidateLeadCardCheckbox";
+            this.ValidateLeadCardCheckbox.Size = new System.Drawing.Size(130, 19);
+            this.ValidateLeadCardCheckbox.TabIndex = 7;
+            this.ValidateLeadCardCheckbox.TabStop = false;
+            this.ValidateLeadCardCheckbox.Text = "Validate Lead Card";
+            this.ValidateLeadCardCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // EnterLeadCardCheckbox
+            // 
+            this.EnterLeadCardCheckbox.AutoSize = true;
+            this.EnterLeadCardCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EnterLeadCardCheckbox.Location = new System.Drawing.Point(6, 21);
+            this.EnterLeadCardCheckbox.Name = "EnterLeadCardCheckbox";
+            this.EnterLeadCardCheckbox.Size = new System.Drawing.Size(115, 19);
+            this.EnterLeadCardCheckbox.TabIndex = 6;
+            this.EnterLeadCardCheckbox.TabStop = false;
+            this.EnterLeadCardCheckbox.Text = "Enter Lead Card";
+            this.EnterLeadCardCheckbox.UseVisualStyleBackColor = true;
+            this.EnterLeadCardCheckbox.CheckedChanged += new System.EventHandler(this.EnterLeadCard_CheckedChanged);
             // 
             // CanxButton
             // 
             this.CanxButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CanxButton.Location = new System.Drawing.Point(309, 166);
+            this.CanxButton.Location = new System.Drawing.Point(284, 253);
             this.CanxButton.Name = "CanxButton";
             this.CanxButton.Size = new System.Drawing.Size(75, 23);
             this.CanxButton.TabIndex = 10;
@@ -212,7 +221,7 @@
             // OKButton
             // 
             this.OKButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OKButton.Location = new System.Drawing.Point(408, 166);
+            this.OKButton.Location = new System.Drawing.Point(408, 253);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(75, 23);
             this.OKButton.TabIndex = 11;
@@ -221,11 +230,60 @@
             this.OKButton.UseVisualStyleBackColor = true;
             this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
+            // EnterResultsMethodGroup
+            // 
+            this.EnterResultsMethodGroup.Controls.Add(this.EnterResultsMethodCombobox);
+            this.EnterResultsMethodGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EnterResultsMethodGroup.Location = new System.Drawing.Point(12, 12);
+            this.EnterResultsMethodGroup.Name = "EnterResultsMethodGroup";
+            this.EnterResultsMethodGroup.Size = new System.Drawing.Size(220, 56);
+            this.EnterResultsMethodGroup.TabIndex = 5;
+            this.EnterResultsMethodGroup.TabStop = false;
+            this.EnterResultsMethodGroup.Text = "Enter Results Method";
+            // 
+            // EnterResultsMethodCombobox
+            // 
+            this.EnterResultsMethodCombobox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EnterResultsMethodCombobox.FormattingEnabled = true;
+            this.EnterResultsMethodCombobox.Items.AddRange(new object[] {
+            "Tricks plus or minus",
+            "Total tricks won"});
+            this.EnterResultsMethodCombobox.Location = new System.Drawing.Point(7, 22);
+            this.EnterResultsMethodCombobox.Name = "EnterResultsMethodCombobox";
+            this.EnterResultsMethodCombobox.Size = new System.Drawing.Size(207, 23);
+            this.EnterResultsMethodCombobox.TabIndex = 1;
+            this.EnterResultsMethodCombobox.TabStop = false;
+            // 
+            // TabletMovesGroupBox
+            // 
+            this.TabletMovesGroupBox.Controls.Add(this.TabletMovesCheckbox);
+            this.TabletMovesGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TabletMovesGroupBox.Location = new System.Drawing.Point(238, 179);
+            this.TabletMovesGroupBox.Name = "TabletMovesGroupBox";
+            this.TabletMovesGroupBox.Size = new System.Drawing.Size(251, 56);
+            this.TabletMovesGroupBox.TabIndex = 8;
+            this.TabletMovesGroupBox.TabStop = false;
+            this.TabletMovesGroupBox.Text = "Moving Tablets";
+            // 
+            // TabletMovesCheckbox
+            // 
+            this.TabletMovesCheckbox.AutoSize = true;
+            this.TabletMovesCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TabletMovesCheckbox.Location = new System.Drawing.Point(6, 21);
+            this.TabletMovesCheckbox.Name = "TabletMovesCheckbox";
+            this.TabletMovesCheckbox.Size = new System.Drawing.Size(223, 19);
+            this.TabletMovesCheckbox.TabIndex = 6;
+            this.TabletMovesCheckbox.TabStop = false;
+            this.TabletMovesCheckbox.Text = "Tablet Moves With North/East Player";
+            this.TabletMovesCheckbox.UseVisualStyleBackColor = true;
+            // 
             // OptionsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(501, 201);
+            this.ClientSize = new System.Drawing.Size(501, 293);
+            this.Controls.Add(this.TabletMovesGroupBox);
+            this.Controls.Add(this.EnterResultsMethodGroup);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.CanxButton);
             this.Controls.Add(this.PlayersGroup);
@@ -237,7 +295,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "OptionsForm";
-            this.Text = "TabPlay Options";
+            this.Text = "TabScore Options";
             this.Load += new System.EventHandler(this.OptionsForm_Load);
             this.TravellerGroup.ResumeLayout(false);
             this.TravellerGroup.PerformLayout();
@@ -245,7 +303,10 @@
             this.PlayersGroup.PerformLayout();
             this.RankingListGroup.ResumeLayout(false);
             this.LeadCardGroup.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PollIntervalNud)).EndInit();
+            this.LeadCardGroup.PerformLayout();
+            this.EnterResultsMethodGroup.ResumeLayout(false);
+            this.TabletMovesGroupBox.ResumeLayout(false);
+            this.TabletMovesGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -261,8 +322,13 @@
         private System.Windows.Forms.GroupBox RankingListGroup;
         private System.Windows.Forms.ComboBox ShowRankingCombobox;
         private System.Windows.Forms.GroupBox LeadCardGroup;
+        private System.Windows.Forms.CheckBox ValidateLeadCardCheckbox;
+        private System.Windows.Forms.CheckBox EnterLeadCardCheckbox;
         private System.Windows.Forms.Button CanxButton;
         private System.Windows.Forms.Button OKButton;
-        private System.Windows.Forms.NumericUpDown PollIntervalNud;
+        private System.Windows.Forms.GroupBox EnterResultsMethodGroup;
+        private System.Windows.Forms.ComboBox EnterResultsMethodCombobox;
+        private System.Windows.Forms.GroupBox TabletMovesGroupBox;
+        private System.Windows.Forms.CheckBox TabletMovesCheckbox;
     }
 }
