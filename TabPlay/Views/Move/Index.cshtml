@@ -1,4 +1,4 @@
-﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
 
 @model TabPlay.Models.Move
@@ -59,17 +59,20 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
     </div>
 </div>
 
+@if (Model.TableNotReady)
+{
+    <script>
+        $("##cantMoveYetModal").modal("show");
+    </script>
+}
+
 <script>
     var isSubmitted = false;
-
-    if (@((TempData["TableNotReady"] != null).ToString().ToLower())) {
-        $("#cantMoveYetModal").modal("show");
-    }
 
     function OKButtonClick() {
         if (!isSubmitted) {
             isSubmitted = true;
-            location.href = '@Url.Action("OKButtonClick", "Move")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&pairNumber=@Model.PairNumber&newTableNumber=@Model.NewTableNumber&newRoundNumber=@Model.NewRoundNumber&newDirection=@Model.NewDirection';
+            location.href = '@Url.Action("OKButtonClick", "Move")?deviceNumber=@Model.DeviceNumber&newTableNumber=@Model.NewTableNumber&newRoundNumber=@Model.NewRoundNumber&newDirection=@Model.NewDirection';
         }
     }
 </script>

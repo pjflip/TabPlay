@@ -44,7 +44,7 @@
     </InstallExecuteSequence>
 
     <Component Id="SetFirewallPortComponent" Directory="TARGETDIR" Guid="{D5D0299B-CE7E-4BF0-8FF0-DABD605AC7D1}">
-      <fire:FirewallException Id="FirewallPort80" Name="TabScore Port 80" Protocol="tcp" Port="80" Scope="localSubnet" IgnoreFailure="yes" Profile="private" />
+      <fire:FirewallException Id="FirewallPort80" Name="TabPlay Port 80" Protocol="tcp" Port="80" Scope="localSubnet" IgnoreFailure="yes" Profile="private" />
     </Component>
 
   </Product>

@@ -1,7 +1,5 @@
-﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
      Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
-
-@model TabPlay.Models.Location
 
 <div class="row mt-5">
     <div class="col-12 text-center">
@@ -34,7 +32,7 @@
     function OKButtonClick() {
         if (!isSubmitted) {
             isSubmitted = true;
-            location.href = '@Url.Action("OKButtonClick", "EndScreen")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction';
+            location.href = '@Url.Action("OKButtonClick", "EndScreen")?deviceNumber=@ViewData["DeviceNumber"]';
         }
     }
 </script>

@@ -1,4 +1,4 @@
-﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 // Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License
 
 using System.Data.Odbc;
@@ -7,8 +7,7 @@ namespace TabPlay.Models
 {
     public class RegisterPlayers
     {
-        public int SectionID { get; private set; }
-        public int TableNumber { get; set; }
+        public int DeviceNumber { get; private set; }
         public int RoundNumber { get; private set; }
         public int BoardNumber { get; private set; }
         public string[] Direction { get; private set; }
@@ -19,21 +18,20 @@ namespace TabPlay.Models
         public string PairOrPlayer { get; private set; }
         public int PollInterval { get; private set; }
 
-        public RegisterPlayers(TableStatus tableStatus, string direction)
+        public RegisterPlayers(int deviceNumber, Table table)
         {
-            SectionID = tableStatus.SectionID;
-            TableNumber = tableStatus.TableNumber;
-            RoundNumber = tableStatus.RoundNumber;
-            BoardNumber = tableStatus.BoardNumber;
+            DeviceNumber = deviceNumber;
+            RoundNumber = table.RoundNumber;
+            BoardNumber = table.BoardNumber;
             Direction = new string[4];
             PairNumber = new int[4];
             PlayerName = new string[4];
             Registered = new bool[4];
             PollInterval = Settings.PollInterval;
-            PlayerNumberEntry = (RoundNumber == 1 || Settings.NumberEntryEachRound) && (BoardNumber == tableStatus.LowBoard);
+            PlayerNumberEntry = Settings.NumberEntryEachRound && BoardNumber == table.LowBoard;
             if (AppData.IsIndividual) PairOrPlayer = "Player"; else PairOrPlayer = "Pair";
 
-            int directionNumber = Utilities.DirectionToNumber(direction);
+            int directionNumber = Utilities.DirectionToNumber(AppData.DeviceList[deviceNumber].Direction);
 
             // All directionNumbers are relative to the direction that is 0, so we need to know which directionNumber is North
             int northDirectionNumber = (4 - directionNumber) % 4;
@@ -45,9 +43,9 @@ namespace TabPlay.Models
             for (int i = 0; i < 4; i++)
             {
                 // Convert from absolute (North=0) to relative (my direction=0) direction numbers
-                Registered[i] = tableStatus.Registered[(directionNumber + i) % 4];
-                PlayerName[i] = tableStatus.PlayerName[(directionNumber + i) % 4];
-                PairNumber[i] = tableStatus.PairNumber[(directionNumber + i) % 4];
+                Registered[i] = table.Registered[(directionNumber + i) % 4];
+                PlayerName[i] = table.PlayerName[(directionNumber + i) % 4];
+                PairNumber[i] = table.PairNumber[(directionNumber + i) % 4];
             }
             return;
         }

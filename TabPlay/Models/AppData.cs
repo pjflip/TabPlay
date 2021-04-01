@@ -1,4 +1,4 @@
-﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 // Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License
 
 using System;
@@ -15,8 +15,9 @@ namespace TabPlay.Models
     {
         public static string DBConnectionString { get; private set; }
         public static bool IsIndividual { get; private set; }
-        public static List<Section> SectionsList = new List<Section>();
-        public static List<TableStatus> TableStatusList = new List<TableStatus>();
+        public static List<Section> SectionList = new List<Section>();
+        public static List<Table> TableList = new List<Table>();
+        public static List<Device> DeviceList = new List<Device>();
 
         private class PlayerRecord
         {
@@ -35,21 +36,10 @@ namespace TabPlay.Models
                 DateTime lastWriteTime = File.GetLastWriteTime(PathToTabPlayDB);
                 if (lastWriteTime > TabPlayDBTime)
                 {
-                    string pathToDB = File.ReadAllText(PathToTabPlayDB);
+                    DBConnectionString = File.ReadAllText(PathToTabPlayDB);
                     TabPlayDBTime = lastWriteTime;
-                    if (pathToDB == "")
+                    if (DBConnectionString != "")
                     {
-                        DBConnectionString = "";
-                    }
-                    else
-                    {
-                        // Set database connection string
-                        OdbcConnectionStringBuilder cs = new OdbcConnectionStringBuilder();
-                        cs.Driver = "Microsoft Access Driver (*.mdb)";
-                        cs.Add("Dbq", pathToDB);
-                        cs.Add("Uid", "Admin");
-                        DBConnectionString = cs.ToString();
-
                         using (OdbcConnection connection = new OdbcConnection(DBConnectionString))
                         {
                             connection.Open();
@@ -83,7 +73,7 @@ namespace TabPlay.Models
 
                             // Create list of sections
                             SQLString = "SELECT ID, Letter, Tables, MissingPair FROM Section";
-                            SectionsList.Clear();
+                            SectionList.Clear();
                             cmd = new OdbcCommand(SQLString, connection);
                             OdbcDataReader reader = null;
                             try
@@ -100,7 +90,7 @@ namespace TabPlay.Models
                                             NumTables = reader.GetInt32(2),
                                             MissingPair = reader.GetInt32(3)
                                         };
-                                        SectionsList.Add(s);
+                                        SectionList.Add(s);
                                     }
                                 });
                             }

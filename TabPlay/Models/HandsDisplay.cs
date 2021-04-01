@@ -1,12 +1,11 @@
-﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 // Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License
 
 namespace TabPlay.Models
 {
     public class HandsDisplay
     {
-        public int SectionID { get; private set; }
-        public int TableNumber { get; private set; }
+        public int DeviceNumber { get; private set; }
         public string[] Direction { get; private set; }
         public string Dealer { get; private set; }
         public string[,] CardString { get; private set; }
@@ -38,16 +37,16 @@ namespace TabPlay.Models
         public string EvalWestDiamonds { get; private set; }
         public string EvalWestClubs { get; private set; }
 
-        public HandsDisplay(TableStatus tableStatus, string direction)
+        public HandsDisplay(int deviceNumber, Table table)
         {
-            SectionID = tableStatus.SectionID;
-            TableNumber = tableStatus.TableNumber;
-            int northDirectionNumber = (4 - Utilities.DirectionToNumber(direction)) % 4;
+            DeviceNumber = deviceNumber;
+            Device device = AppData.DeviceList[deviceNumber];
+            int northDirectionNumber = (4 - Utilities.DirectionToNumber(device.Direction)) % 4;
 
-            HandRecord handRecord = HandRecords.HandRecordsList.Find(x => x.SectionID == SectionID && x.BoardNumber == tableStatus.BoardNumber);
+            HandRecord handRecord = HandRecords.HandRecordsList.Find(x => x.SectionID == device.SectionID && x.BoardNumber == table.BoardNumber);
             if (handRecord == null)     // Can't find matching hand record, so use default SectionID = 1
             {
-                handRecord = HandRecords.HandRecordsList.Find(x => x.SectionID == 1 && x.BoardNumber == tableStatus.BoardNumber);
+                handRecord = HandRecords.HandRecordsList.Find(x => x.SectionID == 1 && x.BoardNumber == table.BoardNumber);
             }
             Dealer = handRecord.Dealer;
 
@@ -75,13 +74,13 @@ namespace TabPlay.Models
             SuitLengths = handRecord.SuitLengths(northDirectionNumber, "NT");
             if (northDirectionNumber % 2 == 0)
             {
-                Vuln02 = Utilities.NSVulnerability[(tableStatus.BoardNumber - 1) % 16];
-                Vuln13 = Utilities.EWVulnerability[(tableStatus.BoardNumber - 1) % 16];
+                Vuln02 = Utilities.NSVulnerability[(table.BoardNumber - 1) % 16];
+                Vuln13 = Utilities.EWVulnerability[(table.BoardNumber - 1) % 16];
             }
             else
             {
-                Vuln02 = Utilities.EWVulnerability[(tableStatus.BoardNumber - 1) % 16];
-                Vuln13 = Utilities.NSVulnerability[(tableStatus.BoardNumber - 1) % 16];
+                Vuln02 = Utilities.EWVulnerability[(table.BoardNumber - 1) % 16];
+                Vuln13 = Utilities.NSVulnerability[(table.BoardNumber - 1) % 16];
             }
 
             EvalNorthNT = handRecord.EvalNorthNT;

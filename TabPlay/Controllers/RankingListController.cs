@@ -1,4 +1,4 @@
-﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 // Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License
 
 using System.Web.Mvc;
@@ -8,20 +8,20 @@ namespace TabPlay.Controllers
 {
     public class RankingListController : Controller
     {
-        public ActionResult Index(int sectionID, int tableNumber, int roundNumber, string direction, int pairNumber)
+        public ActionResult Index(int deviceNumber)
         {
+            Device device = AppData.DeviceList[deviceNumber];
             // Show ranking list only from round 2 onwards, if applicable
-            if (roundNumber > 1 && Settings.ShowRanking == 1)
+            if (device.RoundNumber > 1 && Settings.ShowRanking == 1)
             {
-                RankingList rankingList = new RankingList(sectionID, tableNumber, roundNumber, direction, pairNumber);
+                RankingList rankingList = new RankingList(deviceNumber);
 
                 // Only show the ranking list if it contains something meaningful
                 if (rankingList != null && rankingList.Count != 0 && rankingList[0].ScoreDecimal != 0 && rankingList[0].ScoreDecimal != 50)
                 {
                     ViewData["Buttons"] = ButtonOptions.OKEnabled;
-                    string sectionLetter = AppData.SectionsList.Find(x => x.SectionID == sectionID).SectionLetter;
-                    ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} {direction} - Round {roundNumber}";
-                    ViewData["Title"] = $"Ranking List - {sectionLetter + tableNumber.ToString()} {direction}";
+                    ViewData["Header"] = $"Table {device.SectionTableString}:{device.Direction} - Round {device.RoundNumber}";
+                    ViewData["Title"] = $"Ranking List - {device.SectionTableString}:{device.Direction}";
                     if (rankingList.TwoWinners)
                     {
                         return View("TwoWinners", rankingList);
@@ -32,25 +32,25 @@ namespace TabPlay.Controllers
                     }
                 }
             }
-            return RedirectToAction("Index", "Move", new { sectionID, tableNumber, roundNumber, direction, pairNumber});
+            return RedirectToAction("Index", "Move", new { deviceNumber });
         }
 
-        public ActionResult Final(int sectionID, int tableNumber, int roundNumber, string direction, int pairNumber)
+        public ActionResult Final(int deviceNumber)
         {
-            RankingList rankingList = new RankingList(sectionID, tableNumber, roundNumber, direction, pairNumber);
+            RankingList rankingList = new RankingList(deviceNumber);
 
             // Don't show the ranking list if it doesn't contain anything useful
             if (rankingList == null || rankingList.Count == 0 || rankingList[0].ScoreDecimal == 0 || rankingList[0].ScoreDecimal == 50)
             {
-                return RedirectToAction("Index", "EndScreen", new { sectionID, tableNumber, roundNumber, direction });
+                return RedirectToAction("Index", "EndScreen", new { deviceNumber });
             }
             else
             {
+                Device device = AppData.DeviceList[deviceNumber];
                 rankingList.FinalRankingList = true;
                 ViewData["Buttons"] = ButtonOptions.OKEnabled;
-                string sectionLetter = AppData.SectionsList.Find(x => x.SectionID == sectionID).SectionLetter;
-                ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} {direction} - Round {roundNumber}";
-                ViewData["Title"] = $"Ranking List - {sectionLetter + tableNumber.ToString()} {direction}";
+                ViewData["Header"] = $"Table {device.SectionTableString}:{device.Direction} - Round {device.RoundNumber}";
+                ViewData["Title"] = $"Ranking List - {device.SectionTableString}:{device.Direction}";
                 if (rankingList.TwoWinners)
                 {
                     return View("TwoWinners", rankingList);
@@ -62,10 +62,10 @@ namespace TabPlay.Controllers
             }
         }
 
-        public JsonResult PollRanking(int sectionID, int tableNumber, int roundNumber, string direction, int pairNumber)
+        public JsonResult PollRanking(int deviceNumber)
         {
             HttpContext.Response.AppendHeader("Connection", "close");
-            return Json(new RankingList(sectionID, tableNumber, roundNumber, direction, pairNumber), JsonRequestBehavior.AllowGet);
+            return Json(new RankingList(deviceNumber), JsonRequestBehavior.AllowGet);
         }
     }
 }

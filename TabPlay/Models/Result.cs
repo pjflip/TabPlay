@@ -1,4 +1,4 @@
-﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 // Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License
 
 using System;
@@ -10,9 +10,7 @@ namespace TabPlay.Models
 {
     public class Result
     {
-        public int SectionID { get; set; }
-        public int TableNumber { get; set; }
-        public int RoundNumber { get; set; }
+        public int DeviceNumber { get; set; }
         public int BoardNumber { get; set; }
         public int PairNS { get; set; }
         public int South { get; set; }
@@ -33,21 +31,18 @@ namespace TabPlay.Models
         public Result() { }
 
         // Constructor to set just contract level for Pass Out and Not Played
-        public Result(int sectionID, int tableNumber, int roundNumber, int boardNumber, int contractLevel)
+        public Result(int deviceNumber, int boardNumber, int contractLevel)
         {
-            SectionID = sectionID;
-            TableNumber = tableNumber;
-            RoundNumber = roundNumber;
+            DeviceNumber = deviceNumber;
             BoardNumber = boardNumber;
             ContractLevel = contractLevel;
         }
 
         // Constructor to set declarer for intermediate result
-        public Result(int sectionID, int tableNumber, int roundNumber, int boardNumber, int contractLevel, string contractSuit, string contractX)
+        public Result(int deviceNumber, int boardNumber, int contractLevel, string contractSuit, string contractX)
         {
-            SectionID = sectionID;
-            TableNumber = tableNumber;
-            RoundNumber = roundNumber;
+            DeviceNumber = deviceNumber;
+            Device device = AppData.DeviceList[deviceNumber];
             BoardNumber = boardNumber;
             ContractLevel = contractLevel;
             ContractSuit = contractSuit;
@@ -57,7 +52,7 @@ namespace TabPlay.Models
             using (OdbcConnection connection = new OdbcConnection(AppData.DBConnectionString))
             {
                 connection.Open();
-                string SQLString = $"SELECT Counter, Bid, Direction FROM BiddingData WHERE Section={sectionID} AND Table={tableNumber} AND Round={roundNumber} AND Board={boardNumber}";
+                string SQLString = $"SELECT Counter, Bid, Direction FROM BiddingData WHERE Section={device.SectionID} AND Table={device.TableNumber} AND Round={device.RoundNumber} AND Board={boardNumber}";
                 OdbcCommand cmd = new OdbcCommand(SQLString, connection);
                 OdbcDataReader reader = null;
                 try
@@ -100,11 +95,10 @@ namespace TabPlay.Models
         }
 
         // Database read constructor
-        public Result(int sectionID, int tableNumber, int roundNumber, int boardNumber, string dataTable)
+        public Result(int deviceNumber, int boardNumber, string dataTable)
         {
-            SectionID = sectionID;
-            TableNumber = tableNumber;
-            RoundNumber = roundNumber;
+            DeviceNumber = deviceNumber;
+            Device device = AppData.DeviceList[deviceNumber];
             BoardNumber = boardNumber;
 
             using (OdbcConnection connection = new OdbcConnection(AppData.DBConnectionString))
@@ -114,11 +108,11 @@ namespace TabPlay.Models
 
                 if (AppData.IsIndividual)
                 {
-                    SQLString = $"SELECT [NS/EW], Contract, Result, LeadCard, Remarks, PairNS, PairEW, South, West FROM {dataTable} WHERE Section={SectionID} AND [Table]={TableNumber} AND Round={RoundNumber} AND Board={BoardNumber}";
+                    SQLString = $"SELECT [NS/EW], Contract, Result, LeadCard, Remarks, PairNS, PairEW, South, West FROM {dataTable} WHERE Section={device.SectionID} AND [Table]={device.TableNumber} AND Round={device.RoundNumber} AND Board={BoardNumber}";
                 }
                 else
                 {
-                    SQLString = $"SELECT [NS/EW], Contract, Result, LeadCard, Remarks, PairNS, PairEW FROM {dataTable} WHERE Section={SectionID} AND [Table]={TableNumber} AND Round={RoundNumber} AND Board={BoardNumber}";
+                    SQLString = $"SELECT [NS/EW], Contract, Result, LeadCard, Remarks, PairNS, PairEW FROM {dataTable} WHERE Section={device.SectionID} AND [Table]={device.TableNumber} AND Round={device.RoundNumber} AND Board={BoardNumber}";
                 }
                 OdbcCommand cmd = new OdbcCommand(SQLString, connection);
                 OdbcDataReader reader = null;
@@ -518,6 +512,7 @@ namespace TabPlay.Models
         {
             int declarerNumber = 0;
             string remarks = "";
+            Device device = AppData.DeviceList[DeviceNumber];
 
             using (OdbcConnection connection = new OdbcConnection(AppData.DBConnectionString))
             {
@@ -528,7 +523,7 @@ namespace TabPlay.Models
                 // Get pair numbers
                 if (AppData.IsIndividual)
                 {
-                    SQLString = $"SELECT NSPair, EWPair, South, West FROM RoundData WHERE Section={SectionID} AND Table={TableNumber} AND Round={RoundNumber}";
+                    SQLString = $"SELECT NSPair, EWPair, South, West FROM RoundData WHERE Section={device.SectionID} AND Table={device.TableNumber} AND Round={device.RoundNumber}";
                     cmd = new OdbcCommand(SQLString, connection);
                     OdbcDataReader reader = null;
                     try
@@ -553,7 +548,7 @@ namespace TabPlay.Models
                 }
                 else  // Not individual
                 {
-                    SQLString = $"SELECT NSPair, EWPair FROM RoundData WHERE Section={SectionID} AND Table={TableNumber} AND Round={RoundNumber}";
+                    SQLString = $"SELECT NSPair, EWPair FROM RoundData WHERE Section={device.SectionID} AND Table={device.TableNumber} AND Round={device.RoundNumber}";
                     cmd = new OdbcCommand(SQLString, connection);
                     OdbcDataReader reader = null;
                     try
@@ -594,7 +589,7 @@ namespace TabPlay.Models
                 }
 
                 // Delete any previous result
-                SQLString = $"DELETE FROM {dataTable} WHERE Section={SectionID} AND [Table]={TableNumber} AND Round={RoundNumber} AND Board={BoardNumber}";
+                SQLString = $"DELETE FROM {dataTable} WHERE Section={device.SectionID} AND [Table]={device.TableNumber} AND Round={device.RoundNumber} AND Board={BoardNumber}";
                 cmd = new OdbcCommand(SQLString, connection);
                 try
                 {
@@ -611,11 +606,11 @@ namespace TabPlay.Models
                 // Add new result
                 if (AppData.IsIndividual)
                 {
-                    SQLString = $"INSERT INTO {dataTable} (Section, [Table], Round, Board, PairNS, PairEW, South, West, Declarer, [NS/EW], Contract, Result, LeadCard, Remarks, DateLog, TimeLog, Processed, Processed1, Processed2, Processed3, Processed4, Erased) VALUES ({SectionID}, {TableNumber}, {RoundNumber}, {BoardNumber}, {PairNS}, {PairEW}, {South}, {West}, {declarerNumber}, '{DeclarerNSEW}', '{Contract}', '{TricksTakenSymbol}', '{LeadCard}', '{remarks}', #{DateTime.Now:yyyy-MM-dd}#, #{DateTime.Now:yyyy-MM-dd hh:mm:ss}#, False, False, False, False, False, False)";
+                    SQLString = $"INSERT INTO {dataTable} (Section, [Table], Round, Board, PairNS, PairEW, South, West, Declarer, [NS/EW], Contract, Result, LeadCard, Remarks, DateLog, TimeLog, Processed, Processed1, Processed2, Processed3, Processed4, Erased) VALUES ({device.SectionID}, {device.TableNumber}, {device.RoundNumber}, {BoardNumber}, {PairNS}, {PairEW}, {South}, {West}, {declarerNumber}, '{DeclarerNSEW}', '{Contract}', '{TricksTakenSymbol}', '{LeadCard}', '{remarks}', #{DateTime.Now:yyyy-MM-dd}#, #{DateTime.Now:yyyy-MM-dd hh:mm:ss}#, False, False, False, False, False, False)";
                 }
                 else
                 {
-                    SQLString = $"INSERT INTO {dataTable} (Section, [Table], Round, Board, PairNS, PairEW, Declarer, [NS/EW], Contract, Result, LeadCard, Remarks, DateLog, TimeLog, Processed, Processed1, Processed2, Processed3, Processed4, Erased) VALUES ({SectionID}, {TableNumber}, {RoundNumber}, {BoardNumber}, {PairNS}, {PairEW}, {declarerNumber}, '{DeclarerNSEW}', '{Contract}', '{TricksTakenSymbol}', '{LeadCard}', '{remarks}', #{DateTime.Now:yyyy-MM-dd}#, #{DateTime.Now:yyyy-MM-dd hh:mm:ss}#, False, False, False, False, False, False)";
+                    SQLString = $"INSERT INTO {dataTable} (Section, [Table], Round, Board, PairNS, PairEW, Declarer, [NS/EW], Contract, Result, LeadCard, Remarks, DateLog, TimeLog, Processed, Processed1, Processed2, Processed3, Processed4, Erased) VALUES ({device.SectionID}, {device.TableNumber}, {device.RoundNumber}, {BoardNumber}, {PairNS}, {PairEW}, {declarerNumber}, '{DeclarerNSEW}', '{Contract}', '{TricksTakenSymbol}', '{LeadCard}', '{remarks}', #{DateTime.Now:yyyy-MM-dd}#, #{DateTime.Now:yyyy-MM-dd hh:mm:ss}#, False, False, False, False, False, False)";
                 }
                 cmd = new OdbcCommand(SQLString, connection);
                 try
@@ -633,11 +628,11 @@ namespace TabPlay.Models
                 // Update table status
                 if (dataTable == "IntermediateData")
                 {
-                    SQLString = $"UPDATE Tables SET BiddingComplete=True WHERE Section={SectionID} AND [Table]={TableNumber}";
+                    SQLString = $"UPDATE Tables SET BiddingComplete=True WHERE Section={device.SectionID} AND [Table]={device.TableNumber}";
                 }
                 else
                 {
-                    SQLString = $"UPDATE Tables SET PlayComplete=True WHERE Section={SectionID} AND [Table]={TableNumber}";
+                    SQLString = $"UPDATE Tables SET PlayComplete=True WHERE Section={device.SectionID} AND [Table]={device.TableNumber}";
                 }
                 cmd = new OdbcCommand(SQLString, connection);
                 try

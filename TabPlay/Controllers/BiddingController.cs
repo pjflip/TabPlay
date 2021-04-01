@@ -5,11 +5,12 @@ namespace TabPlay.Controllers
 {
     public class BiddingController : Controller
     {
-        public ActionResult Index(int sectionID, int tableNumber, string direction)
+        public ActionResult Index(int deviceNumber)
         {
-            TableStatus tableStatus = AppData.TableStatusList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
-            Bidding bidding = new Bidding(tableStatus, direction);
-            if (direction == "North")
+            Device device = AppData.DeviceList[deviceNumber];
+            Table table = AppData.TableList.Find(x => x.SectionID == device.SectionID && x.TableNumber == device.TableNumber);
+            Bidding bidding = new Bidding(deviceNumber, table);
+            if (device.Direction == "North")
             {
                 ViewData["Buttons"] = ButtonOptions.Skip;
             }
@@ -17,68 +18,70 @@ namespace TabPlay.Controllers
             {
                 ViewData["Buttons"] = ButtonOptions.None;
             }
-            string sectionLetter = AppData.SectionsList.Find(x => x.SectionID == sectionID).SectionLetter;
             if (AppData.IsIndividual)
             {
-                ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} - Round {tableStatus.RoundNumber} - Board {tableStatus.BoardNumber} - {Utilities.ColourPairByVulnerability("NS", tableStatus.BoardNumber, $"{tableStatus.PairNumber[0]}+{tableStatus.PairNumber[2]}")} v {Utilities.ColourPairByVulnerability("EW", tableStatus.BoardNumber, $"{tableStatus.PairNumber[1]}+{tableStatus.PairNumber[3]}")} - Dealer {bidding.Dealer}";
+                ViewData["Header"] = $"Table {device.SectionTableString} - Round {table.RoundNumber} - Board {table.BoardNumber} - {Utilities.ColourPairByVulnerability("NS", table.BoardNumber, $"{table.PairNumber[0]}+{table.PairNumber[2]}")} v {Utilities.ColourPairByVulnerability("EW", table.BoardNumber, $"{table.PairNumber[1]}+{table.PairNumber[3]}")} - Dealer {bidding.Dealer}";
             }
             else
             {
-                ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} - Round {tableStatus.RoundNumber} - Board {tableStatus.BoardNumber} - {Utilities.ColourPairByVulnerability("NS", tableStatus.BoardNumber, $"NS {tableStatus.PairNumber[0]}")} v {Utilities.ColourPairByVulnerability("EW", tableStatus.BoardNumber, $"EW {tableStatus.PairNumber[1]}")} - Dealer {bidding.Dealer}";
+                ViewData["Header"] = $"Table {device.SectionTableString} - Round {table.RoundNumber} - Board {table.BoardNumber} - {Utilities.ColourPairByVulnerability("NS", table.BoardNumber, $"NS {table.PairNumber[0]}")} v {Utilities.ColourPairByVulnerability("EW", table.BoardNumber, $"EW {table.PairNumber[1]}")} - Dealer {bidding.Dealer}";
             }
-            ViewData["Title"] = $"Bidding - {sectionLetter + tableNumber.ToString()} {direction}";
+            ViewData["Title"] = $"Bidding - {device.SectionTableString}:{device.Direction}";
             return View(bidding);
         }
 
-        public JsonResult SendBid(int sectionID, int tableNumber, int roundNumber, string callDirection, int boardNumber, int lastBidLevel, string lastBidSuit, string lastBidX, bool alert, string lastBidDirection, int passCount, int bidCounter)
+        public JsonResult SendBid(int deviceNumber, int boardNumber, int lastBidLevel, string lastBidSuit, string lastBidX, bool alert, string lastBidDirection, int passCount, int bidCounter)
         {
             HttpContext.Response.AppendHeader("Connection", "close");
-            Bid bid = new Bid(callDirection, lastBidLevel, lastBidSuit, lastBidX, alert, lastBidDirection, passCount, bidCounter);
-            bid.UpdateDB(sectionID, tableNumber, roundNumber, boardNumber);
-            TableStatus tableStatus = AppData.TableStatusList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
-            tableStatus.LastBid = bid;
+            Device device = AppData.DeviceList[deviceNumber];
+            Bid bid = new Bid(device.Direction, lastBidLevel, lastBidSuit, lastBidX, alert, lastBidDirection, passCount, bidCounter);
+            bid.UpdateDB(deviceNumber, boardNumber);
+            Table table = AppData.TableList.Find(x => x.SectionID == device.SectionID && x.TableNumber == device.TableNumber);
+            table.LastBid = bid;
             if ((lastBidLevel > 0 && passCount > 2) || passCount > 3)
             {
                 if (passCount > 3) 
                 {
                     // Passed out, so no play
-                    Result result = new Result(sectionID, tableNumber, roundNumber, boardNumber, 0);
+                    Result result = new Result(deviceNumber, boardNumber, 0);
                     result.UpdateDB("ReceivedData");
-                    tableStatus.PlayComplete = true;
+                    table.PlayComplete = true;
                 }
                 else
                 {
-                    Result result = new Result(sectionID, tableNumber, roundNumber, boardNumber, lastBidLevel, lastBidSuit, lastBidX);
+                    Result result = new Result(deviceNumber, boardNumber, lastBidLevel, lastBidSuit, lastBidX);
                     result.UpdateDB("IntermediateData");
                 }
-                tableStatus.BiddingComplete = true;
+                table.BiddingComplete = true;
             }
             return Json(bid, JsonRequestBehavior.AllowGet);
         }
 
-        public EmptyResult Skip(int sectionID, int tableNumber, int roundNumber, int boardNumber)
+        public EmptyResult Skip(int deviceNumber, int boardNumber)
         {
             HttpContext.Response.AppendHeader("Connection", "close");
-            Result result = new Result(sectionID, tableNumber, roundNumber, boardNumber, -1);
+            Device device = AppData.DeviceList[deviceNumber];
+            Result result = new Result(deviceNumber, boardNumber, -1);
             result.UpdateDB("ReceivedData");
-            TableStatus tableStatus = AppData.TableStatusList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
-            tableStatus.PlayComplete = true;
-            tableStatus.LastBid.LastBidLevel = -1;
-            tableStatus.BiddingComplete = true;
+            Table table = AppData.TableList.Find(x => x.SectionID == device.SectionID && x.TableNumber == device.TableNumber);
+            table.PlayComplete = true;
+            table.LastBid.LastBidLevel = -1;
+            table.BiddingComplete = true;
             return new EmptyResult();
         }
 
-        public JsonResult PollBid(int sectionID, int tableNumber, int bidCounter)
+        public JsonResult PollBid(int deviceNumber, int bidCounter)
         {
             HttpContext.Response.AppendHeader("Connection", "close");
-            TableStatus tableStatus = AppData.TableStatusList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
-            if (tableStatus.BiddingComplete)
+            Device device = AppData.DeviceList[deviceNumber];
+            Table table = AppData.TableList.Find(x => x.SectionID == device.SectionID && x.TableNumber == device.TableNumber);
+            if (table.BiddingComplete)
             {
-                return Json(new { Status = "BiddingComplete", tableStatus.LastBid.LastBidLevel }, JsonRequestBehavior.AllowGet);
+                return Json(new { Status = "BiddingComplete", table.LastBid.LastBidLevel }, JsonRequestBehavior.AllowGet);
             }
-            else if (tableStatus.LastBid.BidCounter > bidCounter)
+            else if (table.LastBid.BidCounter > bidCounter)
             {
-                return Json(tableStatus.LastBid, JsonRequestBehavior.AllowGet);
+                return Json(table.LastBid, JsonRequestBehavior.AllowGet);
             }
             else
             {

@@ -1,4 +1,4 @@
-﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
 
 @model TabPlay.Models.Bidding
@@ -325,11 +325,11 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
 
 <script>
     var model = @Html.Raw(Json.Encode(Model));
-    var registerPlayersUrl = '@Url.Action("Index", "RegisterPlayers")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&boardNumber=@(Model.BoardNumber + 1)';
-    var travellerUrl = '@Url.Action("Index", "Traveller")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=@Model.Direction';
-    var playingUrl = '@Url.Action("Index", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=@Model.Direction';
-    var skipUrl = '@Url.Action("Skip", "Bidding")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&boardNumber=@Model.BoardNumber';
-    var sendBidUrl = '@Url.Action("SendBid", "Bidding")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&callDirection=@Model.Direction&boardNumber=@Model.BoardNumber';
-    var pollBidUrl = '@Url.Action("PollBid", "Bidding")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber';
+    var registerPlayersUrl = '@Url.Action("Index", "RegisterPlayers")?deviceNumber=@Model.DeviceNumber&boardNumber=@(Model.BoardNumber + 1)';
+    var travellerUrl = '@Url.Action("Index", "Traveller")?deviceNumber=@Model.DeviceNumber';
+    var playingUrl = '@Url.Action("Index", "Playing")?deviceNumber=@Model.DeviceNumber';
+    var skipUrl = '@Url.Action("Skip", "Bidding")?deviceNumber=@Model.DeviceNumber&boardNumber=@Model.BoardNumber';
+    var sendBidUrl = '@Url.Action("SendBid", "Bidding")?deviceNumber=@Model.DeviceNumber&boardNumber=@Model.BoardNumber';
+    var pollBidUrl = '@Url.Action("PollBid", "Bidding")?deviceNumber=@Model.DeviceNumber';
 </script>
 <script src='@Url.Content("~/Scripts/Bidding.js")' type="text/javascript"></script>

@@ -1,4 +1,4 @@
-﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
 
 @model TabPlay.Models.Playing
@@ -838,11 +838,11 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
 
 <script>
     var model = @Html.Raw(Json.Encode(Model));
-    var travellerUrl = '@Url.Action("Index", "Traveller")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=@Model.Direction[0]';
-    var sendResultUrl = '@Url.Action("SendResult", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&boardNumber=@Model.BoardNumber';
-    var sendOpeningLeadUrl = '@Url.Action("SendOpeningLead", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber';
-    var sendPlayUrl = '@Url.Action("SendPlay", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&boardNumber=@Model.BoardNumber';
-    var sendClaimExposeUrl = '@Url.Action("SendClaimExpose", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&claimDirection=@Model.Direction[0]';
-    var pollPlayUrl = '@Url.Action("PollPlay", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber';
+    var travellerUrl = '@Url.Action("Index", "Traveller")?deviceNumber=@Model.DeviceNumber';
+    var sendResultUrl = '@Url.Action("SendResult", "Playing")?deviceNumber=@Model.DeviceNumber&boardNumber=@Model.BoardNumber';
+    var sendOpeningLeadUrl = '@Url.Action("SendOpeningLead", "Playing")?deviceNumber=@Model.DeviceNumber';
+    var sendPlayUrl = '@Url.Action("SendPlay", "Playing")?deviceNumber=@Model.DeviceNumber&boardNumber=@Model.BoardNumber';
+    var sendClaimExposeUrl = '@Url.Action("SendClaimExpose", "Playing")?deviceNumber=@Model.DeviceNumber';
+    var pollPlayUrl = '@Url.Action("PollPlay", "Playing")?deviceNumber=@Model.DeviceNumber';
 </script>
 <script src='@Url.Content("~/Scripts/Playing.js")' type="text/javascript"></script>

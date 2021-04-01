@@ -1,4 +1,4 @@
-﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 // Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License
 
 using System;
@@ -9,22 +9,20 @@ namespace TabPlay.Models
 {
     public class RankingList : List<Ranking>
     {
-        public int SectionID { get; private set; }
-        public int RoundNumber { get; private set; }
-        public int TableNumber { get; private set; }
-        public string Direction { get; set; }
-        public int PairNumber { get; set; }
+        public int DeviceNumber { get; private set; }
+        public string Direction { get; private set; }
+        public int PairNumber { get; private set; }
         public string PairOrPlayer { get; private set; }
         public bool TwoWinners { get; private set; }
         public bool FinalRankingList { get; set; } = false;
 
-        public RankingList(int sectionID, int tableNumber, int roundNumber, string direction, int pairNumber)
+        public RankingList(int deviceNumber)
         {
-            SectionID = sectionID;
-            TableNumber = tableNumber;
-            RoundNumber = roundNumber;
-            Direction = direction;
-            PairNumber = pairNumber;
+            DeviceNumber = deviceNumber;
+            Device device = AppData.DeviceList[deviceNumber];
+            Direction = device.Direction;
+            PairNumber = device.PairNumber;
+
             if (AppData.IsIndividual)
             {
                 PairOrPlayer = "Player";
@@ -37,7 +35,7 @@ namespace TabPlay.Models
             using (OdbcConnection connection = new OdbcConnection(AppData.DBConnectionString))
             {
                 connection.Open();
-                string SQLString = $"SELECT Orientation, Number, Score, Rank FROM Results WHERE Section={sectionID}";
+                string SQLString = $"SELECT Orientation, Number, Score, Rank FROM Results WHERE Section={device.SectionID}";
 
                 OdbcCommand cmd = new OdbcCommand(SQLString, connection);
                 OdbcDataReader reader1 = null;
@@ -77,11 +75,11 @@ namespace TabPlay.Models
                 {
                     if (AppData.IsIndividual)
                     {
-                        InsertRange(0, CalculateIndividualRankingFromReceivedData(connection, sectionID));
+                        InsertRange(0, CalculateIndividualRankingFromReceivedData(connection, device.SectionID));
                     }
                     else
                     {
-                        InsertRange(0, CalculateRankingFromReceivedData(connection, sectionID));
+                        InsertRange(0, CalculateRankingFromReceivedData(connection, device.SectionID));
                     }
                 }
             }

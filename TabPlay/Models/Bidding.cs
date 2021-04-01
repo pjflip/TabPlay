@@ -1,4 +1,4 @@
-﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 // Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License
 
 using System;
@@ -9,9 +9,7 @@ namespace TabPlay.Models
 {
     public class Bidding
     {
-        public int SectionID { get; private set; }
-        public int TableNumber { get; private set; }
-        public int RoundNumber { get; private set; }
+        public int DeviceNumber { get; private set; }
         public string Direction { get; private set; }
         public int BoardNumber { get; private set; }
         public int PairNumber { get; private set; }
@@ -35,16 +33,15 @@ namespace TabPlay.Models
         public string PairOrPlayer { get; private set; }
         public int PollInterval { get; private set; }
 
-        public Bidding(TableStatus tableStatus, string direction)
+        public Bidding(int deviceNumber, Table table)
         {
-            SectionID = tableStatus.SectionID;
-            TableNumber = tableStatus.TableNumber;
-            RoundNumber = tableStatus.RoundNumber;
-            BoardNumber = tableStatus.BoardNumber;
-            Direction = direction;
-            int directionNumber = Utilities.DirectionToNumber(direction);
-            PairNumber = tableStatus.PairNumber[directionNumber];
-            PlayerName = tableStatus.PlayerName[directionNumber];
+            DeviceNumber = deviceNumber;
+            Device device = AppData.DeviceList[deviceNumber];
+            BoardNumber = table.BoardNumber;
+            Direction = device.Direction;
+            int directionNumber = Utilities.DirectionToNumber(Direction);
+            PairNumber = table.PairNumber[directionNumber];
+            PlayerName = table.PlayerName[directionNumber];
             NSVulnerable = Utilities.NSVulnerability[(BoardNumber - 1) % 16];
             EWVulnerable = Utilities.EWVulnerability[(BoardNumber - 1) % 16];
             BidTable = new string[10, 4];
@@ -71,7 +68,7 @@ namespace TabPlay.Models
             {
                 connection.Open();
                 Utilities.CheckTabPlayPairNos(connection);
-                string SQLString = $"SELECT Counter, Bid, Direction FROM BiddingData WHERE Section={SectionID} AND Table={TableNumber} AND Round={RoundNumber} AND Board={BoardNumber}";
+                string SQLString = $"SELECT Counter, Bid, Direction FROM BiddingData WHERE Section={device.SectionID} AND Table={device.TableNumber} AND Round={device.RoundNumber} AND Board={BoardNumber}";
                 OdbcCommand cmd = new OdbcCommand(SQLString, connection);
                 OdbcDataReader reader = null;
                 try
@@ -173,12 +170,12 @@ namespace TabPlay.Models
                 }
             }
 
-            HandRecord handRecord = HandRecords.HandRecordsList.Find(x => x.SectionID == SectionID && x.BoardNumber == BoardNumber);
+            HandRecord handRecord = HandRecords.HandRecordsList.Find(x => x.SectionID == device.SectionID && x.BoardNumber == BoardNumber);
             if (handRecord == null)     // Can't find matching hand record, so use default SectionID = 1
             {
                 handRecord = HandRecords.HandRecordsList.Find(x => x.SectionID == 1 && x.BoardNumber == BoardNumber);
             }
-            CardString = handRecord.HandRow(direction);
+            CardString = handRecord.HandRow(device.Direction);
             DisplayRank = new string[13];
             DisplaySuit = new string[13];
             for (int i = 0; i < 13; i++)
@@ -197,8 +194,8 @@ namespace TabPlay.Models
 
             if (ToBidDirection == "") ToBidDirection = Dealer;
 
-            // Set TableStatus
-            tableStatus.LastBid = new Bid(LastCallDirection, LastBidLevel, LastBidSuit, LastBidX, false, LastBidDirection, PassCount, BidCounter);
+            // Set table info
+            table.LastBid = new Bid(LastCallDirection, LastBidLevel, LastBidSuit, LastBidX, false, LastBidDirection, PassCount, BidCounter);
         }
     }
 }

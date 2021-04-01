@@ -1,4 +1,4 @@
-﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 // Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License
 
 using System;
@@ -9,36 +9,37 @@ namespace TabPlay.Controllers
 {
     public class RegisterPlayersController : Controller
     {
-        public ActionResult Index(int sectionID, int tableNumber, int roundNumber, string direction, int boardNumber)
+        public ActionResult Index(int deviceNumber, int boardNumber)
         {
-            TableStatus tableStatus = AppData.TableStatusList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
-            if (boardNumber > tableStatus.HighBoard)
+            Device device = AppData.DeviceList[deviceNumber];
+            Table table = AppData.TableList.Find(x => x.SectionID == device.SectionID && x.TableNumber == device.TableNumber);
+            if (boardNumber > table.HighBoard)
             {
-                return RedirectToAction("Index", "RankingList", new { sectionID, tableNumber, roundNumber, direction, pairNumber = tableStatus.PairNumber[Utilities.DirectionToNumber(direction)] });
+                return RedirectToAction("Index", "RankingList", new { deviceNumber });
             }
             
-            // Only the first player to reach this screen will do the refresh
-            if (roundNumber > tableStatus.RoundNumber)
+            // Only the first player to reach this screen will do the table refresh, as this will update the table's round number to the new round
+            if (device.RoundNumber > table.RoundNumber)
             {
-                tableStatus.NewRound(roundNumber);
+                table.NewRound(device.RoundNumber);
             }
-            else if (boardNumber > tableStatus.BoardNumber)
+            else if (boardNumber > table.BoardNumber)
             {
-                tableStatus.NewBoard(boardNumber);
+                table.NewBoard(boardNumber);
             }
 
-            int directionNumber = Utilities.DirectionToNumber(direction);
-            tableStatus.Registered[directionNumber] = true;
-            tableStatus.UpdateTime[directionNumber] = DateTime.Now;
+            int directionNumber = Utilities.DirectionToNumber(device.Direction);
+            table.Registered[directionNumber] = true;
+            table.UpdateTime[directionNumber] = DateTime.Now;
 
-            Section section = AppData.SectionsList.Find(x => x.SectionID == sectionID);
-            if (tableStatus.PairNumber[0] == section.MissingPair) tableStatus.PairNumber[0] = tableStatus.PairNumber[2] = 0;
-            if (tableStatus.PairNumber[1] == section.MissingPair) tableStatus.PairNumber[1] = tableStatus.PairNumber[3] = 0;
-            RegisterPlayers registerPlayers = new RegisterPlayers(tableStatus, direction);
+            Section section = AppData.SectionList.Find(x => x.SectionID == device.SectionID);
+            if (table.PairNumber[0] == section.MissingPair) table.PairNumber[0] = table.PairNumber[2] = 0;
+            if (table.PairNumber[1] == section.MissingPair) table.PairNumber[1] = table.PairNumber[3] = 0;
+            RegisterPlayers registerPlayers = new RegisterPlayers(deviceNumber, table);
 
-            ViewData["Header"] = $"Table {section.SectionLetter + tableNumber.ToString()} - {direction}";
-            ViewData["Title"] = $"Register Players - {section.SectionLetter + tableNumber.ToString()} {direction}";
-            if (direction == "North")
+            ViewData["Header"] = $"Table {device.SectionTableString} - {device.Direction}";
+            ViewData["Title"] = $"Register - {device.SectionTableString}:{device.Direction}";
+            if (device.Direction == "North")
             {
                 ViewData["Buttons"] = ButtonOptions.OKDisabled;
             }
@@ -47,7 +48,7 @@ namespace TabPlay.Controllers
                 ViewData["Buttons"] = ButtonOptions.None;
             }
 
-            if (tableStatus.PairNumber[0] == 0 || tableStatus.PairNumber[1] == 0)  // Sit out
+            if (table.PairNumber[0] == 0 || table.PairNumber[1] == 0)  // Sit out
             {
                 return View("SitOut", registerPlayers);
             }
@@ -57,50 +58,53 @@ namespace TabPlay.Controllers
             }
         }
 
-        public JsonResult EnterPlayerNumber(int sectionID, int tableNumber, int roundNumber, string direction, int pairNumber, int playerNumber)
+        public JsonResult EnterPlayerNumber(int deviceNumber, int playerNumber)
         {
             HttpContext.Response.AppendHeader("Connection", "close");
-            int directionNumber = Utilities.DirectionToNumber(direction);
-            PlayerName playerName = new PlayerName(sectionID, tableNumber, roundNumber, direction, pairNumber, playerNumber);
-            TableStatus tableStatus = AppData.TableStatusList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
-            tableStatus.PlayerName[directionNumber] = playerName.Name;
-            tableStatus.UpdateTime[directionNumber] = DateTime.Now;
-            return Json(new { playerName.Name }, JsonRequestBehavior.AllowGet);
+            Device device = AppData.DeviceList[deviceNumber];
+            device.UpdatePlayerName(playerNumber);
+            Table table = AppData.TableList.Find(x => x.SectionID == device.SectionID && x.TableNumber == device.TableNumber);
+            int directionNumber = Utilities.DirectionToNumber(device.Direction);
+            table.PlayerName[directionNumber] = device.PlayerName;
+            table.UpdateTime[directionNumber] = DateTime.Now;
+            return Json(device.PlayerName, JsonRequestBehavior.AllowGet);
         }
 
-        public EmptyResult OKButtonClick(int sectionID, int tableNumber)
+        public EmptyResult OKButtonClick(int deviceNumber)
         {
-            TableStatus tableStatus = AppData.TableStatusList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
-            tableStatus.BiddingStarted = true;
+            Device device = AppData.DeviceList[deviceNumber];
+            Table table = AppData.TableList.Find(x => x.SectionID == device.SectionID && x.TableNumber == device.TableNumber);
+            table.BiddingStarted = true;
             
             // Refresh registrations now to avoid any race condition when moving to new table
-            tableStatus.Registered = new bool[4] { false, false, false, false };
+            table.Registered = new bool[4] { false, false, false, false };
             return new EmptyResult();
         }
 
-        public JsonResult PollRegister(int sectionID, int tableNumber, string direction)
+        public JsonResult PollRegister(int deviceNumber)
         {
             HttpContext.Response.AppendHeader("Connection", "close");
-            TableStatus tableStatus = AppData.TableStatusList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
-            if (tableStatus.BiddingStarted == true)
+            Device device = AppData.DeviceList[deviceNumber];
+            Table table = AppData.TableList.Find(x => x.SectionID == device.SectionID && x.TableNumber == device.TableNumber);
+            if (table.BiddingStarted == true)
             {
                 return Json(new { Status = "BiddingStarted" }, JsonRequestBehavior.AllowGet);
             }
-            int directionNumber = Utilities.DirectionToNumber(direction);
+            int directionNumber = Utilities.DirectionToNumber(device.Direction);
             bool anyUpdates = false;
-            DateTime myUpdateTime = tableStatus.UpdateTime[directionNumber];
+            DateTime myUpdateTime = table.UpdateTime[directionNumber];
             for (int i = 0; i < 4; i++)
             {
-                if (tableStatus.UpdateTime[i] > myUpdateTime)
+                if (table.UpdateTime[i] > myUpdateTime)
                 {
                     anyUpdates = true;
-                    tableStatus.UpdateTime[directionNumber] = tableStatus.UpdateTime[i];
+                    table.UpdateTime[directionNumber] = table.UpdateTime[i];
                 }
             }
             if (anyUpdates)
             {
-                PlayerStatus playerStatusUpdate = new PlayerStatus(directionNumber, tableStatus);
-                return Json(playerStatusUpdate, JsonRequestBehavior.AllowGet);
+                PlayerStatus playerStatus = new PlayerStatus(directionNumber, table);
+                return Json(playerStatus, JsonRequestBehavior.AllowGet);
             }
             else
             {

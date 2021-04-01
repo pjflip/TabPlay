@@ -19,13 +19,14 @@ namespace TabPlay.Models
             PlayCounter = playCounter;
         }
 
-        public void UpdateDB(int sectionID, int tableNumber, int roundNumber, int boardNumber)
+        public void UpdateDB(int deviceNumber, int boardNumber)
         {
+            Device device = AppData.DeviceList[deviceNumber];
             using (OdbcConnection connection = new OdbcConnection(AppData.DBConnectionString))
             {
                 connection.Open();
                 // Delete any spurious previously made plays
-                string SQLString = $"DELETE FROM PlayData WHERE Section={sectionID} AND [Table]={tableNumber} AND Round={roundNumber} AND Board={boardNumber} AND Counter={PlayCounter}";
+                string SQLString = $"DELETE FROM PlayData WHERE Section={device.SectionID} AND [Table]={device.TableNumber} AND Round={device.RoundNumber} AND Board={boardNumber} AND Counter={PlayCounter}";
                 OdbcCommand cmd = new OdbcCommand(SQLString, connection);
                 try
                 {
@@ -39,7 +40,7 @@ namespace TabPlay.Models
                     cmd.Dispose();
                 }
 
-                SQLString = $"INSERT INTO PlayData (Section, [Table], Round, Board, Counter, Direction, Card, DateLog, TimeLog) VALUES ({sectionID}, {tableNumber}, {roundNumber}, {boardNumber}, {PlayCounter}, '{PlayDirection.Substring(0, 1)}', '{CardString}', #{DateTime.Now:yyyy-MM-dd}#, #{DateTime.Now:yyyy-MM-dd hh:mm:ss}#)";
+                SQLString = $"INSERT INTO PlayData (Section, [Table], Round, Board, Counter, Direction, Card, DateLog, TimeLog) VALUES ({device.SectionID}, {device.TableNumber}, {device.RoundNumber}, {boardNumber}, {PlayCounter}, '{PlayDirection.Substring(0, 1)}', '{CardString}', #{DateTime.Now:yyyy-MM-dd}#, #{DateTime.Now:yyyy-MM-dd hh:mm:ss}#)";
                 cmd = new OdbcCommand(SQLString, connection);
                 try
                 {

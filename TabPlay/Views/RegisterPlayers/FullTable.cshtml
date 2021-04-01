@@ -1,4 +1,4 @@
-﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
 
 @model TabPlay.Models.RegisterPlayers
@@ -75,7 +75,7 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
             <div class="col-4"></div>
         </div>
     </div>
-    @if (Model.PlayerNumberEntry)
+    @if (Model.PlayerNumberEntry || Model.PlayerName[0] == "")
     {
         <div class="container border col-4">
             <div class="row mt-4">
@@ -164,9 +164,9 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
 <script>
     var model = @Html.Raw(Json.Encode(Model));
     var sitOut = false;
-    var enterPlayerNumberUrl = '@Url.Action("EnterPlayerNumber", "RegisterPlayers")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction[0]&pairNumber=@Model.PairNumber[0]&playerNumber=';
-    var OKButtonClickUrl = '@Url.Action("OKButtonClick", "RegisterPlayers")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber';
-    var pollRegisterUrl = '@Url.Action("PollRegister", "RegisterPlayers")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=@Model.Direction[0]';
-    var biddingUrl = '@Url.Action("Index", "Bidding")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=@Model.Direction[0]';
+    var enterPlayerNumberUrl = '@Url.Action("EnterPlayerNumber", "RegisterPlayers")?deviceNumber=@Model.DeviceNumber&playerNumber=';
+    var OKButtonClickUrl = '@Url.Action("OKButtonClick", "RegisterPlayers")?deviceNumber=@Model.DeviceNumber';
+    var pollRegisterUrl = '@Url.Action("PollRegister", "RegisterPlayers")?deviceNumber=@Model.DeviceNumber';
+    var biddingUrl = '@Url.Action("Index", "Bidding")?deviceNumber=@Model.DeviceNumber';
 </script>
 <script src='@Url.Content("~/Scripts/RegisterPlayers.js")' type="text/javascript"></script>

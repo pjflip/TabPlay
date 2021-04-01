@@ -46,8 +46,9 @@ namespace TabPlay.Models
             }
         }
 
-        public void UpdateDB(int sectionID, int tableNumber, int roundNumber, int boardNumber)
+        public void UpdateDB(int deviceNumber, int boardNumber)
         {
+            Device device = AppData.DeviceList[deviceNumber];
             string dbBid;
             if (PassCount > 0)
             {
@@ -66,7 +67,7 @@ namespace TabPlay.Models
             {
                 connection.Open();
                 // Delete any spurious previously made bids
-                string SQLString = $"DELETE FROM BiddingData WHERE Section={sectionID} AND [Table]={tableNumber} AND Round={roundNumber} AND Board={boardNumber} AND Counter={BidCounter}";
+                string SQLString = $"DELETE FROM BiddingData WHERE Section={device.SectionID} AND [Table]={device.TableNumber} AND Round={device.RoundNumber} AND Board={boardNumber} AND Counter={BidCounter}";
                 OdbcCommand cmd = new OdbcCommand(SQLString, connection);
                 try
                 {
@@ -80,7 +81,7 @@ namespace TabPlay.Models
                     cmd.Dispose();
                 }
 
-                SQLString = $"INSERT INTO BiddingData (Section, [Table], Round, Board, Counter, Direction, Bid, DateLog, TimeLog) VALUES ({sectionID}, {tableNumber}, {roundNumber}, {boardNumber}, {BidCounter}, '{LastCallDirection.Substring(0, 1)}', '{dbBid}', #{DateTime.Now:yyyy-MM-dd}#, #{DateTime.Now:yyyy-MM-dd hh:mm:ss}#)";
+                SQLString = $"INSERT INTO BiddingData (Section, [Table], Round, Board, Counter, Direction, Bid, DateLog, TimeLog) VALUES ({device.SectionID}, {device.TableNumber}, {device.RoundNumber}, {boardNumber}, {BidCounter}, '{LastCallDirection.Substring(0, 1)}', '{dbBid}', #{DateTime.Now:yyyy-MM-dd}#, #{DateTime.Now:yyyy-MM-dd hh:mm:ss}#)";
                 cmd = new OdbcCommand(SQLString, connection);
                 try
                 {
@@ -97,7 +98,7 @@ namespace TabPlay.Models
                 if (BidCounter == 0)
                 {
                     // Update table status in database
-                    SQLString = $"UPDATE Tables SET BiddingStarted=True WHERE Section={sectionID} AND [Table]={tableNumber}";
+                    SQLString = $"UPDATE Tables SET BiddingStarted=True WHERE Section={device.SectionID} AND [Table]={device.TableNumber}";
                     cmd = new OdbcCommand(SQLString, connection);
                     try
                     {

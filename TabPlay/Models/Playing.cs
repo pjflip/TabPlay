@@ -1,4 +1,4 @@
-﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 // Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License
 
 using System;
@@ -9,9 +9,7 @@ namespace TabPlay.Models
 {
     public class Playing
     {
-        public int SectionID { get; private set; }
-        public int TableNumber { get; private set; }
-        public int RoundNumber { get; private set; }
+        public int DeviceNumber { get; private set; }
         public int BoardNumber { get; private set; }
         public int ContractLevel { get; private set; }
         public string ContractSuit { get; private set; }
@@ -45,15 +43,14 @@ namespace TabPlay.Models
         public string PairOrPlayer { get; private set; }
         public int PollInterval { get; private set; }
 
-        public Playing(TableStatus tableStatus, string direction)
+        public Playing(int deviceNumber, Table table)
         {
-            SectionID = tableStatus.SectionID;
-            TableNumber = tableStatus.TableNumber;
-            RoundNumber = tableStatus.RoundNumber;
-            BoardNumber = tableStatus.BoardNumber;
+            DeviceNumber = deviceNumber;
+            Device device = AppData.DeviceList[deviceNumber];
+            BoardNumber = table.BoardNumber;
 
             // All directionNumbers are relative to the direction that is 0
-            int directionNumber = Utilities.DirectionToNumber(direction);
+            int directionNumber = Utilities.DirectionToNumber(device.Direction);
             int northDirectionNumber = (4 - directionNumber) % 4;
             Direction = new string[4];
             Direction[northDirectionNumber] = "North";
@@ -64,8 +61,8 @@ namespace TabPlay.Models
             PlayerName = new string[4];
             for (int i = 0; i < 4; i++)
             {
-                PairNumber[i] = tableStatus.PairNumber[(directionNumber + i) % 4];
-                PlayerName[i] = tableStatus.PlayerName[(directionNumber + i) % 4];
+                PairNumber[i] = table.PairNumber[(directionNumber + i) % 4];
+                PlayerName[i] = table.PlayerName[(directionNumber + i) % 4];
             }
 
             if (northDirectionNumber % 2 == 0)
@@ -109,7 +106,7 @@ namespace TabPlay.Models
                 connection.Open();
 
                 // Get contract details
-                string SQLString = $"SELECT [NS/EW], Contract FROM IntermediateData WHERE Section={SectionID} AND [Table]={TableNumber} AND Round={RoundNumber} AND Board={BoardNumber}";
+                string SQLString = $"SELECT [NS/EW], Contract FROM IntermediateData WHERE Section={device.SectionID} AND [Table]={device.TableNumber} AND Round={device.RoundNumber} AND Board={BoardNumber}";
                 OdbcCommand cmd = new OdbcCommand(SQLString, connection);
                 OdbcDataReader reader = null;
                 string declarerNSEW = "";
@@ -144,7 +141,7 @@ namespace TabPlay.Models
                 DummyDirectionNumber = (northDirectionNumber + Utilities.DirectionToNumber(Declarer) + 2) % 4;
 
                 // Get hand records and set cards
-                HandRecord handRecord = HandRecords.HandRecordsList.Find(x => x.SectionID == SectionID && x.BoardNumber == BoardNumber);
+                HandRecord handRecord = HandRecords.HandRecordsList.Find(x => x.SectionID == device.SectionID && x.BoardNumber == BoardNumber);
                 if (handRecord == null)     // Can't find matching hand record, so use default SectionID = 1
                 {
                     handRecord = HandRecords.HandRecordsList.Find(x => x.SectionID == 1 && x.BoardNumber == BoardNumber);
@@ -165,7 +162,7 @@ namespace TabPlay.Models
                 SuitLengths = handRecord.SuitLengths(northDirectionNumber, ContractSuit);
 
                 // Check PlayData table for any previous plays
-                SQLString = $"SELECT Counter, Direction, Card FROM PlayData WHERE Section={SectionID} AND Table={TableNumber} AND Round={RoundNumber} AND Board={BoardNumber}";
+                SQLString = $"SELECT Counter, Direction, Card FROM PlayData WHERE Section={device.SectionID} AND Table={device.TableNumber} AND Round={device.RoundNumber} AND Board={BoardNumber}";
                 cmd = new OdbcCommand(SQLString, connection);
                 try
                 {
@@ -268,8 +265,8 @@ namespace TabPlay.Models
                 }
             }
 
-            // Update TableStatus static class
-            tableStatus.LastPlay = new Play(Utilities.Directions[PlayDirectionNumber], LastCardNumber, LastCardString, PlayCounter);
+            // Update table info
+            table.LastPlay = new Play(Utilities.Directions[PlayDirectionNumber], LastCardNumber, LastCardString, PlayCounter);
         }
     }
 }

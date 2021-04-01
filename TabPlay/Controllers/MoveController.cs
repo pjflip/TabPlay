@@ -1,4 +1,4 @@
-﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 // Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License
 
 using System.Web.Mvc;
@@ -8,57 +8,64 @@ namespace TabPlay.Controllers
 {
     public class MoveController : Controller
     {
-        public ActionResult Index(int sectionID, int tableNumber, int roundNumber, string direction, int pairNumber)
+        public ActionResult Index(int deviceNumber, bool tableNotReady = false)
         {
-            if (roundNumber >= Utilities.NumberOfRoundsInEvent(sectionID))  // Session complete
+            Device device = AppData.DeviceList[deviceNumber];
+            if (device.RoundNumber >= Utilities.NumberOfRoundsInEvent(device.SectionID))  // Session complete
             {
                 if (Settings.ShowRanking == 2)
                 {
-                    return RedirectToAction("Final", "RankingList", new { sectionID, tableNumber, roundNumber, direction, pairNumber });
+                    return RedirectToAction("Final", "RankingList", new { deviceNumber });
                 }
                 else
                 {
-                    return RedirectToAction("Index", "EndScreen", new { sectionID, tableNumber, roundNumber, direction });
+                    return RedirectToAction("Index", "EndScreen", new { deviceNumber });
                 }
             }
 
-            TableStatus tableStatus = AppData.TableStatusList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
-            if (tableStatus.RoundNumber == roundNumber)
+            Table table = AppData.TableList.Find(x => x.SectionID == device.SectionID && x.TableNumber == device.TableNumber);
+            if (table != null && table.RoundNumber == device.RoundNumber)
             {
                 // Nobody has yet advanced this table to the next round, so show that this player is ready to do so
-                tableStatus.ReadyForNextRound[Utilities.DirectionToNumber(direction)] = true;
+                table.ReadyForNextRound[Utilities.DirectionToNumber(device.Direction)] = true;
             }
-            Move move = new Move(sectionID, tableNumber, roundNumber, direction, pairNumber);
+            Move move = new Move(deviceNumber, tableNotReady);
 
-            string sectionLetter = AppData.SectionsList.Find(x => x.SectionID == sectionID).SectionLetter;
-            ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()}";
+            ViewData["Header"] = $"Table {device.SectionTableString}";
             ViewData["Buttons"] = ButtonOptions.OKEnabled;
-            ViewData["Title"] = $"Move - {sectionLetter + tableNumber.ToString()}";
+            ViewData["Title"] = $"Move - {device.SectionTableString}";
             return View(move);
         }
 
-        public ActionResult OKButtonClick(int sectionID, int tableNumber, int roundNumber, string direction, int pairNumber, int newTableNumber, int newRoundNumber, string newDirection)
+        public ActionResult OKButtonClick(int deviceNumber, int newTableNumber, int newRoundNumber, string newDirection)
         {
+            Device device = AppData.DeviceList[deviceNumber];
+
             // Moving to sit out (ie not a proper) table.  So go straight to ranking list
             if (newTableNumber == 0)
             {
-                return RedirectToAction("Index", "RankingList", new { sectionID, tableNumber = 0, roundNumber = newRoundNumber, direction, pairNumber });
+                device.UpdateMove(newRoundNumber, 0, newDirection);
+                return RedirectToAction("Index", "RankingList", new { deviceNumber });
             }
 
             // Check if new table is ready to play.  Test for null in case new table not yet started (unlikely in reality)
-            TableStatus tableStatus = AppData.TableStatusList.Find(x => x.SectionID == sectionID && x.TableNumber == newTableNumber);
-            if (tableStatus != null) {
-                // A player is ready if he's reached the Move screen or he's a missing pair
-                bool allPlayersReady = (tableStatus.PairNumber[0] == 0 || tableStatus.ReadyForNextRound[0]) && (tableStatus.PairNumber[1] == 0 || tableStatus.ReadyForNextRound[1]) && (tableStatus.PairNumber[2] == 0 || tableStatus.ReadyForNextRound[2]) && (tableStatus.PairNumber[3] == 0 || tableStatus.ReadyForNextRound[3]);
-                if (tableStatus.RoundNumber == newRoundNumber || allPlayersReady)
+            Table newTable = AppData.TableList.Find(x => x.SectionID == device.SectionID && x.TableNumber == newTableNumber);
+            if (newTable != null) {
+                // A player at the new table is ready if he's reached the Move screen or he's a missing pair
+                bool allPlayersReady = (newTable.PairNumber[0] == 0 || newTable.ReadyForNextRound[0]) && (newTable.PairNumber[1] == 0 || newTable.ReadyForNextRound[1]) && (newTable.PairNumber[2] == 0 || newTable.ReadyForNextRound[2]) && (newTable.PairNumber[3] == 0 || newTable.ReadyForNextRound[3]);
+
+                // Can move if new table has already been advanced to next round by another player, or (if not yet on next round) everyone at the new table is ready to move
+                if (newTable.RoundNumber == newRoundNumber || (newTable.RoundNumber == device.RoundNumber && allPlayersReady))
                 {
                     // Refresh settings for the start of the round
                     Settings.Refresh();
-                    return RedirectToAction("Index", "RegisterPlayers", new { sectionID, tableNumber = newTableNumber, roundNumber = newRoundNumber, direction = newDirection, boardNumber = 0 });
+                    device.UpdateMove(newRoundNumber, newTableNumber, newDirection);
+                    return RedirectToAction("Index", "RegisterPlayers", new { deviceNumber, boardNumber = 0 });
                 }
             } 
-            TempData["TableNotReady"] = "TRUE"; 
-            return RedirectToAction("Index", "Move", new { sectionID, tableNumber, roundNumber, direction, pairNumber });
+            
+            // Otherwise go back and wait
+            return RedirectToAction("Index", "Move", new { deviceNumber, tableNotReady = true });
         }
     }
 }

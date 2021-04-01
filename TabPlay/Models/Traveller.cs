@@ -1,4 +1,4 @@
-﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 // Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License
 
 using System;
@@ -9,10 +9,7 @@ namespace TabPlay.Models
 {
     public class Traveller : List<Result>
     {
-        public int SectionID { get; private set; }
-        public int TableNumber { get; private set; }
-        public int RoundNumber { get; private set; }
-        public string Direction { get; private set; }
+        public int DeviceNumber { get; private set; }
         public int BoardNumber { get; private set; }
         public int ContractLevel { get; private set; }
         public string DisplayContract { get; private set; }
@@ -20,13 +17,11 @@ namespace TabPlay.Models
         public int Score { get; private set; }
         public int PercentageNS { get; private set; }
 
-        public Traveller(TableStatus tableStatus, string direction)
+        public Traveller(int deviceNumber, Table table)
         {
-            SectionID = tableStatus.SectionID;
-            TableNumber = tableStatus.TableNumber;
-            RoundNumber = tableStatus.RoundNumber;
-            BoardNumber = tableStatus.BoardNumber;
-            Direction = direction;
+            DeviceNumber = deviceNumber;
+            Device device = AppData.DeviceList[deviceNumber];
+            BoardNumber = table.BoardNumber;
 
             using (OdbcConnection connection = new OdbcConnection(AppData.DBConnectionString))
             {
@@ -38,7 +33,7 @@ namespace TabPlay.Models
                 {
                     if (AppData.IsIndividual)
                     {
-                        SQLString = $"SELECT PairNS, PairEW, South, West, [NS/EW], Contract, LeadCard, Result FROM ReceivedData WHERE Section={SectionID} AND Board={BoardNumber}";
+                        SQLString = $"SELECT PairNS, PairEW, South, West, [NS/EW], Contract, LeadCard, Result FROM ReceivedData WHERE Section={device.SectionID} AND Board={BoardNumber}";
                         cmd = new OdbcCommand(SQLString, connection);
                         ODBCRetryHelper.ODBCRetry(() =>
                         {
@@ -60,7 +55,7 @@ namespace TabPlay.Models
                                 if (result.Contract.Length > 2)  // Testing for unplayed boards and corrupt ReceivedData table
                                 {
                                     result.CalculateScore();
-                                    if (tableStatus.PairNumber[0] == result.PairNS)
+                                    if (table.PairNumber[0] == result.PairNS)
                                     {
                                         ContractLevel = result.ContractLevel;
                                         DisplayContract = Utilities.DisplayContract(ContractLevel, result.ContractSuit, result.ContractX) + " " + result.TricksTakenSymbol;
@@ -75,7 +70,7 @@ namespace TabPlay.Models
                     }
                     else
                     {
-                        SQLString = $"SELECT PairNS, PairEW, [NS/EW], Contract, LeadCard, Result FROM ReceivedData WHERE Section={SectionID} AND Board={BoardNumber}";
+                        SQLString = $"SELECT PairNS, PairEW, [NS/EW], Contract, LeadCard, Result FROM ReceivedData WHERE Section={device.SectionID} AND Board={BoardNumber}";
                         cmd = new OdbcCommand(SQLString, connection);
                         ODBCRetryHelper.ODBCRetry(() =>
                         {
@@ -95,7 +90,7 @@ namespace TabPlay.Models
                                 if (result.Contract.Length > 2)  // Testing for unplayed boards and corrupt ReceivedData table
                                 {
                                     result.CalculateScore();
-                                    if (tableStatus.PairNumber[0] == result.PairNS)
+                                    if (table.PairNumber[0] == result.PairNS)
                                     {
                                         ContractLevel = result.ContractLevel;
                                         DisplayContract = Utilities.DisplayContract(ContractLevel, result.ContractSuit, result.ContractX) + " " + result.TricksTakenSymbol;

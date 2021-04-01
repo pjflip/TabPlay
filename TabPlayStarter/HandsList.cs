@@ -1,4 +1,4 @@
-﻿// TabPlay - TabPlay, a wireless bridge scoring program.  Copyright(C) 2020 by Peter Flippant
+﻿// TabPlay - TabPlay, a wireless bridge scoring program.  Copyright(C) 2021 by Peter Flippant
 // Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License
 
 using System;
@@ -10,9 +10,9 @@ namespace TabPlayStarter
 {
     class HandsList : List<Hand>
     {
-        public HandsList(Database db)
+        public HandsList(OdbcConnectionStringBuilder connectionString)
         {
-            using (OdbcConnection connection = new OdbcConnection(db.ConnectionString))
+            using (OdbcConnection connection = new OdbcConnection(connectionString.ToString()))
             {
                 string SQLString = $"SELECT Section, Board, NorthSpades, NorthHearts, NorthDiamonds, NorthClubs, EastSpades, EastHearts, EastDiamonds, EastClubs, SouthSpades, SouthHearts, SouthDiamonds, SouthClubs, WestSpades, WestHearts, WestDiamonds, WestClubs FROM HandRecord";
                 OdbcCommand cmd = new OdbcCommand(SQLString, connection);
@@ -110,9 +110,9 @@ namespace TabPlayStarter
             file.Close();
         }
 
-        public void WriteToDB(Database db)
+        public void WriteToDB(OdbcConnectionStringBuilder connectionString)
         {
-            using (OdbcConnection connection = new OdbcConnection(db.ConnectionString))
+            using (OdbcConnection connection = new OdbcConnection(connectionString.ToString()))
             {
                 connection.Open();
                 string SQLString = "DELETE FROM HandRecord";

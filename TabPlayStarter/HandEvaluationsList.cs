@@ -1,4 +1,4 @@
-﻿// TabPlay - TabPlay, a wireless bridge scoring program.  Copyright(C) 2020 by Peter Flippant
+﻿// TabPlay - TabPlay, a wireless bridge scoring program.  Copyright(C) 2021 by Peter Flippant
 // Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License
 
 using System.Collections.Generic;
@@ -10,9 +10,9 @@ namespace TabPlayStarter
     {
         private readonly string dbConnectionString;
 
-        public HandEvaluationsList(Database db)
+        public HandEvaluationsList(OdbcConnectionStringBuilder connectionString)
         {
-            dbConnectionString = db.ConnectionString;
+            dbConnectionString = connectionString.ToString();
             using (OdbcConnection connection = new OdbcConnection(dbConnectionString))
             {
                 connection.Open();

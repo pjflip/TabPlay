@@ -1,7 +1,30 @@
-﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
      Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
 
-@model TabPlay.Models.TableStatus
+@model TabPlay.Models.EnterDirection
+
+<div id="tableDirectionRegisteredModal" class="modal" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-danger">
+                <p class="modal-title text-center">
+                    <h3>Warning</h3>
+                </p>
+            </div>
+            <div class="modal-body">
+                <p>Table @Model.TableNumber and Direction @Model.Direction is already registered.  Do not press Register unless you intend to re-register a tablet device at your current location</p>
+            </div>
+            <div class="modal-footer" style="justify-content:space-between">
+                <button class="btn btn-lg btn-danger" ontouchstart="modalLogOn()">
+                    <span class="fa fa-play-circle"></span> Register
+                </button>
+                <button class="btn btn-lg btn-success" data-dismiss="modal">
+                    Cancel <span class="fa fa-times-circle"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="row mt-5">
     <div class="col-12 text-center">
@@ -40,6 +63,13 @@
     </div>
 </div>
 
+@if (Model.Confirm)
+{
+    <script>
+        $("#tableDirectionRegisteredModal").modal("show");
+    </script>
+}
+
 <script>
     var direction = "";
     var isSubmitted = false;
@@ -57,8 +87,15 @@
         if (direction != "") {
             if (!isSubmitted) {
                 isSubmitted = true;
-                location.href = '@Url.Action("OKButtonClick", "Direction")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=' + direction;
+                location.href = '@Url.Action("OKButtonClick", "Direction")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=' + direction + '&confirm=false';
             }
         }
     });
+
+    function modalLogOn() {
+        if (!isSubmitted) {
+            isSubmitted = true;
+            location.href = '@Url.Action("OKButtonClick", "EnterDirection")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=@Model.Direction&confirm=true';
+        }
+    }
 </script>

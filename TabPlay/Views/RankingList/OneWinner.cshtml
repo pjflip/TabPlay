@@ -1,4 +1,4 @@
-﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
 
 @model TabPlay.Models.RankingList
@@ -50,9 +50,9 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
     var direction = '@Model.Direction';
     var pairNumber = @Model.PairNumber;
     var twoWinners = false;
-    var endScreenUrl = '@Url.Action("Index", "EndScreen")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction';
-    var moveUrl = '@Url.Action("Index", "Move")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&pairNumber=@Model.PairNumber';
-    var pollRankingUrl = '@Url.Action("PollRanking", "RankingList")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&pairNumber=@Model.PairNumber';
+    var endScreenUrl = '@Url.Action("Index", "EndScreen")?deviceNumber=@Model.DeviceNumber';
+    var moveUrl = '@Url.Action("Index", "Move")?deviceNumber=@Model.DeviceNumber';
+    var pollRankingUrl = '@Url.Action("PollRanking", "RankingList")?deviceNumber=@Model.DeviceNumber';
     var finalRankingList = @Json.Encode(Model.FinalRankingList);
 </script>
 <script src='@Url.Content("~/Scripts/Ranking.js")' type="text/javascript"></script>

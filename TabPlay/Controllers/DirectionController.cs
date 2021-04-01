@@ -1,4 +1,4 @@
-﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿// TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 // Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License
 
 using System.Web.Mvc;
@@ -8,44 +8,76 @@ namespace TabPlay.Controllers
 {
     public class DirectionController : Controller
     {
-        public ActionResult Index(int sectionID, int tableNumber) 
+        public ActionResult Index(int sectionID, int tableNumber, string direction = "", bool confirm = false) 
         {
-            TableStatus tableStatus = AppData.TableStatusList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
-            if (tableStatus == null)
+            Table table = AppData.TableList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
+            if (table == null)
             {
-                tableStatus = new TableStatus(sectionID, tableNumber);
-                AppData.TableStatusList.Add(tableStatus);
+                table = new Table(sectionID, tableNumber);
+                AppData.TableList.Add(table);
             }
 
-            string sectionLetter = AppData.SectionsList.Find(x => x.SectionID == sectionID).SectionLetter;
-            ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} - Round {tableStatus.RoundNumber}";
+            EnterDirection enterDirection = new EnterDirection
+            {
+                SectionID = sectionID,
+                TableNumber = tableNumber,
+                Direction = direction,
+                PairNumber = table.PairNumber,
+                Confirm = confirm
+            };
+            string sectionLetter = AppData.SectionList.Find(x => x.SectionID == sectionID).SectionLetter;
+            ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} - Round {table.RoundNumber}";
             ViewData["Buttons"] = ButtonOptions.OKDisabled;
             ViewData["Title"] = $"Direction - {sectionLetter + tableNumber.ToString()}";
-            return View(tableStatus);  
+            return View(enterDirection);  
         }
 
-        public ActionResult OKButtonClick(int sectionID, int tableNumber, string direction)
+        public ActionResult OKButtonClick(int sectionID, int tableNumber, string direction, bool confirm)
         {
-            TableStatus tableStatus = AppData.TableStatusList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
-            if (tableStatus.ReadyForNextRound[Utilities.DirectionToNumber(direction)])
+            Table table = AppData.TableList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber);
+            Device device = AppData.DeviceList.Find(x => x.SectionID == sectionID && x.TableNumber == tableNumber && x.Direction == direction);
+            int directionNumber = Utilities.DirectionToNumber(direction);
+
+            int deviceNumber = 0;
+            if (device != null && !confirm)
             {
-                return RedirectToAction("Index", "Move", new { sectionID, tableNumber, roundNumber = tableStatus.RoundNumber, direction, pairNumber = 0 });
+                return RedirectToAction("Index", "Direction", new { sectionID, tableNumber, direction, confirm = true });
             }
-            else if (tableStatus.PlayComplete)
+            else if (device == null)
             {
-                return RedirectToAction("Index", "RegisterPlayers", new { sectionID, tableNumber, roundNumber = tableStatus.RoundNumber, direction, boardNumber = tableStatus.BoardNumber + 1 });
+                // Not on list, so need to add it
+                device = new Device
+                {
+                    SectionID = sectionID,
+                    TableNumber = tableNumber,
+                    Direction = direction,
+                    PairNumber = table.PairNumber[directionNumber],
+                    RoundNumber = table.RoundNumber,
+                    SectionTableString = AppData.SectionList.Find(x => x.SectionID == sectionID).SectionLetter + tableNumber.ToString()
+                };
+                AppData.DeviceList.Add(device);
+                deviceNumber = AppData.DeviceList.LastIndexOf(device);
             }
-            else if (tableStatus.BiddingComplete)
+
+            if (table.ReadyForNextRound[directionNumber])
             {
-                return RedirectToAction("Index", "Playing", new { sectionID, tableNumber, direction });
+                return RedirectToAction("Index", "Move", new { deviceNumber });
             }
-            else if (tableStatus.BiddingStarted)
+            else if (table.PlayComplete)
             {
-                return RedirectToAction("Index", "Bidding", new { sectionID, tableNumber, direction });
+                return RedirectToAction("Index", "RegisterPlayers", new { deviceNumber, boardNumber = table.BoardNumber + 1 });
+            }
+            else if (table.BiddingComplete)
+            {
+                return RedirectToAction("Index", "Playing", new { deviceNumber });
+            }
+            else if (table.BiddingStarted)
+            {
+                return RedirectToAction("Index", "Bidding", new { deviceNumber });
             }
             else
             {
-                return RedirectToAction("Index", "RegisterPlayers", new { sectionID, tableNumber, roundNumber = tableStatus.RoundNumber, direction, boardNumber = tableStatus.BoardNumber });
+                return RedirectToAction("Index", "RegisterPlayers", new { deviceNumber, boardNumber = table.BoardNumber });
             }
         }
     }

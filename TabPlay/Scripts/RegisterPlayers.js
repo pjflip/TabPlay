@@ -20,9 +20,8 @@ $(document).on('touchstart', '#OKButton:enabled', function () {
 });
 
 function enterPlayerNumberListener() {
-    var playerName = JSON.parse(this.responseText);
-    model.PlayerName[0] = playerName.Name;
-    document.getElementById("Name0").innerHTML = playerName;
+    model.PlayerName[0] = JSON.parse(this.responseText);
+    document.getElementById("Name0").innerHTML = model.PlayerName[0];
     document.getElementById("NameBlock0").className = "card bg-light text-dark";
     updateRegistration();
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Data.Odbc;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
@@ -37,14 +38,15 @@ namespace TabPlayStarter
                 }
             }
 
-            Database db = new Database(pathToDB);
-            if (pathToDB == "" || !db.Initialize())
+            OdbcConnectionStringBuilder connectionString = null;
+            if (pathToDB != "") connectionString = Database.ConnectionString(pathToDB);
+            if (!Database.Initialize(connectionString))
             {
                 AddDatabaseFileButton.Visible = true;   // No valid database in arguments
             }
             else
             {
-                HandsList handsList = new HandsList(db);
+                HandsList handsList = new HandsList(connectionString);
                 if (handsList.Count == 0)
                 {
                     PathToHandRecordFileLabel.Text = "Please add a hand record (.pbn) file";
@@ -63,11 +65,11 @@ namespace TabPlayStarter
             if (DatabaseFileDialog.ShowDialog() == DialogResult.OK)
             {
                 pathToDB = DatabaseFileDialog.FileName;
-                Database db = new Database(pathToDB);
-                if (db.Initialize())
+                OdbcConnectionStringBuilder connectionString = Database.ConnectionString(pathToDB);
+                if (Database.Initialize(connectionString))
                 {
                     AddDatabaseFileButton.Enabled = false;
-                    HandsList handsList = new HandsList(db);
+                    HandsList handsList = new HandsList(connectionString);
                     if (handsList.Count == 0)
                     {
                         PathToHandRecordFileLabel.Text = "Please add a hand record (.pbn) file";
@@ -94,7 +96,7 @@ namespace TabPlayStarter
                 }
                 else
                 {
-                    handsList.WriteToDB(new Database(pathToDB));
+                    handsList.WriteToDB(Database.ConnectionString(PathToDBLabel.Text));
                     AddHandRecordFileButton.Enabled = false;
                     StartSession();
                 }
@@ -103,7 +105,9 @@ namespace TabPlayStarter
 
         private void StartSession()
         {
-            SetDBFilePath(pathToDB);
+            PathToDBLabel.Text = pathToDB;
+            string pathToTabPlayDB = Environment.ExpandEnvironmentVariables(@"%Public%\TabPlay\TabPlayDB.txt");
+            System.IO.File.WriteAllText(pathToTabPlayDB, Database.ConnectionString(pathToDB).ToString());
             SessionStatusLabel.Text = "Session Running";
             SessionStatusLabel.ForeColor = Color.Green;
             OptionsButton.Visible = true;
@@ -115,18 +119,6 @@ namespace TabPlayStarter
 
         private void TabPlayForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            ClearDBFilePath();
-        }
-
-        public void SetDBFilePath(string pathToDB)
-        {
-            PathToDBLabel.Text = pathToDB;
-            string pathToTabPlayDB = Environment.ExpandEnvironmentVariables(@"%Public%\TabPlay\TabPlayDB.txt");
-            System.IO.File.WriteAllText(pathToTabPlayDB, pathToDB);
-        }
-
-        public void ClearDBFilePath()
-        {
             PathToDBLabel.Text = "";
             string pathToTabPlayDB = Environment.ExpandEnvironmentVariables(@"%Public%\TabPlay\TabPlayDB.txt");
             System.IO.File.WriteAllText(pathToTabPlayDB, "");
@@ -135,9 +127,9 @@ namespace TabPlayStarter
         private void AnalysisCalculation_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = sender as BackgroundWorker;
-            Database db = new Database(PathToDBLabel.Text);
-            HandsList handsList = new HandsList(db);
-            HandEvaluationsList handEvaluationsList = new HandEvaluationsList(db);
+            OdbcConnectionStringBuilder connectionString = Database.ConnectionString(PathToDBLabel.Text);
+            HandsList handsList = new HandsList(connectionString);
+            HandEvaluationsList handEvaluationsList = new HandEvaluationsList(connectionString);
             int counter = 0;
             foreach (Hand hand in handsList)
             {
@@ -162,9 +154,11 @@ namespace TabPlayStarter
 
         private void OptionsButton_Click(object sender, EventArgs e)
         {
+            Point mainFormLocation = Location;
             OptionsForm frmOptions = new OptionsForm
             {
-                Tag = PathToDBLabel.Text
+                Tag = PathToDBLabel.Text,
+                Location = new Point(mainFormLocation.X + 30, mainFormLocation.Y + 30)
             };
             frmOptions.ShowDialog();
         }

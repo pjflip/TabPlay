@@ -3,7 +3,7 @@ using System.Data.Odbc;
 
 namespace TabPlay.Models
 {
-    public class TableStatus
+    public class Table
     {
         public int SectionID { get; private set; }
         public int TableNumber { get; private set; }
@@ -24,7 +24,7 @@ namespace TabPlay.Models
         public bool ClaimExpose { get; set; } = false;
         public string ClaimDirection { get; set; }
 
-        public TableStatus(int sectionID, int tableNumber)
+        public Table(int sectionID, int tableNumber)
         {
             SectionID = sectionID;
             TableNumber = tableNumber;
