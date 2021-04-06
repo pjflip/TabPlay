@@ -13,7 +13,7 @@ namespace TabPlay.Controllers
             Device device = AppData.DeviceList[deviceNumber];
             Table table = AppData.TableList.Find(x => x.SectionID == device.SectionID && x.TableNumber == device.TableNumber);
             HandsDisplay handsDisplay = new HandsDisplay (deviceNumber, table);
-            ViewData["Buttons"] = ButtonOptions.OKEnabled;
+            ViewData["Buttons"] = ButtonOptions.OKVisible;
             string sectionLetter = AppData.SectionList.Find(x => x.SectionID == device.SectionID).SectionLetter;
             if (AppData.IsIndividual)
             {

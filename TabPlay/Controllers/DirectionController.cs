@@ -27,7 +27,7 @@ namespace TabPlay.Controllers
             };
             string sectionLetter = AppData.SectionList.Find(x => x.SectionID == sectionID).SectionLetter;
             ViewData["Header"] = $"Table {sectionLetter + tableNumber.ToString()} - Round {table.RoundNumber}";
-            ViewData["Buttons"] = ButtonOptions.OKDisabled;
+            ViewData["Buttons"] = ButtonOptions.OKInvisible;
             ViewData["Title"] = $"Direction - {sectionLetter + tableNumber.ToString()}";
             return View(enterDirection);  
         }

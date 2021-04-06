@@ -101,15 +101,13 @@
         }
         document.getElementById("tn" + n).className = "btn btn-warning btn-lg m-1";
         tableNumber = n;
-        document.getElementById("OKButton").disabled = false;
+        document.getElementById("OKButton").className = "btn btn-success mr-0 ml-2 float-right";
     }
 
-    $(document).on('touchstart', '#OKButton:enabled', function () {
-        if (tableNumber != "") {
-            if (!isSubmitted) {
-                isSubmitted = true;
-                location.href = '@Url.Action("Index", "Direction")?sectionID=@Model.SectionID&tableNumber=' + tableNumber;
-            }
+    function OKButtonClick() {
+        if (!isSubmitted) {
+            isSubmitted = true;
+            location.href = '@Url.Action("Index", "Direction")?sectionID=@Model.SectionID&tableNumber=' + tableNumber;
         }
-    });
+    }
 </script>

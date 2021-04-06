@@ -39,14 +39,7 @@ namespace TabPlay.Controllers
 
             ViewData["Header"] = $"Table {device.SectionTableString} - {device.Direction}";
             ViewData["Title"] = $"Register - {device.SectionTableString}:{device.Direction}";
-            if (device.Direction == "North")
-            {
-                ViewData["Buttons"] = ButtonOptions.OKDisabled;
-            }
-            else
-            {
-                ViewData["Buttons"] = ButtonOptions.None;
-            }
+            ViewData["Buttons"] = ButtonOptions.OKInvisible;
 
             if (table.PairNumber[0] == 0 || table.PairNumber[1] == 0)  // Sit out
             {

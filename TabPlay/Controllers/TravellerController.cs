@@ -22,7 +22,7 @@ namespace TabPlay.Controllers
             }
             else
             {
-                ViewData["Buttons"] = ButtonOptions.OKEnabled;
+                ViewData["Buttons"] = ButtonOptions.OKVisible;
             }
             Traveller traveller = new Traveller(deviceNumber, table);
 

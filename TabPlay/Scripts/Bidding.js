@@ -226,7 +226,7 @@ function resetBB() {
     }
 
     for (var i = 1; i <= 7; i++) {
-        if (i < model.LastBidLevel || (i == model.LastBidLevel && model.LastBidSuit == "N")) {
+        if (i < model.LastBidLevel || (i == model.LastBidLevel && model.LastBidSuit == "NT")) {
             document.getElementById("bb" + i.toString()).className = "btn btn-light btn-lg btn-bb";
             document.getElementById("bb" + i.toString()).disabled = true;
         }

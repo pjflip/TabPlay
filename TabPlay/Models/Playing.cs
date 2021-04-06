@@ -39,6 +39,8 @@ namespace TabPlay.Models
         public string[] TrickSuit { get; private set; }
         public string[] TrickDisplayRank { get; private set; }
         public string[] TrickDisplaySuit { get; private set; }
+        public string[] PreviousTrickDisplayRank { get; private set; }
+        public string[] PreviousTrickDisplaySuit { get; private set; }
         public string TrickLeadSuit { get; private set; }
         public string PairOrPlayer { get; private set; }
         public int PollInterval { get; private set; }
@@ -89,6 +91,8 @@ namespace TabPlay.Models
             TrickSuit = new string[4];
             TrickDisplayRank = new string[4];
             TrickDisplaySuit = new string[4];
+            PreviousTrickDisplayRank = new string[4];
+            PreviousTrickDisplaySuit = new string[4];
             for (int i = 0; i < 4; i++)
             {
                 TrickCardString[i] = "";
@@ -96,6 +100,8 @@ namespace TabPlay.Models
                 TrickSuit[i] = "";
                 TrickDisplayRank[i] = "";
                 TrickDisplaySuit[i] = "";
+                PreviousTrickDisplayRank[i] = "";
+                PreviousTrickDisplaySuit[i] = "";
             }
             PollInterval = Settings.PollInterval;
             if (AppData.IsIndividual) PairOrPlayer = "Player"; else PairOrPlayer = "Pair";
@@ -245,17 +251,30 @@ namespace TabPlay.Models
                         TricksEW++;
                     }
                     TrickNumber++;
-                    PlayDirectionNumber = winningDirectionNumber;
 
-                    // Reset current trick info
-                    TrickLeadSuit = "";
-                    for (int i = 0; i < 4; i++)
+                    if (PlayCounter == 51)  // The unlikely event that all cards played, but no result recorded to database
                     {
-                        TrickCardString[i] = "";
-                        TrickRank[i] = 0;
-                        TrickSuit[i] = "";
-                        TrickDisplayRank[i] = "";
-                        TrickDisplaySuit[i] = "";
+                        Result result = new Result(deviceNumber, BoardNumber, "IntermediateData");
+                        result.TricksTakenNumber = (Declarer == "North" || Declarer == "South") ? TricksNS : TricksEW;
+                        result.UpdateDB("ReceivedData");
+                        AppData.TableList.Find(x => x.SectionID == device.SectionID && x.TableNumber == device.TableNumber).PlayComplete = true;
+                    }
+                    else
+                    {
+                        PlayDirectionNumber = winningDirectionNumber;
+
+                        // Reset current trick info
+                        TrickLeadSuit = "";
+                        for (int i = 0; i < 4; i++)
+                        {
+                            TrickCardString[i] = "";
+                            TrickRank[i] = 0;
+                            TrickSuit[i] = "";
+                            PreviousTrickDisplayRank[i] = TrickDisplayRank[i];
+                            PreviousTrickDisplaySuit[i] = TrickDisplaySuit[i];
+                            TrickDisplayRank[i] = "";
+                            TrickDisplaySuit[i] = "";
+                        }
                     }
                 }
                 else

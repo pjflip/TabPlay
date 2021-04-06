@@ -14,10 +14,10 @@ setTimeout(function () {
     pollRegister.send();
 }, model.PollInterval);
 
-$(document).on('touchstart', '#OKButton:enabled', function () {
+function OKButtonClick() {
     request.open('get', OKButtonClickUrl, true);
     request.send();
-});
+}
 
 function enterPlayerNumberListener() {
     model.PlayerName[0] = JSON.parse(this.responseText);
@@ -70,7 +70,7 @@ function updateRegistration() {
     }
     if (model.Direction[0] == "North") {
         document.getElementById("Message").innerHTML = "Please wait until everyone is registered, and then press OK";
-        if (allRegistered && allNames) document.getElementById("OKButton").disabled = false;
+        if (allRegistered && allNames) document.getElementById("OKButton").className = "btn btn-success mr-0 ml-2 float-right";
     }
     else {
         document.getElementById("Message").innerHTML = "Please wait for North to take everyone to the next screen";

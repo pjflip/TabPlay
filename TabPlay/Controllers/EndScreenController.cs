@@ -12,7 +12,7 @@ namespace TabPlay.Controllers
         {
             Device device = AppData.DeviceList[deviceNumber];
             ViewData["Header"] = "";
-            ViewData["Buttons"] = ButtonOptions.OKEnabled;
+            ViewData["Buttons"] = ButtonOptions.OKVisible;
             ViewData["Header"] = $"Table {AppData.SectionList.Find(x => x.SectionID == device.SectionID).SectionLetter + device.TableNumber.ToString()} {device.Direction}";
             ViewData["Title"] = $"End Screen - {AppData.SectionList.Find(x => x.SectionID == device.SectionID).SectionLetter + device.TableNumber.ToString()} {device.Direction}";
             ViewData["DeviceNumber"] = deviceNumber;

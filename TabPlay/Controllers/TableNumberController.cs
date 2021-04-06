@@ -12,7 +12,7 @@ namespace TabPlay.Controllers
         {
             Section section = AppData.SectionList.Find(x => x.SectionID == sectionID);
             ViewData["Header"] = $"Section {section.SectionLetter}";
-            ViewData["Buttons"] = ButtonOptions.OKDisabled;
+            ViewData["Buttons"] = ButtonOptions.OKInvisible;
             ViewData["Title"] = $"Table Number";
             return View(section);  
         }

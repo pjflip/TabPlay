@@ -9,11 +9,11 @@ namespace TabPlay.Models
     public enum ButtonOptions
     {
         None,
-        OKEnabled,
-        OKDisabled,
+        OKVisible,
+        OKInvisible,
         Skip,
         HandsAndOK,
-        Claim
+        Playing
     }
 
     public static class Utilities

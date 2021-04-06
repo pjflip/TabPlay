@@ -31,9 +31,9 @@ namespace TabPlay.Controllers
             }
             Move move = new Move(deviceNumber, tableNotReady);
 
-            ViewData["Header"] = $"Table {device.SectionTableString}";
-            ViewData["Buttons"] = ButtonOptions.OKEnabled;
-            ViewData["Title"] = $"Move - {device.SectionTableString}";
+            ViewData["Header"] = $"Table {device.SectionTableString} - {device.Direction}";
+            ViewData["Buttons"] = ButtonOptions.OKVisible;
+            ViewData["Title"] = $"Move - {device.SectionTableString}:{device.Direction}";
             return View(move);
         }
 

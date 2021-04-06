@@ -1,10 +1,9 @@
 TabPlay ReadMe file
 
 TabPlay is a system for playing the card game bridge using hand-held devices 
-(tablets) over a local wireless network. It is a web application that uses 
+(tablets, phones, etc) over a local wireless network. It is a web application that uses 
 Windows IIS to serve web pages across a local wireless network.  It requires 
-a server PC and some sort of table-top device with a browser for each player 
-(tablet, phone, etc). 
+a server PC and some sort of device with a web browser for each player.
 
 TabPlay uses a Bridgemate .bws standard Access database, so is a direct 
 replacement for BridgeTab (or Bridgemate, BridgePad etc).  It should work 
@@ -12,7 +11,7 @@ with any bridge scoring program that can create a .bws database, but has been
 built with EBUScore and Jeff Smith's scoring programs in mind.
 
 TabPlay is designed for use on a PC with Windows 10 (which includes Internet
-Information Services (IIS) 10), .NET Framework 4.6.1 and ASP.NET 4.7.
+Information Services (IIS) 10), .NET Framework 4.7.2 and ASP.NET 4.7.
 
 IMPORTANT: Please ensure you have completed all the installation steps in the 
 'TabPlay User Guide' document before attempting to run TabPlay.

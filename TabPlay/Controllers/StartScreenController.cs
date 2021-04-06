@@ -12,7 +12,7 @@ namespace TabPlay.Controllers
         public ActionResult Index()
         {
             ViewData["Header"] = "";
-            ViewData["Buttons"] = ButtonOptions.OKEnabled;
+            ViewData["Buttons"] = ButtonOptions.OKVisible;
             ViewData["Version"] = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             ViewData["Title"] = $"Start Screen";
             return View();

@@ -149,34 +149,23 @@ function pollPlayListener() {
                 model.TricksEW++;
                 document.getElementById("tricksEW").innerHTML = model.TricksEW.toString();
             }
-            model.TrickNumber++;
             model.PlayDirectionNumber = winningDirectionNumber;
             model.TrickLeadSuit = "";
-            if (model.PlayCounter == 51 && model.Direction[0] == "North") {
-                var tricks = tricksEW;
-                if (model.Declarer == "North" || model.Declarer == "South") tricks = tricksNS;
-                request.open('get', sendResultUrl + "&tricks=" + tricks.toString(), true);
-                request.send();
-                setTimeout(function () {
-                    pollPlay.open('get', pollPlayUrl + "&playCounter=" + model.PlayCounter.toString(), true);
-                    pollPlay.send();
-                }, model.PollInterval);
-            }
-            else {
-                setTimeout(function () {
-                    document.getElementById("playCard0").className = "btn btn-invisible";
-                    document.getElementById("playCard1").className = "btn btn-invisible";
-                    document.getElementById("playCard2").className = "btn btn-invisible";
-                    document.getElementById("playCard3").className = "btn btn-invisible";
+            model.TrickNumber++;
+            clearHeaders();
+            setTimeout(function () {
+                if (model.PlayCounter < 51) {
+                    clearPlayCards();
                     startPlay();
-                    pollPlay.open('get', pollPlayUrl + "&playCounter=" + model.PlayCounter.toString(), true);
-                    pollPlay.send();
-                }, 4000);
-            }
+                }
+                pollPlay.open('get', pollPlayUrl + "&playCounter=" + model.PlayCounter.toString(), true);
+                pollPlay.send();
+            }, 4000);
         }
         else {
             // Not end of trick
             model.PlayDirectionNumber = (model.PlayDirectionNumber + 1) % 4;
+            clearHeaders();
             startPlay();
             setTimeout(function () {
                 pollPlay.open('get', pollPlayUrl + "&playCounter=" + model.PlayCounter.toString(), true);
@@ -193,11 +182,30 @@ function dirNumber(dirString) {
     return -1;
 }
 
-function startPlay() {
+function clearHeaders() {
     document.getElementById("dir0header").className = "card-header py-1";
     document.getElementById("dir1header").className = "card-header py-1";
     document.getElementById("dir2header").className = "card-header py-1";
     document.getElementById("dir3header").className = "card-header py-1";
+}
+
+function clearPlayCards() {
+    document.getElementById("playCard0").className = "btn btn-invisible";
+    document.getElementById("playCard1").className = "btn btn-invisible";
+    document.getElementById("playCard2").className = "btn btn-invisible";
+    document.getElementById("playCard3").className = "btn btn-invisible";
+    document.getElementById("previousTrickCard0Rank").innerHTML = document.getElementById("playCard0Rank").innerHTML;
+    document.getElementById("previousTrickCard1Rank").innerHTML = document.getElementById("playCard1Rank").innerHTML;
+    document.getElementById("previousTrickCard2Rank").innerHTML = document.getElementById("playCard2Rank").innerHTML;
+    document.getElementById("previousTrickCard3Rank").innerHTML = document.getElementById("playCard3Rank").innerHTML;
+    document.getElementById("previousTrickCard0Suit").innerHTML = document.getElementById("playCard0Suit").innerHTML;
+    document.getElementById("previousTrickCard1Suit").innerHTML = document.getElementById("playCard1Suit").innerHTML;
+    document.getElementById("previousTrickCard2Suit").innerHTML = document.getElementById("playCard2Suit").innerHTML;
+    document.getElementById("previousTrickCard3Suit").innerHTML = document.getElementById("playCard3Suit").innerHTML;
+    if (model.TrickNumber == 2) document.getElementById("previousTrickButton").className = "btn btn-primary mr-0 ml-2 float-right";
+}
+
+function startPlay() {
     document.getElementById("dir" + model.PlayDirectionNumber.toString() + "header").className = "card-header bg-warning py-1";
     allowPlay = ((model.PlayDirectionNumber == 0 && model.DummyDirectionNumber != 0) || (model.PlayDirectionNumber == 2 && model.DummyDirectionNumber == 2));
     if (allowPlay) {
@@ -250,12 +258,15 @@ function makeInitialPlays() {
         if (hand3CountPlayed > 12) document.getElementById("h3r0c0").className = "btn btn-invisible";
     }
     for (var i = 0; i < 4; i++) {
+        document.getElementById("previousTrickCard" + i.toString() + "Rank").innerHTML = model.PreviousTrickDisplayRank[i];
+        document.getElementById("previousTrickCard" + i.toString() + "Suit").innerHTML = model.PreviousTrickDisplaySuit[i];
         if (model.TrickCardString[i] != "") {
             document.getElementById("playCard" + i.toString() + "Rank").innerHTML = model.TrickDisplayRank[i];
             document.getElementById("playCard" + i.toString() + "Suit").innerHTML = model.TrickDisplaySuit[i];
             document.getElementById("playCard" + i.toString()).className = "btn btn-cardLarge";
         }
     }
+    if (model.TrickNumber > 1) document.getElementById("previousTrickButton").className = "btn btn-primary mr-0 ml-2 float-right";
 }
 
 function exposeCards(directionNumber) {
@@ -428,30 +439,33 @@ function makePlay() {
             model.TrickNumber++;
             model.PlayDirectionNumber = winningDirectionNumber;
             model.TrickLeadSuit = "";
-            if (model.PlayCounter == 51 && model.Direction[0] == "North") {
-                var tricks = tricksEW;
-                if (model.Declarer == "North" || model.Declarer == "South") tricks = tricksNS;
-                request.open('get', sendResultUrl + "&tricks=" + tricks.toString(), true);
-                request.send();
-            }
-            else {
-                setTimeout(function () {
-                    document.getElementById("playCard0").className = "btn btn-invisible";
-                    document.getElementById("playCard1").className = "btn btn-invisible";
-                    document.getElementById("playCard2").className = "btn btn-invisible";
-                    document.getElementById("playCard3").className = "btn btn-invisible";
+            clearHeaders();
+            setTimeout(function () {
+                if (model.PlayCounter == 51) {
+                    var tricks = model.TricksEW;
+                    if (model.Declarer == "North" || model.Declarer == "South") tricks = model.TricksNS;
+                    request.open('get', sendResultUrl + "&tricks=" + tricks.toString(), true);
+                    request.send();
+                }
+                else {
+                    clearPlayCards();
                     startPlay();
-                }, 4000);
-            }
+                }
+            }, 4000);
         }
         else {
             // Not end of trick
             model.PlayDirectionNumber = (model.PlayDirectionNumber + 1) % 4;
+            clearHeaders();
             startPlay();
         }
         cardSelectedNumber = -1;
     }
 }
+
+$(document).on('touchstart', '#previousTrickButton:enabled', function () {
+    $("#previousTrickModal").modal("show");
+});
 
 // *** Claims section ***
 $('#claimTricksModal').on('show.bs.modal', function () {

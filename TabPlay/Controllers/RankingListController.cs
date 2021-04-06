@@ -19,7 +19,7 @@ namespace TabPlay.Controllers
                 // Only show the ranking list if it contains something meaningful
                 if (rankingList != null && rankingList.Count != 0 && rankingList[0].ScoreDecimal != 0 && rankingList[0].ScoreDecimal != 50)
                 {
-                    ViewData["Buttons"] = ButtonOptions.OKEnabled;
+                    ViewData["Buttons"] = ButtonOptions.OKVisible;
                     ViewData["Header"] = $"Table {device.SectionTableString}:{device.Direction} - Round {device.RoundNumber}";
                     ViewData["Title"] = $"Ranking List - {device.SectionTableString}:{device.Direction}";
                     if (rankingList.TwoWinners)
@@ -48,7 +48,7 @@ namespace TabPlay.Controllers
             {
                 Device device = AppData.DeviceList[deviceNumber];
                 rankingList.FinalRankingList = true;
-                ViewData["Buttons"] = ButtonOptions.OKEnabled;
+                ViewData["Buttons"] = ButtonOptions.OKVisible;
                 ViewData["Header"] = $"Table {device.SectionTableString}:{device.Direction} - Round {device.RoundNumber}";
                 ViewData["Title"] = $"Ranking List - {device.SectionTableString}:{device.Direction}";
                 if (rankingList.TwoWinners)

@@ -32,15 +32,13 @@
         }
         document.getElementById("s" + n).className = "btn btn-warning btn-lg m-1";
         section = n;
-        document.getElementById("OKButton").disabled = false;
+        document.getElementById("OKButton").className = "btn btn-success mr-0 ml-2 float-right";
     }
 
-    $(document).on('touchstart', '#OKButton:enabled', function () {
-        if (section != "") {
-            if (!isSubmitted) {
-                isSubmitted = true;
-                location.href = '@Url.Action("Index", "TableNumber")?sectionID=' + section;
-            }
+    function OKButtonClick() {
+        if (!isSubmitted) {
+            isSubmitted = true;
+            location.href = '@Url.Action("Index", "TableNumber")?sectionID=' + section;
         }
-    });
+    }
 </script>

@@ -15,7 +15,7 @@
                 <p>Table @Model.TableNumber and Direction @Model.Direction is already registered.  Do not press Register unless you intend to re-register a tablet device at your current location</p>
             </div>
             <div class="modal-footer" style="justify-content:space-between">
-                <button class="btn btn-lg btn-danger" ontouchstart="modalLogOn()">
+                <button class="btn btn-lg btn-danger" ontouchstart="modalRegister()">
                     <span class="fa fa-play-circle"></span> Register
                 </button>
                 <button class="btn btn-lg btn-success" data-dismiss="modal">
@@ -80,19 +80,17 @@
         }
         document.getElementById("d" + dir).className = "btn btn-warning btn-lg m-1";
         direction = dir;
-        document.getElementById("OKButton").disabled = false;
+        document.getElementById("OKButton").className = "btn btn-success mr-0 ml-2 float-right";
     }
 
-    $(document).on('touchstart', '#OKButton:enabled', function () {
-        if (direction != "") {
-            if (!isSubmitted) {
-                isSubmitted = true;
-                location.href = '@Url.Action("OKButtonClick", "Direction")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=' + direction + '&confirm=false';
-            }
+    function OKButtonClick() {
+        if (!isSubmitted) {
+            isSubmitted = true;
+            location.href = '@Url.Action("OKButtonClick", "Direction")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=' + direction + '&confirm=false';
         }
-    });
+    }
 
-    function modalLogOn() {
+    function modalRegister() {
         if (!isSubmitted) {
             isSubmitted = true;
             location.href = '@Url.Action("OKButtonClick", "EnterDirection")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=@Model.Direction&confirm=true';

@@ -14,7 +14,7 @@ namespace TabPlay.Controllers
             Table table = AppData.TableList.Find(x => x.SectionID == device.SectionID && x.TableNumber == device.TableNumber);
             Playing playing = new Playing(deviceNumber, table);
 
-            ViewData["Buttons"] = ButtonOptions.Claim;
+            ViewData["Buttons"] = ButtonOptions.Playing;
             string sectionLetter = AppData.SectionList.Find(x => x.SectionID == device.SectionID).SectionLetter;
             if (AppData.IsIndividual)
             {

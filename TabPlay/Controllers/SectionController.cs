@@ -19,7 +19,7 @@ namespace TabPlay.Controllers
             // Get section
             {
                 ViewData["Header"] = "";
-                ViewData["Buttons"] = ButtonOptions.OKDisabled;
+                ViewData["Buttons"] = ButtonOptions.OKInvisible;
                 ViewData["Title"] = $"Section";
                 return View(AppData.SectionList);
             }
