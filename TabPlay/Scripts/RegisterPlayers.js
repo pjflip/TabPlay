@@ -61,19 +61,29 @@ function updateRegistration() {
         }
     }
     if (model.PairNumber[1] == 0) {
-        allRegistered = model.Registered[0] && model.Registered[2];
-        allNames = (model.PlayerName[0] != "") && (model.PlayerName[2] != "");
+        if (model.Direction[0] == "North" || model.Direction[0] == "East") {
+            document.getElementById("Message").innerHTML = "Please wait until everyone is registered, and then press OK";
+            if (model.Registered[0] && model.Registered[2] && (model.PlayerName[0] != "") && (model.PlayerName[2] != "")) {
+                document.getElementById("OKButton").className = "btn btn-success mr-0 ml-2 float-right";
+            }
+        }
+        else if (model.Direction[0] == "South") {
+            document.getElementById("Message").innerHTML = "Please wait for North to take you to the next screen";
+        }
+        else {
+            document.getElementById("Message").innerHTML = "Please wait for East to take you to the next screen";
+        }
     }
     else {
-        allRegistered = model.Registered[0] && model.Registered[1] && model.Registered[2] && model.Registered[3];
-        allNames = (model.PlayerName[0] != "") && (model.PlayerName[1] != "") && (model.PlayerName[2] != "") && (model.PlayerName[3] != "");
-    }
-    if (model.Direction[0] == "North") {
-        document.getElementById("Message").innerHTML = "Please wait until everyone is registered, and then press OK";
-        if (allRegistered && allNames) document.getElementById("OKButton").className = "btn btn-success mr-0 ml-2 float-right";
-    }
-    else {
-        document.getElementById("Message").innerHTML = "Please wait for North to take everyone to the next screen";
+        if (model.Direction[0] == "North") {
+            document.getElementById("Message").innerHTML = "Please wait until everyone is registered, and then press OK";
+            if (model.Registered[0] && model.Registered[1] && model.Registered[2] && model.Registered[3] && (model.PlayerName[0] != "") && (model.PlayerName[1] != "") && (model.PlayerName[2] != "") && (model.PlayerName[3] != "")) {
+                document.getElementById("OKButton").className = "btn btn-success mr-0 ml-2 float-right";
+            }
+        }
+        else {
+            document.getElementById("Message").innerHTML = "Please wait for North to take everyone to the next screen";
+        }
     }
 }
 

@@ -8,7 +8,7 @@ namespace TabPlay.Controllers
 {
     public class MoveController : Controller
     {
-        public ActionResult Index(int deviceNumber, bool tableNotReady = false)
+        public ActionResult Index(int deviceNumber, int tableNotReadyNumber = -1)
         {
             Device device = AppData.DeviceList[deviceNumber];
             if (device.RoundNumber >= Utilities.NumberOfRoundsInEvent(device.SectionID))  // Session complete
@@ -29,11 +29,21 @@ namespace TabPlay.Controllers
                 // Nobody has yet advanced this table to the next round, so show that this player is ready to do so
                 table.ReadyForNextRound[Utilities.DirectionToNumber(device.Direction)] = true;
             }
-            Move move = new Move(deviceNumber, tableNotReady);
+            Move move = new Move(deviceNumber, tableNotReadyNumber);
 
-            ViewData["Header"] = $"Table {device.SectionTableString} - {device.Direction}";
+            if (device.TableNumber == 0)
+            {
+                ViewData["Header"] = $"Table {device.SectionTableString}";
+                ViewData["Title"] = $"Move - {device.SectionTableString}";
+
+            }
+            else
+            {
+                ViewData["Header"] = $"Table {device.SectionTableString} - {device.Direction}";
+                ViewData["Title"] = $"Move - {device.SectionTableString}:{device.Direction}";
+
+            }
             ViewData["Buttons"] = ButtonOptions.OKVisible;
-            ViewData["Title"] = $"Move - {device.SectionTableString}:{device.Direction}";
             return View(move);
         }
 
@@ -65,7 +75,7 @@ namespace TabPlay.Controllers
             } 
             
             // Otherwise go back and wait
-            return RedirectToAction("Index", "Move", new { deviceNumber, tableNotReady = true });
+            return RedirectToAction("Index", "Move", new { deviceNumber, tableNotReadyNumber = newTableNumber });
         }
     }
 }

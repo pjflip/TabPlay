@@ -13,12 +13,12 @@ namespace TabPlay.Models
         public int NewTableNumber { get; private set; }
         public string NewDirection { get; private set; }
         public bool Stay { get; private set; }
-        public bool TableNotReady { get; private set; }
+        public int TableNotReadyNumber { get; private set; }
 
-        public Move(int deviceNumber, bool tableNotReady)
+        public Move(int deviceNumber, int tableNotReadyNumber)
         {
             DeviceNumber = deviceNumber;
-            TableNotReady = tableNotReady;
+            TableNotReadyNumber = tableNotReadyNumber;
             Device device = AppData.DeviceList[deviceNumber];
             NewRoundNumber = device.RoundNumber + 1;
             List<MoveOption> moveOptionsList = new List<MoveOption>();
@@ -63,39 +63,44 @@ namespace TabPlay.Models
                         NewDirection = "North";
                         Stay = (NewTableNumber == device.TableNumber && NewDirection == device.Direction);
                     }
-
-                    // Try Direction = South
-                    moveOption = moveOptionsList.Find(x => x.South == device.PairNumber);
-                    if (moveOption != null)
+                    else
                     {
-                        NewTableNumber = moveOption.TableNumber;
-                        NewDirection = "South";
-                        Stay = (NewTableNumber == device.TableNumber && NewDirection == device.Direction);
-                    }
-
-                    // Try Direction = East
-                    moveOption = moveOptionsList.Find(x => x.East == device.PairNumber);
-                    if (moveOption != null)
-                    {
-                        NewTableNumber = moveOption.TableNumber;
-                        NewDirection = "East";
-                        Stay = (NewTableNumber == device.TableNumber && NewDirection == device.Direction);
-                    }
-
-                    // Try Direction = West
-                    moveOption = moveOptionsList.Find(x => x.West == device.PairNumber);
-                    if (moveOption != null)
-                    {
-                        NewTableNumber = moveOption.TableNumber;
-                        NewDirection = "West";
-                        Stay = (NewTableNumber == device.TableNumber && NewDirection == device.Direction);
-                    }
-
-                    else   // No move info found - move to sit out
-                    {
-                        NewTableNumber = 0;
-                        NewDirection = "";
-                        Stay = false;
+                        // Try Direction = South
+                        moveOption = moveOptionsList.Find(x => x.South == device.PairNumber);
+                        if (moveOption != null)
+                        {
+                            NewTableNumber = moveOption.TableNumber;
+                            NewDirection = "South";
+                            Stay = (NewTableNumber == device.TableNumber && NewDirection == device.Direction);
+                        }
+                        else
+                        {
+                            // Try Direction = East
+                            moveOption = moveOptionsList.Find(x => x.East == device.PairNumber);
+                            if (moveOption != null)
+                            {
+                                NewTableNumber = moveOption.TableNumber;
+                                NewDirection = "East";
+                                Stay = (NewTableNumber == device.TableNumber && NewDirection == device.Direction);
+                            }
+                            else
+                            {
+                                // Try Direction = West
+                                moveOption = moveOptionsList.Find(x => x.West == device.PairNumber);
+                                if (moveOption != null)
+                                {
+                                    NewTableNumber = moveOption.TableNumber;
+                                    NewDirection = "West";
+                                    Stay = (NewTableNumber == device.TableNumber && NewDirection == device.Direction);
+                                }
+                                else   // No move info found - move to sit out
+                                {
+                                    NewTableNumber = 0;
+                                    NewDirection = "";
+                                    Stay = false;
+                                }
+                            }
+                        }
                     }
                 }
                 else  // Not individual, so find pair

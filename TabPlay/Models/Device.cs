@@ -109,7 +109,7 @@ namespace TabPlay.Models
             Direction = newDirection;
             if (newTableNumber == 0)
             {
-                SectionTableString = AppData.SectionList.Find(x => x.SectionID == SectionID).SectionLetter + " Sitout";
+                SectionTableString = AppData.SectionList.Find(x => x.SectionID == SectionID).SectionLetter + ":Sitout";
             }
             else
             {

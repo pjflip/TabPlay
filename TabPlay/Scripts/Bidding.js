@@ -173,6 +173,7 @@ function selectAlert() {
 }
 
 function makeBid() {
+    document.getElementById("bbMakeBid").disabled = true;
     if (bid == "Pass") {
         model.PassCount++;
         sendBid.open('get', sendBidUrl + "&lastBidLevel=" + model.LastBidLevel.toString() + "&lastBidSuit=" + model.LastBidSuit + "&lastBidX=" + model.LastBidX + "&alert=" + alert + "&lastBidDirection=" + model.LastBidDirection + "&passCount=" + model.PassCount.toString() + "&bidCounter=" + (model.BidCounter + 1).toString(), true);

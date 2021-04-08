@@ -12,7 +12,7 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
                 </p>
             </div>
             <div class="modal-body">
-                <p>The table you are trying to move to is not yet ready</p>
+                <p>Table @Model.TableNotReadyNumber is not ready yet.  Please wait and then move to the table before pressing OK</p>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-lg btn-success" data-dismiss="modal">
@@ -59,10 +59,10 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
     </div>
 </div>
 
-@if (Model.TableNotReady)
+@if (Model.TableNotReadyNumber > 0)
 {
     <script>
-        $("##cantMoveYetModal").modal("show");
+        $("#cantMoveYetModal").modal("show");
     </script>
 }
 
