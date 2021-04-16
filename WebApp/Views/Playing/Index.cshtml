@@ -1,4 +1,4 @@
-﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
 
 @model TabPlay.Models.Playing
@@ -49,6 +49,63 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
     }
 </style>
 
+<div id="previousTrickModal" class="modal" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="text-center">
+                    Previous trick
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="card mx-auto" style="width: 200px; background-color: darkgreen">
+                    <div class="card-body p-2 d-flex align-items-center text-center">
+                        <div class="container">
+                            <div class="row h-100">
+                                <div class="col-4 px-0 d-flex justify-content-center align-items-center">
+                                    <button class="btn btn-cardLarge">
+                                        <p id="previousTrickCard1Rank"></p>
+                                        <p id="previousTrickCard1Suit"></p>
+                                    </button>
+                                </div>
+                                <div class="col-4">
+                                    <div class="row" style="min-height: 95px">
+                                        <div class="col px-0">
+                                            <button class="btn btn-cardLarge">
+                                                <p id="previousTrickCard2Rank"></p>
+                                                <p id="previousTrickCard2Suit"></p>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="min-height: 95px">
+                                        <div class="col px-0">
+                                            <button class="btn btn-cardLarge">
+                                                <p id="previousTrickCard0Rank"></p>
+                                                <p id="previousTrickCard0Suit"></p>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4 px-0 d-flex justify-content-center align-items-center">
+                                    <button class="btn btn-cardLarge">
+                                        <p id="previousTrickCard3Rank"></p>
+                                        <p id="previousTrickCard3Suit"></p>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-lg btn-success" data-dismiss="modal"">
+                    OK <span class="far fa-check-square"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="claimExposeModal" class="modal" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -78,46 +135,46 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
                 </h4>
             </div>
             <div class="modal-body text-center">
-                <button id="tricks0" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(0)">
+                <button id="tricks0" class="btn btn-lg btn-primary mb-2" onclick="claimTricks(0)">
                     0
                 </button>
-                <button id="tricks1" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(1)">
+                <button id="tricks1" class="btn btn-lg btn-primary mb-2" onclick="claimTricks(1)">
                     1
                 </button>
-                <button id="tricks2" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(2)">
+                <button id="tricks2" class="btn btn-lg btn-primary mb-2" onclick="claimTricks(2)">
                     2
                 </button>
-                <button id="tricks3" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(3)">
+                <button id="tricks3" class="btn btn-lg btn-primary mb-2" onclick="claimTricks(3)">
                     3
                 </button>
-                <button id="tricks4" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(4)">
+                <button id="tricks4" class="btn btn-lg btn-primary mb-2" onclick="claimTricks(4)">
                     4
                 </button>
-                <button id="tricks5" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(5)">
+                <button id="tricks5" class="btn btn-lg btn-primary mb-2" onclick="claimTricks(5)">
                     5
                 </button>
-                <button id="tricks6" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(6)">
+                <button id="tricks6" class="btn btn-lg btn-primary mb-2" onclick="claimTricks(6)">
                     6
                 </button>
-                <button id="tricks7" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(7)">
+                <button id="tricks7" class="btn btn-lg btn-primary mb-2" onclick="claimTricks(7)">
                     7
                 </button>
-                <button id="tricks8" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(8)">
+                <button id="tricks8" class="btn btn-lg btn-primary mb-2" onclick="claimTricks(8)">
                     8
                 </button>
-                <button id="tricks9" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(9)">
+                <button id="tricks9" class="btn btn-lg btn-primary mb-2" onclick="claimTricks(9)">
                     9
                 </button>
-                <button id="tricks10" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(10)">
+                <button id="tricks10" class="btn btn-lg btn-primary mb-2" onclick="claimTricks(10)">
                     10
                 </button>
-                <button id="tricks11" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(11)">
+                <button id="tricks11" class="btn btn-lg btn-primary mb-2" onclick="claimTricks(11)">
                     11
                 </button>
-                <button id="tricks12" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(12)">
+                <button id="tricks12" class="btn btn-lg btn-primary mb-2" onclick="claimTricks(12)">
                     12
                 </button>
-                <button id="tricks13" class="btn btn-lg btn-primary pb-2" onclick="claimTricks(13)">
+                <button id="tricks13" class="btn btn-lg btn-primary mb-2" onclick="claimTricks(13)">
                     13
                 </button>
             </div>
@@ -838,11 +895,11 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
 
 <script>
     var model = @Html.Raw(Json.Encode(Model));
-    var travellerUrl = '@Url.Action("Index", "Traveller")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction[0]&boardNumber=@Model.BoardNumber&pairNumber=@Model.PairNumber[0]';
-    var sendResultUrl = '@Url.Action("SendResult", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&boardNumber=@Model.BoardNumber';
-    var sendOpeningLeadUrl = '@Url.Action("SendOpeningLead", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber';
-    var sendPlayUrl = '@Url.Action("SendPlay", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&boardNumber=@Model.BoardNumber';
-    var sendClaimExposeUrl = '@Url.Action("SendClaimExpose", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&claimDirection=@Model.Direction[0]';
-    var pollPlayUrl = '@Url.Action("PollPlay", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber';
+    var travellerUrl = '@Url.Action("Index", "Traveller")?deviceNumber=@Model.DeviceNumber';
+    var sendResultUrl = '@Url.Action("SendResult", "Playing")?deviceNumber=@Model.DeviceNumber&boardNumber=@Model.BoardNumber';
+    var sendOpeningLeadUrl = '@Url.Action("SendOpeningLead", "Playing")?deviceNumber=@Model.DeviceNumber';
+    var sendPlayUrl = '@Url.Action("SendPlay", "Playing")?deviceNumber=@Model.DeviceNumber&boardNumber=@Model.BoardNumber';
+    var sendClaimExposeUrl = '@Url.Action("SendClaimExpose", "Playing")?deviceNumber=@Model.DeviceNumber';
+    var pollPlayUrl = '@Url.Action("PollPlay", "Playing")?deviceNumber=@Model.DeviceNumber';
 </script>
 <script src='@Url.Content("~/Scripts/Playing.js")' type="text/javascript"></script>

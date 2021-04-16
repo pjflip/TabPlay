@@ -1,7 +1,27 @@
-﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
 
 @model TabPlay.Models.Move
+
+<div id="cantMoveYetModal" class="modal" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-primary">
+                <p class="modal-title text-center">
+                    <h3>Warning</h3>
+                </p>
+            </div>
+            <div class="modal-body">
+                <p>Table @Model.TableNotReadyNumber is not ready yet.  Please wait and then move to the table before pressing OK</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-lg btn-success" data-dismiss="modal">
+                    OK <span class="far fa-check-square"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="row mt-5">
     <div class="col-12 text-center">
@@ -31,37 +51,20 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
     </div>
 </div>
 
-<div class="row mt-5">
-    <div class="col-12 text-center">
-        <h4 style="color:darkgreen">
-            Boards: @Model.LowBoard to @Model.HighBoard
-        </h4>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-12 text-center">
-        @if (Model.BoardsNewTableNumber == 0)
-        {
-            <h4>
-                Pass to Relay Table
-            </h4>
-        }
-        else
-        {
-            <h4>
-                Pass to Table @Model.BoardsNewTableNumber
-            </h4>
-        }
-    </div>
-</div>
-
 <div class="row">
     <div class="col-12 mt-5 text-center">
-        <h5>When the director calls the move, please move for the next round</h5>
-        <h5>And then, when you are ready to play, press OK</h5>
+        <h5>When the director calls the move, please move for the next round.</h5>
+        <h5>And then, when you are seated at the next table</h5>
+        <h5>and ready to play, press OK</h5>
     </div>
 </div>
+
+@if (Model.TableNotReadyNumber > 0)
+{
+    <script>
+        $("#cantMoveYetModal").modal("show");
+    </script>
+}
 
 <script>
     var isSubmitted = false;
@@ -69,7 +72,7 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
     function OKButtonClick() {
         if (!isSubmitted) {
             isSubmitted = true;
-            location.href = '@Url.Action("OKButtonClick", "Move")?sectionID=@Model.SectionID&newTableNumber=@Model.NewTableNumber&newRoundNumber=@Model.NewRoundNumber&newDirection=@Model.NewDirection';
+            location.href = '@Url.Action("OKButtonClick", "Move")?deviceNumber=@Model.DeviceNumber&newTableNumber=@Model.NewTableNumber&newRoundNumber=@Model.NewRoundNumber&newDirection=@Model.NewDirection';
         }
     }
 </script>

@@ -1,4 +1,4 @@
-﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
 
 @model TabPlay.Models.Bidding
@@ -145,6 +145,24 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
                             <td><h3 id="bid62">@Html.Raw(Model.BidTable[6, 2])</h3></td>
                             <td><h3 id="bid63">@Html.Raw(Model.BidTable[6, 3])</h3></td>
                         </tr>
+                        <tr>
+                            <td><h3 id="bid70">@Html.Raw(Model.BidTable[7, 0])</h3></td>
+                            <td><h3 id="bid71">@Html.Raw(Model.BidTable[7, 1])</h3></td>
+                            <td><h3 id="bid72">@Html.Raw(Model.BidTable[7, 2])</h3></td>
+                            <td><h3 id="bid73">@Html.Raw(Model.BidTable[7, 3])</h3></td>
+                        </tr>
+                        <tr>
+                            <td><h3 id="bid80">@Html.Raw(Model.BidTable[8, 0])</h3></td>
+                            <td><h3 id="bid81">@Html.Raw(Model.BidTable[8, 1])</h3></td>
+                            <td><h3 id="bid82">@Html.Raw(Model.BidTable[8, 2])</h3></td>
+                            <td><h3 id="bid83">@Html.Raw(Model.BidTable[8, 3])</h3></td>
+                        </tr>
+                        <tr>
+                            <td><h3 id="bid90">@Html.Raw(Model.BidTable[9, 0])</h3></td>
+                            <td><h3 id="bid91">@Html.Raw(Model.BidTable[9, 1])</h3></td>
+                            <td><h3 id="bid92">@Html.Raw(Model.BidTable[9, 2])</h3></td>
+                            <td><h3 id="bid93">@Html.Raw(Model.BidTable[9, 3])</h3></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -237,11 +255,11 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
             <div id="dir0" class="card-header py-1">
                 @if ((Model.NSVulnerable && (Model.Direction == "North" || Model.Direction == "South")) || (Model.EWVulnerable && (Model.Direction == "East" || Model.Direction == "West")))
                 {
-                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-danger">@Model.Direction</span> Pair: @Model.PairNumber</h5>
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-danger">@Model.Direction</span> @Model.PairOrPlayer: @Model.PairNumber</h5>
                 }
                 else
                 {
-                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-success">@Model.Direction</span> Pair: @Model.PairNumber</h5>
+                    <h5 class="float-left" style="display: inline-block"><span class="badge badge-success">@Model.Direction</span> @Model.PairOrPlayer: @Model.PairNumber</h5>
                 }
                 <h5 class="float-right" style="display: inline-block">@Model.PlayerName</h5>
             </div>
@@ -307,11 +325,11 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
 
 <script>
     var model = @Html.Raw(Json.Encode(Model));
-    var registerPlayersUrl = '@Url.Action("Index", "RegisterPlayers")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&boardNumber=@(Model.BoardNumber + 1)';
-    var travellerUrl = '@Url.Action("Index", "Traveller")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&boardNumber=@Model.BoardNumber&pairNumber=@Model.PairNumber';
-    var playingUrl = '@Url.Action("Index", "Playing")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&boardNumber=@Model.BoardNumber';
-    var skipUrl = '@Url.Action("Skip", "Bidding")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&boardNumber=@Model.BoardNumber';
-    var sendBidUrl = '@Url.Action("SendBid", "Bidding")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&callDirection=@Model.Direction&boardNumber=@Model.BoardNumber';
-    var pollBidUrl = '@Url.Action("PollBid", "Bidding")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber';
+    var registerPlayersUrl = '@Url.Action("Index", "RegisterPlayers")?deviceNumber=@Model.DeviceNumber&boardNumber=@(Model.BoardNumber + 1)';
+    var travellerUrl = '@Url.Action("Index", "Traveller")?deviceNumber=@Model.DeviceNumber';
+    var playingUrl = '@Url.Action("Index", "Playing")?deviceNumber=@Model.DeviceNumber';
+    var skipUrl = '@Url.Action("Skip", "Bidding")?deviceNumber=@Model.DeviceNumber&boardNumber=@Model.BoardNumber';
+    var sendBidUrl = '@Url.Action("SendBid", "Bidding")?deviceNumber=@Model.DeviceNumber&boardNumber=@Model.BoardNumber';
+    var pollBidUrl = '@Url.Action("PollBid", "Bidding")?deviceNumber=@Model.DeviceNumber';
 </script>
 <script src='@Url.Content("~/Scripts/Bidding.js")' type="text/javascript"></script>

@@ -8,10 +8,15 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4347D6D2-6E33-4F3D-A55F-5474060B9FB9}"
 	ProjectSection(SolutionItems) = preProject
 		HarvestWebApp.bat = HarvestWebApp.bat
+		TabPlay Documents\InstallerNotice TabPlayIISSetup.rtf = TabPlay Documents\InstallerNotice TabPlayIISSetup.rtf
+		TabPlay Documents\InstallerNotice TabPlaySetup.rtf = TabPlay Documents\InstallerNotice TabPlaySetup.rtf
 		TabPlay Documents\LICENSE = TabPlay Documents\LICENSE
 		TabPlay Documents\NOTICE = TabPlay Documents\NOTICE
 		README.md = README.md
+		TabPlay Documents\TabPlay 493x312.bmp = TabPlay Documents\TabPlay 493x312.bmp
+		TabPlay Documents\TabPlay 493x58.bmp = TabPlay Documents\TabPlay 493x58.bmp
 		TabPlay Documents\TabPlay ReadMe 1.0.1.txt = TabPlay Documents\TabPlay ReadMe 1.0.1.txt
+		TabPlay Documents\TabPlay User Guide 1.0.1.odt = TabPlay Documents\TabPlay User Guide 1.0.1.odt
 		TabPlay Documents\TabPlayDB.txt = TabPlay Documents\TabPlayDB.txt
 	EndProjectSection
 EndProject

@@ -1,4 +1,4 @@
-﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
 Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
 
 @model TabPlay.Models.Traveller
@@ -101,14 +101,14 @@ Licensed under the Apache License, Version 2.0; you may not use this file except
     function OKButtonClick() {
         if (!isSubmitted) {
             isSubmitted = true;
-            location.href = '@Url.Action("Index", "RegisterPlayers")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&boardNumber=@(Model.BoardNumber + 1)';
+            location.href = '@Url.Action("Index", "RegisterPlayers")?deviceNumber=@Model.DeviceNumber&boardNumber=@(Model.BoardNumber + 1)';
         }
     }
 
     function handsButtonClick() {
         if (!isSubmitted) {
             isSubmitted = true;
-            location.href = '@Url.Action("Index", "HandsDisplay")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&roundNumber=@Model.RoundNumber&direction=@Model.Direction&boardNumber=@Model.BoardNumber&pairNumber=@Model.PairNumber';
+            location.href = '@Url.Action("Index", "HandsDisplay")?deviceNumber=@Model.DeviceNumber';
         }
     }
 </script>

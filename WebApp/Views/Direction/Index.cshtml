@@ -1,7 +1,30 @@
-﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
      Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
 
-@model TabPlay.Models.TableStatus
+@model TabPlay.Models.EnterDirection
+
+<div id="tableDirectionRegisteredModal" class="modal" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-danger">
+                <p class="modal-title text-center">
+                    <h3>Warning</h3>
+                </p>
+            </div>
+            <div class="modal-body">
+                <p>Table @Model.TableNumber and Direction @Model.Direction is already registered.  Do not press Register unless you intend to re-register a tablet device at your current location</p>
+            </div>
+            <div class="modal-footer" style="justify-content:space-between">
+                <button class="btn btn-lg btn-danger" ontouchstart="modalRegister()">
+                    <span class="fa fa-play-circle"></span> Register
+                </button>
+                <button class="btn btn-lg btn-success" data-dismiss="modal">
+                    Cancel <span class="fa fa-times-circle"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="row mt-5">
     <div class="col-12 text-center">
@@ -13,25 +36,25 @@
 
 <div class="row">
     <div class="col-12 text-center">
-        @if (Model.NSExists)
+        @if (Model.PairNumber[0] != 0)
         {
             <button id="dNorth" class="btn btn-secondary btn-lg m-1" style="width:4.5em" ontouchstart="selectDirection('North')">
                 North
             </button>
         }
-        @if (Model.EWExists)
+        @if (Model.PairNumber[1] != 0)
         {
             <button id="dEast" class="btn btn-secondary btn-lg m-1" style="width:4.5em" ontouchstart="selectDirection('East')">
                 East
             </button>
         }
-        @if (Model.NSExists)
+        @if (Model.PairNumber[2] != 0)
         {
             <button id="dSouth" class="btn btn-secondary btn-lg m-1" style="width:4.5em" ontouchstart="selectDirection('South')">
                 South
             </button>
         }
-        @if (Model.EWExists)
+        @if (Model.PairNumber[3] != 0)
         {
             <button id="dWest" class="btn btn-secondary btn-lg m-1" style="width:4.5em" ontouchstart="selectDirection('West')">
                 West
@@ -39,6 +62,13 @@
         }
     </div>
 </div>
+
+@if (Model.Confirm)
+{
+    <script>
+        $("#tableDirectionRegisteredModal").modal("show");
+    </script>
+}
 
 <script>
     var direction = "";
@@ -50,15 +80,20 @@
         }
         document.getElementById("d" + dir).className = "btn btn-warning btn-lg m-1";
         direction = dir;
-        document.getElementById("OKButton").disabled = false;
+        document.getElementById("OKButton").className = "btn btn-success mr-0 ml-2 float-right";
     }
 
-    $(document).on('touchstart', '#OKButton:enabled', function () {
-        if (direction != "") {
-            if (!isSubmitted) {
-                isSubmitted = true;
-                location.href = '@Url.Action("OKButtonClick", "Direction")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=' + direction;
-            }
+    function OKButtonClick() {
+        if (!isSubmitted) {
+            isSubmitted = true;
+            location.href = '@Url.Action("OKButtonClick", "Direction")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=' + direction + '&confirm=false';
         }
-    });
+    }
+
+    function modalRegister() {
+        if (!isSubmitted) {
+            isSubmitted = true;
+            location.href = '@Url.Action("OKButtonClick", "EnterDirection")?sectionID=@Model.SectionID&tableNumber=@Model.TableNumber&direction=@Model.Direction&confirm=true';
+        }
+    }
 </script>

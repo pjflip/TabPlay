@@ -1,4 +1,4 @@
-﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2020 by Peter Flippant
+﻿<!-- TabPlay - a tablet-based system for playing bridge.   Copyright(C) 2021 by Peter Flippant
      Licensed under the Apache License, Version 2.0; you may not use this file except in compliance with the License -->
 
 @model List<TabPlay.Models.Section>
@@ -32,15 +32,13 @@
         }
         document.getElementById("s" + n).className = "btn btn-warning btn-lg m-1";
         section = n;
-        document.getElementById("OKButton").disabled = false;
+        document.getElementById("OKButton").className = "btn btn-success mr-0 ml-2 float-right";
     }
 
-    $(document).on('touchstart', '#OKButton:enabled', function () {
-        if (section != "") {
-            if (!isSubmitted) {
-                isSubmitted = true;
-                location.href = '@Url.Action("Index", "TableNumber")?sectionID=' + section;
-            }
+    function OKButtonClick() {
+        if (!isSubmitted) {
+            isSubmitted = true;
+            location.href = '@Url.Action("Index", "TableNumber")?sectionID=' + section;
         }
-    });
+    }
 </script>

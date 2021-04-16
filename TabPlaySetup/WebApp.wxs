@@ -2,687 +2,692 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="WebAppInstallFolder">
-            <Component Id="cmp26D5BF17F9C9EA498D79D41207B54AA7" Guid="{D9FE8E00-84AA-457E-93BE-89BD430BA475}">
+            <Component Id="cmpB66DFE206993B97FC1B3584C2B2B2B03" Guid="{AC13DC5B-D49F-4919-BF0A-7A6EC7938F07}">
+                <File Id="filBAB30AE50BA354D1D01B21E5C88810CC" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Chequered Flag Logo.png" />
+            </Component>
+            <Component Id="cmp26D5BF17F9C9EA498D79D41207B54AA7" Guid="{59BC58C7-2060-4C96-B684-4B9F1FB43AC6}">
                 <File Id="filC8E1E7FEC911651F4CBA412EECEEBAE7" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\favicon.ico" />
             </Component>
-            <Component Id="cmp5F26B87B91EBA7A6543C03F9E9BA2FA4" Guid="{55B6F197-B458-44E2-8F5A-6A76705AD3B2}">
+            <Component Id="cmp5F26B87B91EBA7A6543C03F9E9BA2FA4" Guid="{E3F069F8-DE78-415A-9259-EDF620B6D2E2}">
                 <File Id="filD61424043C5ACD34FD4BA29FB3F39A0A" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Global.asax" />
             </Component>
-            <Component Id="cmp8763F03EFC8E7D2E1629E4858F54831D" Guid="{EF26DE06-A987-4B69-A01A-EC703BED4DAE}">
+            <Component Id="cmp8763F03EFC8E7D2E1629E4858F54831D" Guid="{E79A8272-33E9-4151-957F-39D421F7E033}">
                 <File Id="fil68E789368B34DC8E6280556A2FDBF5EC" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Web.config" />
             </Component>
             <Directory Id="dir35648AEAE1C66EF4EFEEB90EAF326142" Name="bin">
-                <Component Id="cmpCD07399875273C16C0BA2B11C0BC6582" Guid="{8398A8EF-BC7C-42A7-A221-9BD00E0DBF9D}">
+                <Component Id="cmpCD07399875273C16C0BA2B11C0BC6582" Guid="{E8A6C3FF-EA9C-401F-A498-61CA5386ABFF}">
                     <File Id="fil5CFBB4DAA1FCA49C0F2A714CF4544376" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\Antlr3.Runtime.dll" />
                 </Component>
-                <Component Id="cmp8037A6503748249F6D8D4A208B3F47C6" Guid="{964E05B5-A106-4361-AB53-2BEC1C69E5D9}">
+                <Component Id="cmp8037A6503748249F6D8D4A208B3F47C6" Guid="{C34E0C34-410C-49FD-87E9-2F69762C3998}">
                     <File Id="fil05B0793F7680CDBCBB8522146F5542C4" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\Antlr3.Runtime.pdb" />
                 </Component>
-                <Component Id="cmp30263967BA238081B1F355A697E5A8C2" Guid="{7B2BF776-AA05-40DA-8D35-CE7796F3B4E6}">
+                <Component Id="cmp30263967BA238081B1F355A697E5A8C2" Guid="{3EF141A3-B471-4FB5-B571-CD34B6500B4F}">
                     <File Id="fil760A768E98C5624B75CA493E46F3A01A" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
                 </Component>
-                <Component Id="cmpB0A61A282499528B02BFB77E8441F3F1" Guid="{CD962262-1D5A-4515-BE6F-BFDD19166831}">
+                <Component Id="cmpB0A61A282499528B02BFB77E8441F3F1" Guid="{30BB1527-3639-4ECB-B028-EEBF161555CF}">
                     <File Id="fil228084F9124F30F168866F465C8941E5" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\Microsoft.Web.Infrastructure.dll" />
                 </Component>
-                <Component Id="cmp2655A666EB3F15DB0C0820C202EB2DD5" Guid="{D01957C8-EBE0-41D6-BD18-01B39CFD72BC}">
+                <Component Id="cmp2655A666EB3F15DB0C0820C202EB2DD5" Guid="{3F777B75-F3CA-48D6-9386-4F89CB1ACCAE}">
                     <File Id="fil766FACDC79AD75792EA988041D833659" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\Newtonsoft.Json.dll" />
                 </Component>
-                <Component Id="cmp49877A3F0FC9CEEB8D778BBDB9B13F63" Guid="{40F46869-D5AF-4860-9182-DE99AB5E6348}">
+                <Component Id="cmp49877A3F0FC9CEEB8D778BBDB9B13F63" Guid="{EE7EBBAF-E41B-41C7-BF9A-28F72A0A0776}">
                     <File Id="fil86C364A12DEE33BAE65AC241C1083EC6" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\System.Web.Helpers.dll" />
                 </Component>
-                <Component Id="cmpBD7E6C4BA5C6E06D919A8CE1E8535FF5" Guid="{6FD6C38F-8E3B-46C3-95FE-273C8E0AA9FA}">
+                <Component Id="cmpBD7E6C4BA5C6E06D919A8CE1E8535FF5" Guid="{9215A1F0-6276-4238-B14C-2D9FAD9FB38A}">
                     <File Id="filBA52C062E2B40961A925B0D060F58D03" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\System.Web.Mvc.dll" />
                 </Component>
-                <Component Id="cmp1A6DE0191FDE399E82DDC36DF8AB5FB5" Guid="{F3A1AE72-748D-4CBB-B595-660C1A83886C}">
+                <Component Id="cmp1A6DE0191FDE399E82DDC36DF8AB5FB5" Guid="{5C87D969-ED63-4AB0-9C5A-6CAC9BE6AE60}">
                     <File Id="filF8F84EBB753D242EB8020D1502F280BC" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\System.Web.Optimization.dll" />
                 </Component>
-                <Component Id="cmp816363550A9C8504581D9149C12612C0" Guid="{385441FD-1B4D-4787-8732-FBB192AF1135}">
+                <Component Id="cmp816363550A9C8504581D9149C12612C0" Guid="{2A934B06-C2D5-48D3-AB9E-801647D3740E}">
                     <File Id="filACC4FF519628D1B1570913EB026C002E" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\System.Web.Razor.dll" />
                 </Component>
-                <Component Id="cmp66DEB367879A30E3340ECE301D469981" Guid="{CE84E439-687C-4C0B-A2D9-9ACF35E7338E}">
+                <Component Id="cmp66DEB367879A30E3340ECE301D469981" Guid="{D36C09ED-F443-4463-A6FE-2ED26D179A90}">
                     <File Id="fil556ECB76B8F30013E873FF985D990BE5" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\System.Web.WebPages.Deployment.dll" />
                 </Component>
-                <Component Id="cmp10F961A06AE1C41ED53BCC16442A0C41" Guid="{B9C8BE80-359A-4147-9DFB-176F915417C3}">
+                <Component Id="cmp10F961A06AE1C41ED53BCC16442A0C41" Guid="{954AE7A2-5902-42BA-B9E5-E16833981D12}">
                     <File Id="fil9DAE7E282B9474BA5D2B0094026E27AA" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\System.Web.WebPages.dll" />
                 </Component>
-                <Component Id="cmp6CBFD71F434F6D7A814414FDB8860B15" Guid="{506ABC83-71BD-41A7-BE9E-CA920C9DFD38}">
+                <Component Id="cmp6CBFD71F434F6D7A814414FDB8860B15" Guid="{72E35171-80AF-497D-B07E-A6005BC2ADC3}">
                     <File Id="fil02C79FAEFA430A384F4F77482AD52E4A" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\System.Web.WebPages.Razor.dll" />
                 </Component>
-                <Component Id="cmp2CE438F47905248A7D7C11E6F6AD0FBC" Guid="{4EB1D22E-D947-409A-AC49-77E8EB3C2309}">
+                <Component Id="cmp2CE438F47905248A7D7C11E6F6AD0FBC" Guid="{28462CAC-2926-466D-A0F7-0B3A28916042}">
                     <File Id="fil827C9F4C5CCBF20FF80BE994D22BAC4F" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\TabPlay.dll" />
                 </Component>
-                <Component Id="cmp4666DE5DF17356FB4CF2226DD26CBA87" Guid="{02014427-69D6-4118-B9AB-9A015D44FFEE}">
+                <Component Id="cmp4666DE5DF17356FB4CF2226DD26CBA87" Guid="{56709A70-6B9D-4876-8A8C-30ED7F85CD2E}">
                     <File Id="fil7E86C8FDED22EBCC1F4CDD88DABB214C" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\TabPlay.pdb" />
                 </Component>
-                <Component Id="cmpB5B6F2C141178F6CD23AA0FF4F612ED9" Guid="{F2CE2C7F-DC15-454A-A1A0-7317777DCD08}">
+                <Component Id="cmpB5B6F2C141178F6CD23AA0FF4F612ED9" Guid="{CE1D927D-C8BF-4D6C-9D3E-68EB309DB78F}">
                     <File Id="fil7167D6FCF9147D586845748D4E1954F6" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\WebGrease.dll" />
                 </Component>
                 <Directory Id="dir5EB74D59BAA304730CFB9D63000FE5CE" Name="roslyn">
-                    <Component Id="cmp1A1E2C7EC66A5D5596073ABF16BD2583" Guid="{BE4B05D0-4602-4367-8845-D030C891CC8C}">
+                    <Component Id="cmp1A1E2C7EC66A5D5596073ABF16BD2583" Guid="{4D6D9076-C189-4EE9-BF3B-8429262F96B4}">
                         <File Id="fil8A33B6E5408944C50D6D8188FE1ACA88" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\csc.exe" />
                     </Component>
-                    <Component Id="cmp02A44191A64C6E89A81DF30AD55864CC" Guid="{54DADD8F-A908-4F8E-AC4B-EEA6D6BFC288}">
+                    <Component Id="cmp02A44191A64C6E89A81DF30AD55864CC" Guid="{D2B27AA5-0B4A-46B2-AD35-70367C67575E}">
                         <File Id="fil99DFC75641A52D414DFC44257B99DA00" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\csc.exe.config" />
                     </Component>
-                    <Component Id="cmpB5CF8FB8F4256D2FB7F26D8536CB9C3A" Guid="{95B8AF44-CDA9-49B1-915D-25F5165C396F}">
+                    <Component Id="cmpB5CF8FB8F4256D2FB7F26D8536CB9C3A" Guid="{81AB6B47-5FE5-4975-8F54-1B9BD8081299}">
                         <File Id="fil6CA1062BF120F5B07F29EEAD1ED4A3B5" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\csc.rsp" />
                     </Component>
-                    <Component Id="cmpE63E1AA353561D96506D652B4909C172" Guid="{023797C5-279C-4B5E-8F27-D9CF235FBF19}">
+                    <Component Id="cmpE63E1AA353561D96506D652B4909C172" Guid="{40A8C88F-3701-40E2-9DE2-900018DFC9D7}">
                         <File Id="filADD84544D24C76868051F2827A5F5F9E" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\csi.exe" />
                     </Component>
-                    <Component Id="cmp6086F683488689A9AAADFCF56A46FD50" Guid="{28C41804-814B-4330-9D27-935EA8EE58DB}">
+                    <Component Id="cmp6086F683488689A9AAADFCF56A46FD50" Guid="{2062C3F0-447F-451F-B353-C2BC42A28345}">
                         <File Id="fil34D8A234428555395252B09AEBA22759" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\csi.exe.config" />
                     </Component>
-                    <Component Id="cmpEF5E421BEBA5B787913448567DF8B3F0" Guid="{C477454D-7DEA-497A-A81B-438DD8A89677}">
+                    <Component Id="cmpEF5E421BEBA5B787913448567DF8B3F0" Guid="{48FD026E-79A7-47A1-A780-BF79684F6F22}">
                         <File Id="fil1E8B5A892F81EF9EABE6BD426D7EC788" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\csi.rsp" />
                     </Component>
-                    <Component Id="cmp3C1C6395A7527C9FCF33A073FAF34B40" Guid="{FA3220F4-5842-4B88-A5CA-BEB8465C57EA}">
+                    <Component Id="cmp3C1C6395A7527C9FCF33A073FAF34B40" Guid="{4495B2C2-1713-4555-A0D4-77259C186D36}">
                         <File Id="fil312CFB90B52419C58877BDE247D7BE9D" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll" />
                     </Component>
-                    <Component Id="cmp7778A028803F507DE20783E9CEAFA674" Guid="{04633F22-57D3-4814-95BF-8BBA7CCBCF73}">
+                    <Component Id="cmp7778A028803F507DE20783E9CEAFA674" Guid="{A5321230-E467-46DB-AAB2-F40C6D4B9F8E}">
                         <File Id="filCD9031B1E5572CACCC954A03CEF1800F" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll" />
                     </Component>
-                    <Component Id="cmp16F0FEDBBA82AC5DB6E8AB31C7893EEB" Guid="{5026F05E-8E28-4CE1-BA1A-8739363CED36}">
+                    <Component Id="cmp16F0FEDBBA82AC5DB6E8AB31C7893EEB" Guid="{BFBC8688-6412-46C6-97AD-7F49829C5C25}">
                         <File Id="fil5E89F934D98F8A7203D4151E3F2C3839" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll" />
                     </Component>
-                    <Component Id="cmpD5EE553383781396E5037AB083C85B70" Guid="{03109FE3-FD95-4252-A080-7BF0BFDBC3E7}">
+                    <Component Id="cmpD5EE553383781396E5037AB083C85B70" Guid="{96B4ABC6-F6C1-42D9-8E9D-08C62F0080D7}">
                         <File Id="fil2C132AE302441A5E4118532C29152E0A" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\Microsoft.CodeAnalysis.dll" />
                     </Component>
-                    <Component Id="cmp3FDD5CE34FCBF2F4A7E3AFF6CA6802AA" Guid="{AF65CC6B-0427-4F3E-B467-06BF36E0C593}">
+                    <Component Id="cmp3FDD5CE34FCBF2F4A7E3AFF6CA6802AA" Guid="{873E4593-24DC-49E0-AB56-AB5C3E5D7278}">
                         <File Id="fil91D4CC08E72C6B4A0944D7745FC3493E" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll" />
                     </Component>
-                    <Component Id="cmp4091D4C97BA3D9941753E969074C6CB3" Guid="{993039D6-2F8D-45EB-8634-31B540EA7C81}">
+                    <Component Id="cmp4091D4C97BA3D9941753E969074C6CB3" Guid="{1B731B88-1FFE-4AB4-90E9-81303AC89787}">
                         <File Id="fil273497B1B175F6DAEA15DAED32F55BC7" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll" />
                     </Component>
-                    <Component Id="cmp26CB066B012C550E7FF08D70837E1CB9" Guid="{F12425F1-A020-45FC-90C2-CF43AFBAB1BF}">
+                    <Component Id="cmp26CB066B012C550E7FF08D70837E1CB9" Guid="{835B7425-E553-40CA-B963-758EB564CD76}">
                         <File Id="fil1F0D2C4C2721B21EB78DA9114C5B1D81" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\Microsoft.CSharp.Core.targets" />
                     </Component>
-                    <Component Id="cmp854C03B19436D88BA615758A7A266A53" Guid="{3E9076F8-AD0D-4512-AFF4-7C76DDEA4846}">
+                    <Component Id="cmp854C03B19436D88BA615758A7A266A53" Guid="{2A87742B-A1BF-45FC-960C-C18792B0EF2C}">
                         <File Id="fil5A56989A3FAFD31A61224A78AA50D6AA" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll" />
                     </Component>
-                    <Component Id="cmpA9A34FCBEF0BE86576526F25D3321764" Guid="{D77FACD9-3AB4-49DA-9DC1-87A0916514B4}">
+                    <Component Id="cmpA9A34FCBEF0BE86576526F25D3321764" Guid="{D6A34C24-6517-49DC-8A12-8CEA3FC79645}">
                         <File Id="fil37CCE856E05D486A15E1C0715699E69C" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll" />
                     </Component>
-                    <Component Id="cmpABD02EF8CA9E32BD512E3DDC21987FA3" Guid="{111BFCFB-8A08-4761-91CF-178529803E9F}">
+                    <Component Id="cmpABD02EF8CA9E32BD512E3DDC21987FA3" Guid="{568EDAE1-18DE-42DF-9A19-D7BF28737F00}">
                         <File Id="fil8B29AC5008B95671C7C1D8FF9E9D4DBB" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\Microsoft.Managed.Core.targets" />
                     </Component>
-                    <Component Id="cmp7AE9B914FB93FDCF11277630E40A32F7" Guid="{09BC6026-2A7B-43C5-8D0F-2DC22E778E6A}">
+                    <Component Id="cmp7AE9B914FB93FDCF11277630E40A32F7" Guid="{0E2DA8D4-5B0D-46B4-906B-B203F4843961}">
                         <File Id="fil7497F56374DC0C50994C82B544A34236" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\Microsoft.VisualBasic.Core.targets" />
                     </Component>
-                    <Component Id="cmp4B0C0280E528351486949467B0D68846" Guid="{A6B9CDA8-A3F0-45CD-B4FF-B970D89A2BFB}">
+                    <Component Id="cmp4B0C0280E528351486949467B0D68846" Guid="{DBB55762-7602-4F48-A914-A9D2CB8AFE2F}">
                         <File Id="fil8726EC29D4778EDE5C573E32B2CBEBCB" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\System.Buffers.dll" />
                     </Component>
-                    <Component Id="cmp283937EF1347FF1287E95B074559696B" Guid="{D5A5D36F-7312-47C1-9BB1-EE73B12A55C2}">
+                    <Component Id="cmp283937EF1347FF1287E95B074559696B" Guid="{6204C481-0C71-4BB9-99A2-93086B8F8967}">
                         <File Id="filEE837891FC1473881F6F0D2A3A5234D0" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\System.Collections.Immutable.dll" />
                     </Component>
-                    <Component Id="cmpC63A08ECD6BCE435EEB8C47E6E0E84B4" Guid="{4BC5E466-332D-4AE4-8978-8AC8497E005B}">
+                    <Component Id="cmpC63A08ECD6BCE435EEB8C47E6E0E84B4" Guid="{1C57F712-7875-4C9D-99BB-76682E745B65}">
                         <File Id="filC08FBB5D68BC68DCE2CBCAE9F8A0ECEA" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\System.Memory.dll" />
                     </Component>
-                    <Component Id="cmp6B66C62A77CE1631AB00DAF89F6AD650" Guid="{0DB60474-2CA3-45B4-ACD2-9790EDF23850}">
+                    <Component Id="cmp6B66C62A77CE1631AB00DAF89F6AD650" Guid="{23978F2D-0D47-486A-96BE-CE49E9FDAF44}">
                         <File Id="fil8F195DA9D849A9FBC2BEB18059040FC3" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\System.Numerics.Vectors.dll" />
                     </Component>
-                    <Component Id="cmp2D0286C8A931E3AD9A41EF2E0C2E748E" Guid="{B5E882C5-9578-4E6A-8DFD-8AE1D18CF6C6}">
+                    <Component Id="cmp2D0286C8A931E3AD9A41EF2E0C2E748E" Guid="{31FD8A5D-AE4A-4232-A477-D9804C8699A7}">
                         <File Id="filE695A8FC0911DF8CDE08F192FE19CA4F" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\System.Reflection.Metadata.dll" />
                     </Component>
-                    <Component Id="cmp2E81CC44D69BE4A0959046747CEEBDA9" Guid="{8814ED34-E2A7-4F15-A7DE-7E713B9B329C}">
+                    <Component Id="cmp2E81CC44D69BE4A0959046747CEEBDA9" Guid="{D3C13B16-BEEB-42F4-BDA5-43D07DD55AF9}">
                         <File Id="filC9CF9C18757D22D1FDF338800A17A1D3" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\System.Runtime.CompilerServices.Unsafe.dll" />
                     </Component>
-                    <Component Id="cmp8B5862875C7E9E0E7EBB19D11B74036A" Guid="{AAC8D090-6ED1-4190-98DE-A97B24042BD7}">
+                    <Component Id="cmp8B5862875C7E9E0E7EBB19D11B74036A" Guid="{72420921-1971-4B4F-90F4-78484C61583E}">
                         <File Id="filABB1EDC06D20B478971778127413EFA5" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\System.Text.Encoding.CodePages.dll" />
                     </Component>
-                    <Component Id="cmp3EAD8D09C83E984D0312F4DE950A1921" Guid="{398B3B30-E51E-4258-B13A-C51B18736BEF}">
+                    <Component Id="cmp3EAD8D09C83E984D0312F4DE950A1921" Guid="{F1D10457-3DA9-415C-95EA-F0601B08F38B}">
                         <File Id="filDB63DC337354D1491DB2BCC87EA68194" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\System.Threading.Tasks.Extensions.dll" />
                     </Component>
-                    <Component Id="cmpF39C056575D4AF192B7E201EDA163D18" Guid="{24FD69FC-CDF5-477C-9D22-6E94839BF796}">
+                    <Component Id="cmpF39C056575D4AF192B7E201EDA163D18" Guid="{3C42BC13-05F9-4864-8BA2-25AFE5FD4152}">
                         <File Id="filC55CC79DDBAE3E8D5FAD18650C0DB5D5" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\vbc.exe" />
                     </Component>
-                    <Component Id="cmpC21A15B8ED7A8DD12A6A0B3C02C3912F" Guid="{2B7DFE6E-32ED-45D7-A08D-7B162E30F4F3}">
+                    <Component Id="cmpC21A15B8ED7A8DD12A6A0B3C02C3912F" Guid="{D658151D-85DB-4A73-83DA-A69E25B059CB}">
                         <File Id="fil6C1C33D81BD8F0A88C11C9BA465EE5A1" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\vbc.exe.config" />
                     </Component>
-                    <Component Id="cmpBA9434E92DAA15A31588210F31250F46" Guid="{48667FB2-37A3-47C3-B1C4-6E069FFE8D79}">
+                    <Component Id="cmpBA9434E92DAA15A31588210F31250F46" Guid="{E1B6127E-4F90-48F5-9406-0541DFB9507A}">
                         <File Id="fil61EABC8660A24C0BFD162F1BD00983A8" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\vbc.rsp" />
                     </Component>
-                    <Component Id="cmpCFC96E509B65D7FB944424196C22B015" Guid="{5EFD4FF1-1D98-4DFB-A54E-9D8A4E21F686}">
+                    <Component Id="cmpCFC96E509B65D7FB944424196C22B015" Guid="{7EDC39AC-5677-48E8-8453-C15B89E818EE}">
                         <File Id="fil439BF11F5A3B7B77010078CB13DF6772" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\VBCSCompiler.exe" />
                     </Component>
-                    <Component Id="cmpBC15E7D515B885BEC55684BFB20A33E0" Guid="{A0DF9151-09CB-4839-9115-57843C8A91D1}">
+                    <Component Id="cmpBC15E7D515B885BEC55684BFB20A33E0" Guid="{2FA06F14-B5F7-4847-A1BA-C3904EDF6546}">
                         <File Id="fil48047EFA752E5C7711CEF5F4A44A18EC" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\bin\roslyn\VBCSCompiler.exe.config" />
                     </Component>
                 </Directory>
             </Directory>
             <Directory Id="dir1C6AD0A422BD27D725F8C413652DB260" Name="Content">
-                <Component Id="cmpDDFFBFEDF1928DE066DA29D42A3DFC1B" Guid="{97B6B514-7A02-40FF-9BC9-B5BC36F84054}">
+                <Component Id="cmpDDFFBFEDF1928DE066DA29D42A3DFC1B" Guid="{849E6465-1937-42A8-9E9D-8A0A8E7171DC}">
                     <File Id="filA6AD3DEFC44A0CB8D693755683A7E1BD" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\bootstrap-grid.css" />
                 </Component>
-                <Component Id="cmpA85CF02E1EDF168577C2E45FE6087481" Guid="{53F7E5D7-265B-417A-B835-AAE95483BE98}">
+                <Component Id="cmpA85CF02E1EDF168577C2E45FE6087481" Guid="{5694A0EF-2820-416B-845A-632F67BE3BE2}">
                     <File Id="fil9F6AA8827FAA87151977DEBE1E9E2318" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\bootstrap-grid.css.map" />
                 </Component>
-                <Component Id="cmpE557982A17D786AC2B5A2BB65B04CC88" Guid="{7E57C1C3-9C7C-4FDA-B0E0-9BA7074455BC}">
+                <Component Id="cmpE557982A17D786AC2B5A2BB65B04CC88" Guid="{7E6AEDB1-5199-42E2-A9AE-AC4D5CD1EBD8}">
                     <File Id="fil7230DE00E87A9DF6801F1C4CB461EF3E" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\bootstrap-grid.min.css" />
                 </Component>
-                <Component Id="cmp800E85FBB8B544209B8634891DCBB897" Guid="{6C35076B-3B35-48FC-8C99-B80E766FAA4E}">
+                <Component Id="cmp800E85FBB8B544209B8634891DCBB897" Guid="{41B3B040-30BA-4B89-A280-726BC11FCB08}">
                     <File Id="filF263578847F9F8E557AF834E710740E4" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\bootstrap-grid.min.css.map" />
                 </Component>
-                <Component Id="cmp3C8FB25D72D3BBADDD2698F0788B61D6" Guid="{618FCDF2-B12B-48E4-8DC0-B2A0DC8407C1}">
+                <Component Id="cmp3C8FB25D72D3BBADDD2698F0788B61D6" Guid="{C7678081-69AF-4F2E-BD76-8DD18B9C31A2}">
                     <File Id="filA2043160841F15F5553974CE3C6312CE" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\bootstrap-reboot.css" />
                 </Component>
-                <Component Id="cmp670D2A3DE62D8E91AAC7373CFBEEC00B" Guid="{03DC25D7-FAAF-4DCC-8944-DFECCB9379A4}">
+                <Component Id="cmp670D2A3DE62D8E91AAC7373CFBEEC00B" Guid="{3015CC6E-DD0B-4AF6-8CC2-239005C9D05D}">
                     <File Id="filC4786315F8F876D132FF873F00406353" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\bootstrap-reboot.css.map" />
                 </Component>
-                <Component Id="cmp0F427984D141C7BC455A7321F43D0D3F" Guid="{F990203D-08D7-4A46-B5DA-B3A197524600}">
+                <Component Id="cmp0F427984D141C7BC455A7321F43D0D3F" Guid="{898A54B2-4FA9-4C4D-BC5F-7C27222EE15D}">
                     <File Id="fil59D5A32878EAA86234C0D7CA2B2F3183" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\bootstrap-reboot.min.css" />
                 </Component>
-                <Component Id="cmp7EEF48FAC492E415991D84E36993DA5F" Guid="{56BF26C1-92E9-4A40-A656-5A17D400CA9F}">
+                <Component Id="cmp7EEF48FAC492E415991D84E36993DA5F" Guid="{05F74AA8-19EF-46BE-8947-E74A070B944D}">
                     <File Id="fil7F91F0509933F5E441A6E926EA2BEF58" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\bootstrap-reboot.min.css.map" />
                 </Component>
-                <Component Id="cmpFBBD1F67BBDD39D002DFAE52CE012F9E" Guid="{2582C5AD-B8F9-4AC4-88CD-4B88D2D75B23}">
+                <Component Id="cmpFBBD1F67BBDD39D002DFAE52CE012F9E" Guid="{6116FA2F-D5FB-4119-AC7E-C855814DE9EF}">
                     <File Id="fil20E2E64E88B3B60319ADCBF98E8F2DAC" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\bootstrap.css" />
                 </Component>
-                <Component Id="cmp4E73AC0B6FC510B3F7DA675E04B88459" Guid="{A9BC690D-391D-4926-9C62-2A847E12C114}">
+                <Component Id="cmp4E73AC0B6FC510B3F7DA675E04B88459" Guid="{82B60D17-AED8-4740-A9A3-C705B6292669}">
                     <File Id="fil3DA02E56EFFB8FE475AE5F7457F7F696" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\bootstrap.css.map" />
                 </Component>
-                <Component Id="cmpE5DEB11E54FA0FC7FE658ADB774087DB" Guid="{107A74A8-73C4-40C5-A9C9-2EDD714F8999}">
+                <Component Id="cmpE5DEB11E54FA0FC7FE658ADB774087DB" Guid="{323E14A4-B244-4B4E-BBC6-86E5E99FCA1A}">
                     <File Id="fil8B38A416DEBBF3EC21EEEC46359D266A" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\bootstrap.min.css" />
                 </Component>
-                <Component Id="cmpE947F003C8FBCA8198F5365863FA2AF3" Guid="{24D513D1-51D8-4974-9247-8ADB9D722C80}">
+                <Component Id="cmpE947F003C8FBCA8198F5365863FA2AF3" Guid="{2956D941-41FA-40A0-A30E-81B0D17ECCF3}">
                     <File Id="fil4E3A787DFD2AB9CEA769B376459BD877" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\bootstrap.min.css.map" />
                 </Component>
                 <Directory Id="dirE4E23A7615648EB798BB1B5E935E7DA8" Name="font-awesome">
-                    <Component Id="cmp9E3DA9763511E147D05C6E68095373E6" Guid="{5D8C5BB0-69EF-48CE-8B0C-E07A9B11EB9C}">
+                    <Component Id="cmp9E3DA9763511E147D05C6E68095373E6" Guid="{2914B6EB-0728-4BBF-B4F9-08C005EA17D7}">
                         <File Id="fil73EF3EF5E8781ED3852734A10C98409B" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\font-awesome\all.css" />
                     </Component>
-                    <Component Id="cmpEEDF981F7EED8FF26724C6E4E987CCB3" Guid="{3E31E180-88AF-4AAF-AF42-87E8D5A7CDFA}">
+                    <Component Id="cmpEEDF981F7EED8FF26724C6E4E987CCB3" Guid="{5A6B8620-2BFC-4479-A24E-B653675957FA}">
                         <File Id="filA637ECCE5705FBF491B5FDC148B26ADD" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\font-awesome\all.js" />
                     </Component>
-                    <Component Id="cmp09A4B61CD4D183FC6CC6395CC64E089C" Guid="{ECE6DEA6-9D91-446E-83D4-450E4DB64329}">
+                    <Component Id="cmp09A4B61CD4D183FC6CC6395CC64E089C" Guid="{B02480F2-D216-4D18-AAA1-814CFE90E728}">
                         <File Id="fil5BC3B50C6360AC1D3486F0A6DEB554A7" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\font-awesome\all.min.css" />
                     </Component>
-                    <Component Id="cmp542DB41854C1BA00FEC9786DE3460604" Guid="{B5033B84-3E37-4CE9-9B63-CBCD5E3CB2C1}">
+                    <Component Id="cmp542DB41854C1BA00FEC9786DE3460604" Guid="{1C373A36-9A68-4637-95DF-B13747327A99}">
                         <File Id="filBAAE1F815D1582BC2AB9931E74BB164D" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\font-awesome\all.min.js" />
                     </Component>
                 </Directory>
                 <Directory Id="dir97ADA2398CD1833DAE3945D44EC0317E" Name="webfonts">
-                    <Component Id="cmpF2BAACBD9D96A7E9BAF9F0877D92848E" Guid="{03B5398B-BC51-406C-938F-D6A7C523964A}">
+                    <Component Id="cmpF2BAACBD9D96A7E9BAF9F0877D92848E" Guid="{EBA48178-C4D0-489D-ACE9-041687211A0C}">
                         <File Id="fil93DD82ABDBCED3773CB97D2630123A78" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\webfonts\fa-brands-400.eot" />
                     </Component>
-                    <Component Id="cmp45356B90CD997F630759A6EBBA59118B" Guid="{051B82FB-AF32-4643-9F08-EB74C89E8DC2}">
+                    <Component Id="cmp45356B90CD997F630759A6EBBA59118B" Guid="{75B72DEC-BE0D-4086-9CFC-0D9C3DD2842E}">
                         <File Id="fil18D62E7F0ABE73A23B961E217EA002C3" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\webfonts\fa-brands-400.svg" />
                     </Component>
-                    <Component Id="cmpF03A813EC321F5D5EA08F194AEFC6D4D" Guid="{F133B048-7529-46EC-83F1-918C270BC20F}">
+                    <Component Id="cmpF03A813EC321F5D5EA08F194AEFC6D4D" Guid="{FCFA045B-E2AE-40A6-ABF8-1F6140C46D41}">
                         <File Id="filE7945CF45F4A960E5A684A560C99D0BE" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\webfonts\fa-brands-400.ttf" />
                     </Component>
-                    <Component Id="cmpFD220549F409D333C406B63CF7587938" Guid="{A3480320-2D05-4572-A0BA-A2BF88949BB2}">
+                    <Component Id="cmpFD220549F409D333C406B63CF7587938" Guid="{425C32FA-E533-4CF4-A60E-348A05B655BB}">
                         <File Id="fil40CC70223288939E5DC45A9EE17DBF7F" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\webfonts\fa-brands-400.woff" />
                     </Component>
-                    <Component Id="cmp19105A4936B674D3E89CB7A8FE2FF561" Guid="{F2A5C999-6079-413A-8D13-320890655B57}">
+                    <Component Id="cmp19105A4936B674D3E89CB7A8FE2FF561" Guid="{045659A3-82B0-4DB5-96E2-FF67235599EB}">
                         <File Id="filB3E6C5DAB23C6DAA3787D75CCCAEF996" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\webfonts\fa-brands-400.woff2" />
                     </Component>
-                    <Component Id="cmp29AFFB813BBDF80083708888768AEBBE" Guid="{382CD258-99A7-4336-BE30-620665581D0F}">
+                    <Component Id="cmp29AFFB813BBDF80083708888768AEBBE" Guid="{17500F01-C0B6-4A86-B4A8-66282F7233C7}">
                         <File Id="filA7AEE48710D9AB2633F28C518F48F597" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\webfonts\fa-regular-400.eot" />
                     </Component>
-                    <Component Id="cmp4EFDA53F499D4F367CF8567D86AD5CB0" Guid="{C7F447E9-2458-4302-88F1-25581B42441C}">
+                    <Component Id="cmp4EFDA53F499D4F367CF8567D86AD5CB0" Guid="{D493B257-CC3F-4982-98EF-BDA2C2CAB819}">
                         <File Id="fil0CC768D17C7E342D88884F1ACD324931" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\webfonts\fa-regular-400.svg" />
                     </Component>
-                    <Component Id="cmp4389C143219D66501CDC67F855537DE8" Guid="{A9B6CA2F-AE0E-452F-89E3-CE3419083687}">
+                    <Component Id="cmp4389C143219D66501CDC67F855537DE8" Guid="{F94877CA-5D25-4778-87FC-386AD5A24F1A}">
                         <File Id="fil1BA5ECFF337AF139CBF581545027A0EA" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\webfonts\fa-regular-400.ttf" />
                     </Component>
-                    <Component Id="cmpD0831E3E66DC2C9A89F636E97671D0E4" Guid="{31A1B0AC-ECB2-4664-B95D-39189768FE21}">
+                    <Component Id="cmpD0831E3E66DC2C9A89F636E97671D0E4" Guid="{508152F0-396B-4496-8DF9-3F47EAB9BB19}">
                         <File Id="filD1D1C739276F970AA2085CED2FB60C1A" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\webfonts\fa-regular-400.woff" />
                     </Component>
-                    <Component Id="cmp566F8740367B929CAB969DE7C6CA96A9" Guid="{3232228D-C9F9-4B5D-9A94-0295198750E6}">
+                    <Component Id="cmp566F8740367B929CAB969DE7C6CA96A9" Guid="{82634D29-1405-4BC7-AA82-77AB44F1DA62}">
                         <File Id="fil1A86FAAEBE778A43E950D181E46571CC" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\webfonts\fa-regular-400.woff2" />
                     </Component>
-                    <Component Id="cmp064EFAFBF10890E111C1E0AA8FB4B3AF" Guid="{DACCDDF8-83B8-4ADB-A92F-43956F5AEC51}">
+                    <Component Id="cmp064EFAFBF10890E111C1E0AA8FB4B3AF" Guid="{A923F2E9-4A18-40A7-A839-A417C4501E79}">
                         <File Id="filA04E7FE6A922676810D46467EF50CB5B" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\webfonts\fa-solid-900.eot" />
                     </Component>
-                    <Component Id="cmp715A4F72415FC2F070AE8E4204183FC5" Guid="{4F3D3D04-4D33-4889-A0EC-1639D154BF05}">
+                    <Component Id="cmp715A4F72415FC2F070AE8E4204183FC5" Guid="{2C67068B-3912-4DDA-9F86-5B35F82B1F9F}">
                         <File Id="fil4A5A9676E92959505C576A4FB18B5C85" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\webfonts\fa-solid-900.svg" />
                     </Component>
-                    <Component Id="cmp837ADABC32950A2E7C48D721EEA6AF99" Guid="{56CC40E0-E55A-450C-AD1A-1F96173624FB}">
+                    <Component Id="cmp837ADABC32950A2E7C48D721EEA6AF99" Guid="{BDBA75D6-D076-471E-BD02-8C39ADC62183}">
                         <File Id="fil41F0C53EB3A4D84B2C1C90FEE906C309" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\webfonts\fa-solid-900.ttf" />
                     </Component>
-                    <Component Id="cmpF398BBE04D2CF457B9FE95256CCE2487" Guid="{AEB99B43-E216-42B8-BEA4-E1F80128A2F6}">
+                    <Component Id="cmpF398BBE04D2CF457B9FE95256CCE2487" Guid="{5048FA02-91BB-46EA-9643-6EF392F96B65}">
                         <File Id="filDFE4C04FB5F35D51803350AC23261A23" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\webfonts\fa-solid-900.woff" />
                     </Component>
-                    <Component Id="cmpB365E873D67FB7EE2B3BD6E109CD67E0" Guid="{22D36977-7F53-45A6-8806-E60113269C80}">
+                    <Component Id="cmpB365E873D67FB7EE2B3BD6E109CD67E0" Guid="{01553F22-60FA-49F8-BCFE-A84B4E80B56C}">
                         <File Id="fil4C37275C3BAAE6CFD21D6EF08083A310" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Content\webfonts\fa-solid-900.woff2" />
                     </Component>
                 </Directory>
             </Directory>
             <Directory Id="dir17ED667A5245C6E57B1F7490EC8C77B2" Name="Scripts">
-                <Component Id="cmp7FDB6AA44F93B6A754906D274032970B" Guid="{07E6DF4C-1727-431B-BD00-5AD6277E5567}">
+                <Component Id="cmp7FDB6AA44F93B6A754906D274032970B" Guid="{038758EA-AF7E-447A-8D58-0BB0184F1420}">
                     <File Id="filD7E9258BE93DAB3D6D9999504FEE61FC" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\Bidding.js" />
                 </Component>
-                <Component Id="cmp8AD22E8B08CD6CF5D6977D4DE5317116" Guid="{78A794A8-D856-44BE-81C3-B0BB80FBC2DB}">
+                <Component Id="cmp8AD22E8B08CD6CF5D6977D4DE5317116" Guid="{8BCED082-9836-4642-8131-B2E848D3FEA3}">
                     <File Id="fil3DB8088A57BEB412EB8948242E803837" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\bootstrap.bundle.js" />
                 </Component>
-                <Component Id="cmp663A5DDB8FBAF28C10346D615B5B4100" Guid="{C340963D-62A4-4DD8-AE83-5478CEF525A1}">
+                <Component Id="cmp663A5DDB8FBAF28C10346D615B5B4100" Guid="{53BC40B6-A6C8-4E32-80D9-AF1535AF4672}">
                     <File Id="fil45C52944BE8F3436F028A71B020438D4" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\bootstrap.bundle.js.map" />
                 </Component>
-                <Component Id="cmp1BB67055F2053DFDD35378AD53EAD8A7" Guid="{E3FB79DE-5329-4B28-B1CD-03F00D43DCCB}">
+                <Component Id="cmp1BB67055F2053DFDD35378AD53EAD8A7" Guid="{9A61CE86-3F5F-49BC-AEF9-6AA12420E65B}">
                     <File Id="fil72E41984CF05DB3A9EB8C5A54C741578" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\bootstrap.bundle.min.js" />
                 </Component>
-                <Component Id="cmp49B1009B03BB7F693F6AE0F453EED1F9" Guid="{93B3FA67-207B-494E-8EA4-5E6FDDBDDA3B}">
+                <Component Id="cmp49B1009B03BB7F693F6AE0F453EED1F9" Guid="{B2F6A4AC-4F8D-45DD-8FA9-974125387F7F}">
                     <File Id="filCEE9F9ABC9712B827AF22D9320E3A88A" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\bootstrap.bundle.min.js.map" />
                 </Component>
-                <Component Id="cmp6F264A01FD334706E405DC9143B63937" Guid="{0D29CBDC-8706-47C1-8366-CB77C891B43B}">
+                <Component Id="cmp6F264A01FD334706E405DC9143B63937" Guid="{CB5AF778-696F-41AB-920E-FAD8D06F2697}">
                     <File Id="fil13B5960136ADBEE6880EF814B93D613E" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\bootstrap.js" />
                 </Component>
-                <Component Id="cmp69F722D26F61A17D1447FCAF231A5410" Guid="{4AD4F97E-EC95-4145-A1AB-047CE0248319}">
+                <Component Id="cmp69F722D26F61A17D1447FCAF231A5410" Guid="{AE046B43-87AF-4421-B92B-A7BAA32A2AEA}">
                     <File Id="filCFAB48DF086B7D694C116441731E19DF" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\bootstrap.js.map" />
                 </Component>
-                <Component Id="cmp6874D66144693A24CAA301C7E4C6133D" Guid="{59453536-0FF7-4525-80A9-22498754B1FC}">
+                <Component Id="cmp6874D66144693A24CAA301C7E4C6133D" Guid="{2B20EE97-B304-4319-80E7-22F68AFCBDE9}">
                     <File Id="fil44F34A196644F5758D3681E9FD452400" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\bootstrap.min.js" />
                 </Component>
-                <Component Id="cmp3FB1E840597D02D348C3359688BB393C" Guid="{41AA3259-8CA0-4522-8740-6F43B9A62F23}">
+                <Component Id="cmp3FB1E840597D02D348C3359688BB393C" Guid="{75003893-50E4-41EC-918F-38FA327510D3}">
                     <File Id="filAACB6C8A0C0C8B101771516C133984CF" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\bootstrap.min.js.map" />
                 </Component>
-                <Component Id="cmpFDC6AD8C67411EA6B2683BC78F06E589" Guid="{F92EE740-8F22-493E-AD9E-7A704FE17C9D}">
+                <Component Id="cmpFDC6AD8C67411EA6B2683BC78F06E589" Guid="{17473002-A670-4D67-BB95-4848FC5A5ED3}">
                     <File Id="fil6A7520F75CB2CD19038966A2F76E3AB3" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\index.js.flow" />
                 </Component>
-                <Component Id="cmpD397A65F4CC93BFFE098F85645F4DA58" Guid="{AB829DA4-134C-44AE-9FAE-6E82BDF4C101}">
+                <Component Id="cmpD397A65F4CC93BFFE098F85645F4DA58" Guid="{7AAF9FAD-206E-4D09-B249-873B8EA67CBF}">
                     <File Id="fil6E81138AAE362A0C05FE2C1724A51FAB" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\jquery-3.5.1.js" />
                 </Component>
-                <Component Id="cmpF5B8964E32D9DE0AF5E4600BFE681E6A" Guid="{1174B549-3D43-459A-8B38-2FF90D479807}">
+                <Component Id="cmpF5B8964E32D9DE0AF5E4600BFE681E6A" Guid="{A4EE8474-B928-4530-96E5-F66B37562477}">
                     <File Id="filAE614666E65298C8721C02285AB30128" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\jquery-3.5.1.min.js" />
                 </Component>
-                <Component Id="cmp3EE5B1AB6C70FCC2176FA8C9583708AB" Guid="{43CF5082-A476-40FB-856B-FB39E6093F19}">
+                <Component Id="cmp3EE5B1AB6C70FCC2176FA8C9583708AB" Guid="{AF44A23C-DC22-4282-84AA-0C0E7C313076}">
                     <File Id="filEC21B7E1552CCEEC3B39A29B0F705AB5" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\jquery-3.5.1.min.map" />
                 </Component>
-                <Component Id="cmp1CB016296D55CB533AA81B3B7ADC1E0E" Guid="{58FFA556-2B2C-4DB5-9B4C-55FA16E5468C}">
+                <Component Id="cmp1CB016296D55CB533AA81B3B7ADC1E0E" Guid="{E1B045DE-727B-47FE-945C-1CD302E5A1B2}">
                     <File Id="filE5AB34567BB3BF17D13C3A682B3F6B1E" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\jquery-3.5.1.slim.js" />
                 </Component>
-                <Component Id="cmp6949C7E89024593D9B47D806419CA92B" Guid="{8E71EE9E-A327-4503-A5BF-CF02B7FC8399}">
+                <Component Id="cmp6949C7E89024593D9B47D806419CA92B" Guid="{DD627B50-72E4-484C-82FE-4F248418606D}">
                     <File Id="filA3455A521EBD90C4C44D0B134B59F157" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\jquery-3.5.1.slim.min.js" />
                 </Component>
-                <Component Id="cmp9E7A069CD0238788D958EA2CFA9E80AE" Guid="{5C04971F-36AF-41B1-8546-1D04DB3018ED}">
+                <Component Id="cmp9E7A069CD0238788D958EA2CFA9E80AE" Guid="{19DE9646-3E27-473D-A9C9-6FF4E0978926}">
                     <File Id="fil61F5F93697C1352D233F1AC00817F5E1" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\jquery-3.5.1.slim.min.map" />
                 </Component>
-                <Component Id="cmp8A75B0CBD78C44EF2503B7C97B959337" Guid="{56DF748D-EC30-4084-A2A5-42C1B48ADAB0}">
+                <Component Id="cmp8A75B0CBD78C44EF2503B7C97B959337" Guid="{06B03FF4-6997-4AA3-9714-2272EDA91D0C}">
                     <File Id="fil4D35E4A021AA98BB8E1ED1894B93DB1B" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\jquery.validate.js" />
                 </Component>
-                <Component Id="cmp06FDB840C252826C868712273160A053" Guid="{51BECA7D-FEC1-44BB-9D93-8A17B88B9082}">
+                <Component Id="cmp06FDB840C252826C868712273160A053" Guid="{D3043908-6963-4B70-AE91-7B6F54BD9742}">
                     <File Id="fil0438666BE8413A0C0CDE5E0AE2A365E7" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\jquery.validate.min.js" />
                 </Component>
-                <Component Id="cmp3650E5916CAA663BE3B98B995F6A87CE" Guid="{1E19F2E2-BDAF-44FD-A206-C9B4AEB62F5C}">
+                <Component Id="cmp3650E5916CAA663BE3B98B995F6A87CE" Guid="{3ECE81A5-1A04-44F1-9892-46BB1C0A66A4}">
                     <File Id="fil7B626E65516189D7CEA720D44F85F600" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\jquery.validate.unobtrusive.js" />
                 </Component>
-                <Component Id="cmp75BBDC42143E76DAC6EDC58CF6A53344" Guid="{7E02A563-483D-4AE6-BF0F-6BACACB9DC90}">
+                <Component Id="cmp75BBDC42143E76DAC6EDC58CF6A53344" Guid="{C6161219-5187-4140-ADF9-965E3C9C3FDE}">
                     <File Id="filA39E2FFAE83BE242218DFE0A85E14565" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\jquery.validate.unobtrusive.min.js" />
                 </Component>
-                <Component Id="cmp022457CF130D08DB2AC39844506449BC" Guid="{7D322C37-2BE9-4064-A867-5FF14453405E}">
+                <Component Id="cmp022457CF130D08DB2AC39844506449BC" Guid="{1CCF955E-6821-4856-B577-CAB916E05219}">
                     <File Id="filB6D0D55EC515C1F0EF1F57C3A92EFDA2" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\modernizr-2.8.3.js" />
                 </Component>
-                <Component Id="cmpCBD22EAB8CDF9ABEFC50ED711B59A5BD" Guid="{DD45B30F-97BA-4796-A2F7-ECB74BF9F288}">
+                <Component Id="cmpCBD22EAB8CDF9ABEFC50ED711B59A5BD" Guid="{C9BD88CC-5BE9-4FAD-AA53-7211B56432E5}">
                     <File Id="filA3AB7AA0CA0D0B121ABE7A7B92A0781D" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\Playing.js" />
                 </Component>
-                <Component Id="cmpE492912D102E902C2D29A796DE2841F3" Guid="{FB936C05-EEDE-48C2-A015-2315C43578C5}">
+                <Component Id="cmpE492912D102E902C2D29A796DE2841F3" Guid="{4F34EA4B-ECD0-4EFB-AA4A-A08CC1A3AE3F}">
                     <File Id="filA386736B7BAF9FB53647212A473FEDBD" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\popper-utils.js" />
                 </Component>
-                <Component Id="cmp42114232F8457F4830A40FE0C9EEA457" Guid="{F25762DC-0E50-4852-8980-45AEFFE61C92}">
+                <Component Id="cmp42114232F8457F4830A40FE0C9EEA457" Guid="{A912A706-9B7A-44C2-BCAB-96D3E0A6ADEA}">
                     <File Id="fil7E6EC8600D44F7E9092D9F4C45B30C91" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\popper-utils.js.map" />
                 </Component>
-                <Component Id="cmp2733CCD086090D3264032E6159E87669" Guid="{991786FD-2634-4A2E-8140-2A1EE48F3208}">
+                <Component Id="cmp2733CCD086090D3264032E6159E87669" Guid="{3AAA4660-1C3D-4212-914A-BD90E1E3EB65}">
                     <File Id="fil1FC53ACA30EBE33B25F4D931BF45DCE9" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\popper-utils.min.js" />
                 </Component>
-                <Component Id="cmp8B28B977FFCAA959D3CF9A94C8FE9882" Guid="{72E51726-64C3-4039-A831-35F6E38B5FF4}">
+                <Component Id="cmp8B28B977FFCAA959D3CF9A94C8FE9882" Guid="{6FEFF73A-A99C-437F-9B7F-70CC185D3A6F}">
                     <File Id="filF76C2046D5DC5894D71B1614945C8825" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\popper-utils.min.js.map" />
                 </Component>
-                <Component Id="cmpA535BC8D4B1B3890D5941BC9863D5FA0" Guid="{B2473956-78E9-41CA-AC05-637AA2AA72AF}">
+                <Component Id="cmpA535BC8D4B1B3890D5941BC9863D5FA0" Guid="{BAB88986-DA2A-4F9F-A3EB-3384D33ECF4D}">
                     <File Id="fil146B2F2A2397B36C1D56A3F71451960F" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\popper.js" />
                 </Component>
-                <Component Id="cmp22C24BC79E92D13E3A98E33837D87B9F" Guid="{AC19E2CB-4725-404E-95B2-3B399EA4E2C8}">
+                <Component Id="cmp22C24BC79E92D13E3A98E33837D87B9F" Guid="{24CB8330-67EC-445A-8FF2-5388B1A459AE}">
                     <File Id="fil98F13902FF2378EE72A112B8B615EAF5" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\popper.js.map" />
                 </Component>
-                <Component Id="cmpE67CB01D253FE3371490BB94A61E71C8" Guid="{B012A8CC-EA01-43C2-B5FE-04BDDFCBD4AA}">
+                <Component Id="cmpE67CB01D253FE3371490BB94A61E71C8" Guid="{8961CC96-C148-4366-9549-E18B2C7DCE9A}">
                     <File Id="filBB9F771D853C5F0354A6644A025AEAC2" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\popper.min.js" />
                 </Component>
-                <Component Id="cmp01D84499C02CEC91E64485D9D8B69CA0" Guid="{27294B59-1AD4-4371-9A0F-B9F2C7C056B3}">
+                <Component Id="cmp01D84499C02CEC91E64485D9D8B69CA0" Guid="{C9FDEA2D-C832-4A66-984B-4CF254925BD1}">
                     <File Id="filFACB8C60FD1336DFD26A2887E05A98F7" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\popper.min.js.map" />
                 </Component>
-                <Component Id="cmp20F930A6F566B971C5A00CC18D3669E2" Guid="{73793FD0-3D14-43D0-9701-1ECC6FB39A1E}">
+                <Component Id="cmp20F930A6F566B971C5A00CC18D3669E2" Guid="{FA128610-7ED7-43E9-9CE8-BFE171C1A627}">
                     <File Id="fil283A63F353BCFE908DBB4CAFA4691A40" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\Ranking.js" />
                 </Component>
-                <Component Id="cmp903A0B49B7236E581408CD359C51E3D5" Guid="{1F5428B8-1944-4BF4-AE4F-99BE16E10A94}">
+                <Component Id="cmp903A0B49B7236E581408CD359C51E3D5" Guid="{CD771926-6E4D-4477-AE44-4EF2B94A315E}">
                     <File Id="fil5091445793B936BD16A37600BE5A47F5" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\README.md" />
                 </Component>
-                <Component Id="cmpE326A98A54C242126795A88312154BC6" Guid="{075087D0-DF59-456F-A042-BA40A68B28C4}">
+                <Component Id="cmpE326A98A54C242126795A88312154BC6" Guid="{DF50555B-D4CB-48C8-81C5-98720DE82CCF}">
                     <File Id="filD284BE9525DAECDCAC73EE3A1F951705" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\RegisterPlayers.js" />
                 </Component>
                 <Directory Id="dir37566F7EB6E4369A92F514C2C8D58C19" Name="esm">
-                    <Component Id="cmpDFF7740367832ADFDB9FB7685BC3111F" Guid="{6C1C9F2C-1AA6-4D12-94F4-8ABCBC0BF230}">
+                    <Component Id="cmpDFF7740367832ADFDB9FB7685BC3111F" Guid="{54CE6118-1293-46CE-B2BD-B936324DA0FE}">
                         <File Id="filE0BD50033BD66279D5BD108790D84DFB" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\esm\popper-utils.js" />
                     </Component>
-                    <Component Id="cmp9B9F0F502BD153A20F241CF461B091DA" Guid="{7E961094-3A83-44E4-9F40-C9B9A3D963BB}">
+                    <Component Id="cmp9B9F0F502BD153A20F241CF461B091DA" Guid="{351F6E9B-29AA-4F41-B786-985E366A9794}">
                         <File Id="fil1B507EFEB10A5B7E4EE9BEA08D489E9F" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\esm\popper-utils.js.map" />
                     </Component>
-                    <Component Id="cmp2B28B7EF53BD9207A6F996CB46E2722B" Guid="{913E47D0-9C97-48BC-8F74-363988E7171F}">
+                    <Component Id="cmp2B28B7EF53BD9207A6F996CB46E2722B" Guid="{5F1E3F70-E0E5-46D6-9896-808A46CC4507}">
                         <File Id="filC99EFE8E4431A8A89495B115BDA26170" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\esm\popper-utils.min.js" />
                     </Component>
-                    <Component Id="cmp336EA5F27D1718677A22399C6BA9D541" Guid="{5846B442-2139-4A09-8F59-5D7789B851A2}">
+                    <Component Id="cmp336EA5F27D1718677A22399C6BA9D541" Guid="{E76F73AD-9A2F-4AD9-AA52-4C0042A37191}">
                         <File Id="fil94549F687668C5C195BBAAA5CB2E6EA3" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\esm\popper-utils.min.js.map" />
                     </Component>
-                    <Component Id="cmp2871F4592541A83C1368840C8164D277" Guid="{BF04FCC5-FE69-42BC-9E2F-037FC3A6FEB6}">
+                    <Component Id="cmp2871F4592541A83C1368840C8164D277" Guid="{02568307-6646-430A-8FE6-D4CE7EE7CAEB}">
                         <File Id="fil4483349C373F7BDB091F1E996B17CCC2" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\esm\popper.js" />
                     </Component>
-                    <Component Id="cmp7B333264D19B3FBB91BB5A0D879C2837" Guid="{D0F56CC5-5EA7-4F1D-B647-82F979C76040}">
+                    <Component Id="cmp7B333264D19B3FBB91BB5A0D879C2837" Guid="{874D71B7-8001-48A2-8DBF-4483BFE739A1}">
                         <File Id="filA1B3679BF5C4BA0D2F121E16E8862AC3" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\esm\popper.js.map" />
                     </Component>
-                    <Component Id="cmpDAF7E356CD6C13891A1F958309DAA65C" Guid="{365C52E8-8994-4E25-913F-3CE712ECC9EE}">
+                    <Component Id="cmpDAF7E356CD6C13891A1F958309DAA65C" Guid="{3242BCDD-D854-40DC-AB46-E583741F68E4}">
                         <File Id="filA6F9DDD7B4DE8FB1F305DBC4F135629F" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\esm\popper.min.js" />
                     </Component>
-                    <Component Id="cmpB6651BE5CF0F15D7FE1EB727BD246127" Guid="{B2DA54EC-D72B-47C6-9405-012099C83142}">
+                    <Component Id="cmpB6651BE5CF0F15D7FE1EB727BD246127" Guid="{34B4AFE6-5A89-4499-BFF4-71FEC1185D65}">
                         <File Id="fil00769F5D8904D8E8B6CF18071B49F180" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\esm\popper.min.js.map" />
                     </Component>
                 </Directory>
                 <Directory Id="dirC9DA769FF7373C424EBEB17EF14F64A7" Name="src">
-                    <Component Id="cmpBFC33FAF0380DE652DE708388FF1EAB6" Guid="{EB9F38AC-CD62-40C8-8677-A1C8519BE983}">
+                    <Component Id="cmpBFC33FAF0380DE652DE708388FF1EAB6" Guid="{754F2DEC-25CF-4210-BA95-FEE146A559AD}">
                         <File Id="fil62B2AB2DCBE9165E7F60D7F3161EF382" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\index.js" />
                     </Component>
                     <Directory Id="dir03F752531FC290282FD14F8591433596" Name="methods">
-                        <Component Id="cmp9BC237D1E4D64E1C0661F1F027728FEA" Guid="{9F3A61EA-62AE-4DFB-9DE0-780B97A01004}">
+                        <Component Id="cmp9BC237D1E4D64E1C0661F1F027728FEA" Guid="{14736797-C133-4D61-95E5-3F89DC57B3A9}">
                             <File Id="filA6C998E113099768595EBF828F7B318E" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\methods\defaults.js" />
                         </Component>
-                        <Component Id="cmp1B3D2FC75EA1193CEB410E9641C354F1" Guid="{6E12FC76-1418-469C-B005-7DB8473E3E8C}">
+                        <Component Id="cmp1B3D2FC75EA1193CEB410E9641C354F1" Guid="{4A422C0A-4268-416A-B1E6-479E460E8555}">
                             <File Id="fil650283F337560D91BC185F33028F8F08" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\methods\destroy.js" />
                         </Component>
-                        <Component Id="cmpD33960B272138884B01291DFF7645328" Guid="{D0A8F2DB-3AD0-4CE3-B4BB-D38B75B50906}">
+                        <Component Id="cmpD33960B272138884B01291DFF7645328" Guid="{BAD6AD8E-70EC-4E53-8D2A-2548807C8769}">
                             <File Id="fil083775ED3C4F01A3A6B4A20884B34041" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\methods\disableEventListeners.js" />
                         </Component>
-                        <Component Id="cmp9F5D06911BE94C878C25A9037713A0D6" Guid="{DFD3AC0D-5202-473F-989B-6E999B0BB89B}">
+                        <Component Id="cmp9F5D06911BE94C878C25A9037713A0D6" Guid="{46DA4A68-7503-4A67-A528-7AB993E7ADAA}">
                             <File Id="fil92BC6D9ABCFF2F8A0816364302747EE8" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\methods\enableEventListeners.js" />
                         </Component>
-                        <Component Id="cmp4DB4A013BA8253C6BE19A7765466FFB7" Guid="{A7D18584-36B2-478E-A092-F419EA817438}">
+                        <Component Id="cmp4DB4A013BA8253C6BE19A7765466FFB7" Guid="{E793C8AC-B40B-46AC-ABD3-3EC3C8E2F5F2}">
                             <File Id="filBA2535B1AAAA6CED13D36F98021090A8" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\methods\placements.js" />
                         </Component>
-                        <Component Id="cmp8A4C8F16641BD0DA155CC9B7C6F8C95A" Guid="{CED9B4D8-2936-4FE8-845A-2D1A24A19D64}">
+                        <Component Id="cmp8A4C8F16641BD0DA155CC9B7C6F8C95A" Guid="{FFDD9C4D-B819-435A-A78E-7D123697F6E5}">
                             <File Id="fil9CCC5E5AA90834D68D1B62AE05B5FAB9" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\methods\update.js" />
                         </Component>
                     </Directory>
                     <Directory Id="dir0B5A02DA99DB8301B2C863DF96253EC1" Name="modifiers">
-                        <Component Id="cmpAB1312FDBCBD2EB3FD6F1401ED0AA99F" Guid="{75990F4E-6223-4FBB-8D38-E245D15262CE}">
+                        <Component Id="cmpAB1312FDBCBD2EB3FD6F1401ED0AA99F" Guid="{C2D13B6D-F067-40F6-AB71-75F771F1225A}">
                             <File Id="filAE5502B7C721787EEF19416C2ABE93FB" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\modifiers\applyStyle.js" />
                         </Component>
-                        <Component Id="cmp05AB026048FAECF15ED1A11DFA66BDB2" Guid="{A72F9D60-7299-4A55-BBA9-6898C952A23A}">
+                        <Component Id="cmp05AB026048FAECF15ED1A11DFA66BDB2" Guid="{1E99BE44-B32D-4385-BD4E-39A37845E381}">
                             <File Id="filF090638CD542EF6C33417A1AA60EDA41" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\modifiers\arrow.js" />
                         </Component>
-                        <Component Id="cmp2E0CA941CC45F6ECAA4A385772315FBF" Guid="{66AD61EC-D86D-451C-B929-6B12197685A8}">
+                        <Component Id="cmp2E0CA941CC45F6ECAA4A385772315FBF" Guid="{431653DC-8011-4D6D-B7F3-A5F5CF492797}">
                             <File Id="fil896558922D57F7864026538791B895E2" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\modifiers\computeStyle.js" />
                         </Component>
-                        <Component Id="cmpDD5DF3E320DD05DFD19D6C5806F96075" Guid="{2E8A0523-6AFF-4697-B74A-83657CB1876D}">
+                        <Component Id="cmpDD5DF3E320DD05DFD19D6C5806F96075" Guid="{DBDE8DBD-B142-4DB0-94E1-F373CB0CB424}">
                             <File Id="filEC5152C989B4450CA102C27DEF5000FC" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\modifiers\flip.js" />
                         </Component>
-                        <Component Id="cmp5CDA723171265B809DDEE8C72E39EFF4" Guid="{1CD1A829-F9DB-4601-8045-604FA7F41D2F}">
+                        <Component Id="cmp5CDA723171265B809DDEE8C72E39EFF4" Guid="{1464DD89-5CD5-4E01-B641-189B629C276E}">
                             <File Id="fil930324717022DA43F35E9722D0E28541" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\modifiers\hide.js" />
                         </Component>
-                        <Component Id="cmp75D2FA9A6619F321E52FD51A07C010A9" Guid="{1F7650FD-AD34-4477-84C6-2497A86057EA}">
+                        <Component Id="cmp75D2FA9A6619F321E52FD51A07C010A9" Guid="{BCCF200A-04DB-49C1-B7BA-D346A8BEC82A}">
                             <File Id="fil9B34C8CBD198751C11BCD9C720F76559" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\modifiers\index.js" />
                         </Component>
-                        <Component Id="cmpF07AD4A681248169C6D6E2E34D0C856E" Guid="{4F4BAEAE-9342-4591-B4B6-1E6D377D013D}">
+                        <Component Id="cmpF07AD4A681248169C6D6E2E34D0C856E" Guid="{6F754420-B5E5-4AFB-B256-8592726C6957}">
                             <File Id="fil6900EDC509D47206FDAF4940E73013EF" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\modifiers\inner.js" />
                         </Component>
-                        <Component Id="cmp99A0F389D1C8E6737AF15A943FC83E69" Guid="{17C12DCA-2C45-4F82-B4CB-0A6EF8EBA35B}">
+                        <Component Id="cmp99A0F389D1C8E6737AF15A943FC83E69" Guid="{00C68FD9-FF46-4496-85E0-522AE2FB035D}">
                             <File Id="fil43DA16723D503237FDE5C47C1EE5BDD8" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\modifiers\keepTogether.js" />
                         </Component>
-                        <Component Id="cmp2F457120E52DBAD6F3B433FF1E3C83CF" Guid="{BDD308DB-A717-4222-91DE-5651BDC5C19F}">
+                        <Component Id="cmp2F457120E52DBAD6F3B433FF1E3C83CF" Guid="{CB9988BA-2486-4CC0-B9DF-24DFE52285AC}">
                             <File Id="fil9E8C866AD61F4587F0A3D3A57517EBC9" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\modifiers\offset.js" />
                         </Component>
-                        <Component Id="cmpD38B5A571E6F6FE74FD26B6AEEF20D0D" Guid="{6582CC52-7A35-40EA-9B50-EE026A71C1A0}">
+                        <Component Id="cmpD38B5A571E6F6FE74FD26B6AEEF20D0D" Guid="{766AFF94-4966-48DA-AF92-BE70E26CA62D}">
                             <File Id="fil20C31B4DC2F80716CD2E66533081449E" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\modifiers\preventOverflow.js" />
                         </Component>
-                        <Component Id="cmpE6F236BE3B000A612AF4DB2DDA1D8209" Guid="{0CCE925D-5650-4AD1-A3E0-EF868DE0A3A0}">
+                        <Component Id="cmpE6F236BE3B000A612AF4DB2DDA1D8209" Guid="{B8724D77-1169-457F-9F64-22572AB00114}">
                             <File Id="fil7C77CCED74B66A25E5661B253C266A13" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\modifiers\shift.js" />
                         </Component>
                     </Directory>
                     <Directory Id="dirF351F40D089A0B29D6BA3741BE46BC36" Name="utils">
-                        <Component Id="cmp8AC4F7B3B272FFEE9C2275712FA52A32" Guid="{44E681A6-2FBD-45D7-8EBE-488AF62B79B2}">
+                        <Component Id="cmp8AC4F7B3B272FFEE9C2275712FA52A32" Guid="{AF7EE5A6-DAE0-449F-8376-617E4BEF61B1}">
                             <File Id="fil29E4141C72E593D8190A36AE4362834D" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\clockwise.js" />
                         </Component>
-                        <Component Id="cmpF5D561BB8A089D2D193E5EF5FE7D6F95" Guid="{CA270336-1C81-445B-A7A9-9965EEE5A7EF}">
+                        <Component Id="cmpF5D561BB8A089D2D193E5EF5FE7D6F95" Guid="{42AFD5D2-14B5-41C4-B1F1-8E9E61E19850}">
                             <File Id="filC2ABCC0080E7E3120E9828DD9303CE55" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\computeAutoPlacement.js" />
                         </Component>
-                        <Component Id="cmp05A01324305A173829EC0A832658E549" Guid="{21B66D96-5799-412C-B8AB-A88A5DA4AF1A}">
+                        <Component Id="cmp05A01324305A173829EC0A832658E549" Guid="{0C70C7CA-C331-49D1-A375-8747EF0FD089}">
                             <File Id="fil9858CD3733F2734674FFAF456BC9C21E" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\debounce.js" />
                         </Component>
-                        <Component Id="cmp53ABD587A9D517C09303B9E98F18B17B" Guid="{2276BA19-733D-42F9-9F8E-99110E09D353}">
+                        <Component Id="cmp53ABD587A9D517C09303B9E98F18B17B" Guid="{4E25811C-33DA-4FAB-AB0F-A6A54BA61C47}">
                             <File Id="filC5AB8AF87306C35186A53DA45EB6EF88" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\find.js" />
                         </Component>
-                        <Component Id="cmp536866765E93FA4176B949E10E7E4CB4" Guid="{8908F445-D434-4261-96FE-4964DFADCDE2}">
+                        <Component Id="cmp536866765E93FA4176B949E10E7E4CB4" Guid="{0A66A456-E034-40E4-8087-91996077B20F}">
                             <File Id="fil0D611374E1D00BABD2D59451C94D3C3B" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\findCommonOffsetParent.js" />
                         </Component>
-                        <Component Id="cmp4D7C7B8EC0BDD0D750489D84F07120E8" Guid="{C2B894E2-73C0-46F2-8310-4C5749EC728A}">
+                        <Component Id="cmp4D7C7B8EC0BDD0D750489D84F07120E8" Guid="{B1DAD71C-0F6B-43F6-88CC-A6B9CA2A200B}">
                             <File Id="fil15475EDFC922486071090905FF858439" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\findIndex.js" />
                         </Component>
-                        <Component Id="cmpDBAEBDD88C97161F1971B91C59F38BC0" Guid="{C9D36642-40CD-43E5-861C-AFF27CDF90FD}">
+                        <Component Id="cmpDBAEBDD88C97161F1971B91C59F38BC0" Guid="{DC66D271-5151-4A00-8859-5678D3118056}">
                             <File Id="fil25EF0F2A5F42C2B1B92786FE9BBA28A6" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getBordersSize.js" />
                         </Component>
-                        <Component Id="cmp8C8F679CE49D9BCBE2B4788A4DEE521B" Guid="{2F249446-333E-491A-A3A5-B4FC5FF12DF0}">
+                        <Component Id="cmp8C8F679CE49D9BCBE2B4788A4DEE521B" Guid="{EC243963-DD4E-4929-9D40-2264B3AB216C}">
                             <File Id="fil795BF6229C218FC3DCF7108C87552551" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getBoundaries.js" />
                         </Component>
-                        <Component Id="cmpC62CA36395943A6AF84C5DC85A8CF94F" Guid="{BE33E32E-D4FD-49C3-B1E8-C5151F5FA96D}">
+                        <Component Id="cmpC62CA36395943A6AF84C5DC85A8CF94F" Guid="{3B70ACC6-D174-4BF1-880C-86A0652C6DCA}">
                             <File Id="fil5B69851042BBAAC43D36906152D40947" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getBoundingClientRect.js" />
                         </Component>
-                        <Component Id="cmp140141D51D976827EF1338B398A982E7" Guid="{752CCA8B-64F7-4CB8-AD80-30DFAEB2CE4E}">
+                        <Component Id="cmp140141D51D976827EF1338B398A982E7" Guid="{0658933B-3315-4218-A7B3-2CEE14C8BD95}">
                             <File Id="filCCEF8585FABA61931B87606018422594" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getClientRect.js" />
                         </Component>
-                        <Component Id="cmp2DF1C1FE7724511B812E3625264A8752" Guid="{7B5F6B4A-64D8-49B0-9F9A-08E41BCA7D35}">
+                        <Component Id="cmp2DF1C1FE7724511B812E3625264A8752" Guid="{138B3257-B452-4E77-9281-BDF607627324}">
                             <File Id="fil72ACCF8D91AB7ED17B65C1AED1D2EFE4" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getFixedPositionOffsetParent.js" />
                         </Component>
-                        <Component Id="cmp843449148901F4D20284A25703E4B613" Guid="{601FDDB5-CA3C-4B2E-A437-5541C2AA291B}">
+                        <Component Id="cmp843449148901F4D20284A25703E4B613" Guid="{3BF331C6-65DA-4417-BA0F-9C099848E4BD}">
                             <File Id="fil88DBF9E028B51B5A99EDAA58E298009B" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getOffsetParent.js" />
                         </Component>
-                        <Component Id="cmp6075185504B1F0498C300390E79F811B" Guid="{492E591D-A4A5-4063-8547-F4FDBE41994C}">
+                        <Component Id="cmp6075185504B1F0498C300390E79F811B" Guid="{F8803A68-4241-4DC1-A5F4-ACAF3CC36FFF}">
                             <File Id="filC860DB3314587980A9F7A62243E1AD6D" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getOffsetRect.js" />
                         </Component>
-                        <Component Id="cmp642D44E0A0BD2BF351A4463C536D6A45" Guid="{4DF0BFE6-2D9E-491E-B50E-605E8244930F}">
+                        <Component Id="cmp642D44E0A0BD2BF351A4463C536D6A45" Guid="{F2115748-0EDB-42CC-9B3A-C05D8C4BB71C}">
                             <File Id="fil9E36353E325C2AA0889C3EE02C81DAC0" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getOffsetRectRelativeToArbitraryNode.js" />
                         </Component>
-                        <Component Id="cmpF096E95AC5E22DEF0F516F5E6B062712" Guid="{48C61F79-FA6A-4FE4-9C72-3622684B5452}">
+                        <Component Id="cmpF096E95AC5E22DEF0F516F5E6B062712" Guid="{7EF48A96-DB4E-4D22-87EA-F2FC309E5739}">
                             <File Id="fil3CE3DBF354FD0DD163560B399CCE0397" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getOppositePlacement.js" />
                         </Component>
-                        <Component Id="cmpDC017B9E3AB6DFD4D683FE9672EA47F9" Guid="{49DF7221-6158-41B8-80CA-EC3CF9CE25D4}">
+                        <Component Id="cmpDC017B9E3AB6DFD4D683FE9672EA47F9" Guid="{0FB6D116-6E8D-47D0-8C6F-9F68A2FA31F2}">
                             <File Id="fil20D8B02115CF78F0270BA48C5EB08430" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getOppositeVariation.js" />
                         </Component>
-                        <Component Id="cmpEB405774A76CDEBF8A84C515577D4E6B" Guid="{986396CE-A21C-4424-8BBB-BC65625E8C62}">
+                        <Component Id="cmpEB405774A76CDEBF8A84C515577D4E6B" Guid="{89B519BF-A04D-4535-8604-B30EA969FE68}">
                             <File Id="filB9F4DDE94F807294D8B01C5D5809F0CD" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getOuterSizes.js" />
                         </Component>
-                        <Component Id="cmp5EDE2E78F0716B46E19AFEBA2B6C3C38" Guid="{A8CA1AEF-1F26-4FCF-BCC2-A56CC5AAE6F4}">
+                        <Component Id="cmp5EDE2E78F0716B46E19AFEBA2B6C3C38" Guid="{2D3C2E8F-6B6F-4D67-91CC-C58B1AC15F15}">
                             <File Id="fil8B2A0DB41D1D921EBA2D38897B8B2F75" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getParentNode.js" />
                         </Component>
-                        <Component Id="cmpD29C90A1769C7898BAB8DF3C07E93A4C" Guid="{DC238D15-CAB0-4158-8C03-A817EF3386CB}">
+                        <Component Id="cmpD29C90A1769C7898BAB8DF3C07E93A4C" Guid="{9E27A708-D428-498F-A0C8-19B055C9403B}">
                             <File Id="filF206CA4994706F42E3DB85128ADE2230" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getPopperOffsets.js" />
                         </Component>
-                        <Component Id="cmp0484CF2512D3CC424D0B83EC258647E3" Guid="{3D502251-2BA4-4451-9F93-4790CC159F83}">
+                        <Component Id="cmp0484CF2512D3CC424D0B83EC258647E3" Guid="{45B2AAB6-DB01-4F9A-B9D5-DD0756B9B2B3}">
                             <File Id="filB01869FEA2A5BC8219BA5D80E48B6B0E" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getReferenceNode.js" />
                         </Component>
-                        <Component Id="cmp099CA9326101BF3175F71D001227BB4C" Guid="{68AC05EA-1BD6-45AC-926C-0402D608446C}">
+                        <Component Id="cmp099CA9326101BF3175F71D001227BB4C" Guid="{A321D242-71A7-4CEA-8D38-1094A92D4BA3}">
                             <File Id="fil30BEBF447ACF443AB2729526CFF6B97F" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getReferenceOffsets.js" />
                         </Component>
-                        <Component Id="cmp36FDCFF7CCD83BC0AB9AEAD6C21793E9" Guid="{1FAEF6B5-ACE5-41A3-BDC7-9FA5FE77646E}">
+                        <Component Id="cmp36FDCFF7CCD83BC0AB9AEAD6C21793E9" Guid="{B0F7111C-A8AD-4878-B36F-8CA94B769F31}">
                             <File Id="fil6D6378696F422BB99C14D73EFFAB6E45" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getRoot.js" />
                         </Component>
-                        <Component Id="cmp60639DC7E5FDA3373E1219CF22349CD6" Guid="{C7B3ABAE-E662-4415-82D5-0A3F15D46682}">
+                        <Component Id="cmp60639DC7E5FDA3373E1219CF22349CD6" Guid="{DEDA97C9-2AE1-48FA-85C1-D59867C21E2C}">
                             <File Id="fil8B32DF985EA37E0A1C6B95B7EA65AF1F" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getRoundedOffsets.js" />
                         </Component>
-                        <Component Id="cmpD4761DAFB9E1AD8C1EBBB0AE630AFC1E" Guid="{9DBD6F01-E381-4B81-B662-BB5A7F966EEC}">
+                        <Component Id="cmpD4761DAFB9E1AD8C1EBBB0AE630AFC1E" Guid="{BA4F96AE-C058-402E-8939-79D6FC171A78}">
                             <File Id="fil4F3E6E41554732D5BEA1BBEEAA2A5BB8" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getScroll.js" />
                         </Component>
-                        <Component Id="cmpD1DE3B66C92A859563A1E7B8F10D7B13" Guid="{88EF63FA-4F27-4354-BF27-3F906F08B8F6}">
+                        <Component Id="cmpD1DE3B66C92A859563A1E7B8F10D7B13" Guid="{F93CFC62-5058-462F-9D86-5FA7BCA8613A}">
                             <File Id="fil5E4CF70337B3C638A08D985D4A71560F" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getScrollParent.js" />
                         </Component>
-                        <Component Id="cmpD6BDC3C75402B4C7BE4834EEF4AA6756" Guid="{5CB52FD3-ABDD-4D7C-92EC-DA2871C6E555}">
+                        <Component Id="cmpD6BDC3C75402B4C7BE4834EEF4AA6756" Guid="{2F340E08-7C42-4C7A-85A1-F78738300910}">
                             <File Id="fil5E397EAA10E322EC75D3A63DA666455B" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getStyleComputedProperty.js" />
                         </Component>
-                        <Component Id="cmpAF0EF6AEE9C1B50BE9A9561ACDC913FB" Guid="{2114732E-0196-4DCC-94EC-78004DD92048}">
+                        <Component Id="cmpAF0EF6AEE9C1B50BE9A9561ACDC913FB" Guid="{E9B814C6-E794-46B5-89AE-08AE9ED971C4}">
                             <File Id="fil7F5813074C4B3D2B54ADBC8C7627D2B0" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getSupportedPropertyName.js" />
                         </Component>
-                        <Component Id="cmpC0D2F6D4126895F093C4569204D82C90" Guid="{0F54879A-6330-4E66-BA90-3D03742690AD}">
+                        <Component Id="cmpC0D2F6D4126895F093C4569204D82C90" Guid="{4A55CBCA-0462-43CE-B2F1-4A43B53C67A4}">
                             <File Id="filD6943DC548E121713754EBF910D2B070" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getViewportOffsetRectRelativeToArtbitraryNode.js" />
                         </Component>
-                        <Component Id="cmp4662C3637F67A31AB6675F7142FC6FC3" Guid="{13E5DE22-445E-4555-A367-C3E56074D7DF}">
+                        <Component Id="cmp4662C3637F67A31AB6675F7142FC6FC3" Guid="{E79D146E-63F4-49D6-BFC6-0EE3EEDE77AD}">
                             <File Id="filFFF4F480E383298D4E22327BBDF854BF" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getWindow.js" />
                         </Component>
-                        <Component Id="cmp1F5B281B4F7BCB1262670B4BF158370C" Guid="{79CD1CAE-7C72-4DD0-B599-CF17E095EA38}">
+                        <Component Id="cmp1F5B281B4F7BCB1262670B4BF158370C" Guid="{782F6B0E-F47E-416F-8D8E-1F2BE1DE484C}">
                             <File Id="fil7C5CCBFE0172C510390362D9DB1CA315" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\getWindowSizes.js" />
                         </Component>
-                        <Component Id="cmpDBCDBC3347AF64BFE7E9D3D19B4CE1CD" Guid="{14BF1B9B-CBB9-412A-AC5E-3FBA32E4E181}">
+                        <Component Id="cmpDBCDBC3347AF64BFE7E9D3D19B4CE1CD" Guid="{9FD7B656-6767-48FE-9C6B-7A765FA40FD1}">
                             <File Id="fil439FC6F8CC280065882F2DD5FA5BC9FF" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\includeScroll.js" />
                         </Component>
-                        <Component Id="cmpB53963453952C4543AB1D91A5B386EF6" Guid="{86604333-9B56-423B-80FA-C1DB02878239}">
+                        <Component Id="cmpB53963453952C4543AB1D91A5B386EF6" Guid="{A59BA342-E9B0-433D-966C-AC013EC0B3F0}">
                             <File Id="fil78C6EC4D4BE52E0A34F311CDE0CBC36D" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\index.js" />
                         </Component>
-                        <Component Id="cmpE48E70B4F95DE8B24F2D9DD638E639D0" Guid="{69DC91B6-03BD-4DC5-A026-4C3A26B3AB9F}">
+                        <Component Id="cmpE48E70B4F95DE8B24F2D9DD638E639D0" Guid="{A0223E57-9DDC-4BD6-B09D-0C3C09F4D129}">
                             <File Id="filCC40FCEB9046D9F57EE640B1DD6B08B9" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\isBrowser.js" />
                         </Component>
-                        <Component Id="cmpE6A51EC6F4CC1C85217AE8C8C6856EFF" Guid="{A2F3FFDE-B242-4B19-90C0-A9A91DA67E11}">
+                        <Component Id="cmpE6A51EC6F4CC1C85217AE8C8C6856EFF" Guid="{6FC026BC-0EB5-4BCA-AA10-92EE81FDA20A}">
                             <File Id="fil65692BF7ABD0405808EFF0C5142B45DC" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\isFixed.js" />
                         </Component>
-                        <Component Id="cmpED8F8CF86C972821515EE4E89A2FF7EB" Guid="{8648FFFE-4DC3-4449-9823-4F08F51C0590}">
+                        <Component Id="cmpED8F8CF86C972821515EE4E89A2FF7EB" Guid="{F52DA251-404E-4A48-84B9-C027076538BC}">
                             <File Id="filFDB9EB022D9DB145D65588095405C459" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\isFunction.js" />
                         </Component>
-                        <Component Id="cmp832EF44D713C288E1BFE92A29D6FA2D2" Guid="{F8B1A328-1EE8-48C1-8811-BD9109904C92}">
+                        <Component Id="cmp832EF44D713C288E1BFE92A29D6FA2D2" Guid="{C3BBBD73-72B7-4A4B-9EF7-48822E7E6017}">
                             <File Id="fil1AE3AAC35453259ED436A208EE211638" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\isIE.js" />
                         </Component>
-                        <Component Id="cmpF3461E7F38DEB1AB08CE8C49FFDF78B2" Guid="{F8706664-5BFA-401B-9032-E734B4AB48CD}">
+                        <Component Id="cmpF3461E7F38DEB1AB08CE8C49FFDF78B2" Guid="{D2976FB1-5F6B-4916-88B1-A32B8B6146A8}">
                             <File Id="fil781AD86022AF05E63BAEFBB4245A96AA" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\isModifierEnabled.js" />
                         </Component>
-                        <Component Id="cmpD992F15F7DDFC82740F6CDAB8B4BC853" Guid="{BFEBD8E5-60A5-4CD3-A0EB-200161DFE724}">
+                        <Component Id="cmpD992F15F7DDFC82740F6CDAB8B4BC853" Guid="{6B324985-C524-4C40-9176-E533308610A0}">
                             <File Id="fil78D574889899CB0EFECA5540BBEB2F04" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\isModifierRequired.js" />
                         </Component>
-                        <Component Id="cmpEF53720F55E498A411A442DD3303A614" Guid="{34A1695C-F0BD-4EFE-8781-B644629818D7}">
+                        <Component Id="cmpEF53720F55E498A411A442DD3303A614" Guid="{E6C42529-CC80-4A07-AE64-409A7B72F81A}">
                             <File Id="fil63ECCC37DBA9843DF163A98F6F4D792A" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\isNumeric.js" />
                         </Component>
-                        <Component Id="cmp478E3A0412C0683DE81D4D8486FCAAFB" Guid="{193860E0-7B8D-4199-A257-BAACF775D544}">
+                        <Component Id="cmp478E3A0412C0683DE81D4D8486FCAAFB" Guid="{4B213ABE-AB9C-41C6-84D5-261EA72E5AF7}">
                             <File Id="fil620B6DA997B2F9BEC595BFD5F7FF1169" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\isOffsetContainer.js" />
                         </Component>
-                        <Component Id="cmp5F414CA780225B36AA5C4AF3E604BA25" Guid="{85DA367A-2C87-49F2-90DE-8F24810AB03A}">
+                        <Component Id="cmp5F414CA780225B36AA5C4AF3E604BA25" Guid="{F2FFB791-2D29-4E40-B408-3C060BBB8808}">
                             <File Id="filD7126812DF9A943EAFE318A98D7A8CC1" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\removeEventListeners.js" />
                         </Component>
-                        <Component Id="cmpEC97755971A7CBEAEBFC0A56A74080FE" Guid="{8692C754-18D2-4A7E-843A-BABC73EB26CA}">
+                        <Component Id="cmpEC97755971A7CBEAEBFC0A56A74080FE" Guid="{3655D22E-7FE0-4313-859B-787AF8A06F9F}">
                             <File Id="filFF7AF4020D59C7D6300D635AA8D54306" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\runModifiers.js" />
                         </Component>
-                        <Component Id="cmp319977A4A8B3D5E9ADFAB3CA66D2B00B" Guid="{A0911BC9-94D7-4455-9161-03013E909655}">
+                        <Component Id="cmp319977A4A8B3D5E9ADFAB3CA66D2B00B" Guid="{B5C2AB02-9A6B-415A-BDD0-A48E350780E9}">
                             <File Id="fil0C929CDC085F06594BCB5838D7025D00" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\setAttributes.js" />
                         </Component>
-                        <Component Id="cmp66965D5DBCA7CD7EF62C40AECCEC6C42" Guid="{17417118-5F1A-4067-A3D4-8A3E72A74F77}">
+                        <Component Id="cmp66965D5DBCA7CD7EF62C40AECCEC6C42" Guid="{36E0F964-A207-4589-93A9-45332F41C7C5}">
                             <File Id="fil2ECBD73590D513A1E6A19E76FFEBF2A3" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\setStyles.js" />
                         </Component>
-                        <Component Id="cmp40A652EC83DEC3DCC2F6D0A1745B522E" Guid="{A4809FFA-98D9-4224-9B1D-8B68CB699621}">
+                        <Component Id="cmp40A652EC83DEC3DCC2F6D0A1745B522E" Guid="{9B13258C-6094-43B2-BB13-B9BF75513629}">
                             <File Id="filD51276ED1E6D4D805B38C7D41095CDD0" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\src\utils\setupEventListeners.js" />
                         </Component>
                     </Directory>
                 </Directory>
                 <Directory Id="dir3E1F4F85FF1760A7404C81AF20CDB61A" Name="umd">
-                    <Component Id="cmp916E6366D93BB973BF4224C8A77AE3EC" Guid="{93A61802-23F1-47BC-9FD0-1E3AC8DCD26E}">
+                    <Component Id="cmp916E6366D93BB973BF4224C8A77AE3EC" Guid="{6892CD24-98A6-431D-9E67-6DE0F7ADA673}">
                         <File Id="filEC9981490127B29A916C8292B01342B0" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\umd\popper-utils.js" />
                     </Component>
-                    <Component Id="cmpAE51DD5BCF525E5359843AB18020141B" Guid="{0612B58A-5C1D-4A80-80A7-7D20D994C80A}">
+                    <Component Id="cmpAE51DD5BCF525E5359843AB18020141B" Guid="{60020EC0-7EC6-4957-A9B6-7C0042379DF6}">
                         <File Id="filD3B74AA6BA6EFFC4EB484D9AFB2D1B7F" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\umd\popper-utils.js.map" />
                     </Component>
-                    <Component Id="cmp365D1F8784F466F998E8AF94ACC2468E" Guid="{D82F49E1-FACA-4FCB-BADF-C57AB16A6EC3}">
+                    <Component Id="cmp365D1F8784F466F998E8AF94ACC2468E" Guid="{AA6EB16D-37D5-47A8-B33B-51891E1DAAB9}">
                         <File Id="fil142323AAFB3DC9579394D372EE9FC1D5" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\umd\popper-utils.min.js" />
                     </Component>
-                    <Component Id="cmpBFD94088176DACF0C75DD44B48E5AB4A" Guid="{75CAFDBD-11A7-400C-9878-297ED471EB60}">
+                    <Component Id="cmpBFD94088176DACF0C75DD44B48E5AB4A" Guid="{CD91AFFF-8178-4187-AD9F-EB2B88DD52B9}">
                         <File Id="filC6D03DFFEBB30FDB49393BB0716F8477" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\umd\popper-utils.min.js.map" />
                     </Component>
-                    <Component Id="cmpB54682926F1CD13E0071A229DD9FE93A" Guid="{29D168F6-7164-48AB-B02A-23ADCFF4CC75}">
+                    <Component Id="cmpB54682926F1CD13E0071A229DD9FE93A" Guid="{C531D45A-3701-4C3A-8E99-7079E325E25C}">
                         <File Id="fil1B78FE895517F9B66CD29EFE831CEF36" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\umd\popper.js" />
                     </Component>
-                    <Component Id="cmp1BE79AD539FC1E48C4D0600DA1A4A623" Guid="{D6CCCF82-1917-4275-9FA6-BFD22B3068C1}">
+                    <Component Id="cmp1BE79AD539FC1E48C4D0600DA1A4A623" Guid="{64D88BF3-B00B-4645-A3CC-A24227E53434}">
                         <File Id="fil289E7E9339C66319CE606F46E14D9A04" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\umd\popper.js.flow" />
                     </Component>
-                    <Component Id="cmp9FC12F97035D3609EFEC9086D10B9E33" Guid="{3656BC05-F0A2-4D1B-BFE3-68CAC4EF28D8}">
+                    <Component Id="cmp9FC12F97035D3609EFEC9086D10B9E33" Guid="{A51A8A04-39FD-4169-A5C2-302599297B64}">
                         <File Id="filAA3C2B3BD8994A406984EDCD28B50AA9" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\umd\popper.js.map" />
                     </Component>
-                    <Component Id="cmpEC16DA3AD5B52F80B99E6D799FE6567E" Guid="{13170314-02CC-48BF-96A8-775214755990}">
+                    <Component Id="cmpEC16DA3AD5B52F80B99E6D799FE6567E" Guid="{92DA0F1A-F781-41F4-8A28-36FBC54D6E6B}">
                         <File Id="fil7AE781AB786DF2132A9F42F19F3B8CEB" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\umd\popper.min.js" />
                     </Component>
-                    <Component Id="cmpB4EA62946A507C2B9838EC8B670893FD" Guid="{B8EB4088-A991-4134-9D01-A90507B0B4F5}">
+                    <Component Id="cmpB4EA62946A507C2B9838EC8B670893FD" Guid="{03825DCF-6439-4479-8FE1-6387972DE60C}">
                         <File Id="filF4571292547218682A622674123E8679" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Scripts\umd\popper.min.js.map" />
                     </Component>
                 </Directory>
             </Directory>
             <Directory Id="dir09617EAFAD2367DFF435E502D7B8CFAC" Name="Views">
-                <Component Id="cmpBDB997483DF72848C4992623DAFD6BC0" Guid="{82A7904F-6AB7-42B5-83AE-829749C6E8CD}">
+                <Component Id="cmpBDB997483DF72848C4992623DAFD6BC0" Guid="{2DCAEF0D-9F5C-44AF-9DF9-457F659C90B5}">
                     <File Id="fil5B649EDA209F435B4911E222F4DCFEA5" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\Web.config" />
                 </Component>
-                <Component Id="cmp283FD9F434B2A4FAAD6B6A1459730CE0" Guid="{2B8B3225-BD98-4A24-B99B-427D93A9B950}">
+                <Component Id="cmp283FD9F434B2A4FAAD6B6A1459730CE0" Guid="{D95C152C-218F-4121-BA38-65114B537020}">
                     <File Id="fil29E4964E75770C63E4DCB76381F6C331" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\_ViewStart.cshtml" />
                 </Component>
                 <Directory Id="dir8337D8DC48392C5A0160CB01B37680F7" Name="Bidding">
-                    <Component Id="cmp5061C5C76B44F6E52F9177F1672EEABD" Guid="{40E7264A-6E2A-404A-807B-474730B58987}">
+                    <Component Id="cmp5061C5C76B44F6E52F9177F1672EEABD" Guid="{0D173F04-D2E4-4FDD-ACD6-A7B97223E10D}">
                         <File Id="filAF852C1FD6F31FD912D7B03145F41544" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\Bidding\Index.cshtml" />
                     </Component>
                 </Directory>
                 <Directory Id="dir449C12A66814D2499DF51F140FE0A5A7" Name="Direction">
-                    <Component Id="cmp50EB41A15BDB97A140E7EF5EBCEE247E" Guid="{28855870-D945-4C65-A342-8119A84DF44B}">
+                    <Component Id="cmp50EB41A15BDB97A140E7EF5EBCEE247E" Guid="{9A836341-1D8E-411B-AB0F-96D25049CC4F}">
                         <File Id="fil3789488DD61C5C918ED28911A9EC5069" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\Direction\Index.cshtml" />
                     </Component>
                 </Directory>
                 <Directory Id="dir209C3F546EC5BFE7B61AE935CA879D03" Name="EndScreen">
-                    <Component Id="cmp9E3D483FAAFE47099C81908AFF62400A" Guid="{A8007DE9-5161-458B-A63C-A3B46245400E}">
+                    <Component Id="cmp9E3D483FAAFE47099C81908AFF62400A" Guid="{6D7F6CA6-CBC5-4E94-8405-1DA4D3F1C2C7}">
                         <File Id="filF2ADF4E3FBEE1D00A39401F92498F680" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\EndScreen\Index.cshtml" />
                     </Component>
                 </Directory>
                 <Directory Id="dirC72CDD5C237CD084E0B073B874CB7BC8" Name="ErrorScreen">
-                    <Component Id="cmp1015C21250B936E4E5D2DC5AE03AF5EA" Guid="{3713AEB7-C032-4F49-B8DA-DCCF8A505E0E}">
+                    <Component Id="cmp1015C21250B936E4E5D2DC5AE03AF5EA" Guid="{B7AA1630-3522-451D-851E-D4F6A3EA1CF9}">
                         <File Id="fil64A072043D0706735921562EE1525FC0" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\ErrorScreen\Index.cshtml" />
                     </Component>
                 </Directory>
                 <Directory Id="dirEF4D893572D5FBC25EAE37350F4DEB3D" Name="HandsDisplay">
-                    <Component Id="cmpB3599690E2B91C3CA94557BFA40501E2" Guid="{55804F55-CB9A-4B8A-A40B-700513365C8B}">
+                    <Component Id="cmpB3599690E2B91C3CA94557BFA40501E2" Guid="{4C120B13-47BA-44B5-A099-C508D5B90B0C}">
                         <File Id="fil63410547547D89F502AD9C49B4DF6CAE" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\HandsDisplay\Index.cshtml" />
                     </Component>
                 </Directory>
                 <Directory Id="dir87899CE73E77D0A6356E7BB5BC011E15" Name="Move">
-                    <Component Id="cmp483280C653FAEA0FDF0D8DEDC8015ED4" Guid="{2BD268DA-1B03-4B52-B7D8-16AA09F67A6F}">
+                    <Component Id="cmp483280C653FAEA0FDF0D8DEDC8015ED4" Guid="{A6A949AA-44A4-4732-9CA1-404D39FAA29D}">
                         <File Id="fil6AA0B93621091A1C55B53A64F7FA5B69" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\Move\Index.cshtml" />
                     </Component>
                 </Directory>
                 <Directory Id="dirBE64016005B0D41575810A5D6037617B" Name="Playing">
-                    <Component Id="cmp18C298D54ABEA492C94F4224133BFB0D" Guid="{4B8B1621-3AA4-4C5F-91E8-3299350132E1}">
+                    <Component Id="cmp18C298D54ABEA492C94F4224133BFB0D" Guid="{490BF112-04D7-427C-A729-B5D03FA2A78B}">
                         <File Id="filFC1A3D692A43502C6ED3388D3FD0EF8F" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\Playing\Index.cshtml" />
                     </Component>
                 </Directory>
+                <Directory Id="dir64BC11BB504EB8E50111BA58E446164A" Name="RankingList">
+                    <Component Id="cmpAAB60A6BB33F2138E235BDF4505111E0" Guid="{285749DD-B574-45F1-9749-D111DC12C57B}">
+                        <File Id="filF823A61B92D3B8E6BD4D5EB27033DC47" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\RankingList\OneWinner.cshtml" />
+                    </Component>
+                    <Component Id="cmpA059CF352FEF4E69DFAC094C56D43F60" Guid="{CC167C74-5742-4156-B90F-C26708A7317F}">
+                        <File Id="fil80FCA7BE9F4D4635A63B2C89F69EE803" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\RankingList\TwoWinners.cshtml" />
+                    </Component>
+                </Directory>
                 <Directory Id="dirE233E2D6C059A6A82AF8353869F80650" Name="RegisterPlayers">
-                    <Component Id="cmpAEE04C1DEFD1F317B519A98861384AD7" Guid="{33488C0E-44D2-4325-841F-D35A7B2E5D20}">
+                    <Component Id="cmpAEE04C1DEFD1F317B519A98861384AD7" Guid="{FBDAE781-6708-48C1-B07D-59269CA8C85E}">
                         <File Id="fil0B3B037171B85F5F1B080A892D82D3C0" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\RegisterPlayers\FullTable.cshtml" />
                     </Component>
-                    <Component Id="cmp86571A95DC77936E0FFC8D47E05701F4" Guid="{301DDAA8-E7AB-433F-BBB7-7A66F1FDABDA}">
+                    <Component Id="cmp86571A95DC77936E0FFC8D47E05701F4" Guid="{B7E94D4D-4212-4E3F-99C5-BEF800F79744}">
                         <File Id="fil1C2C17B64CADFA8C9A7860BDE481F640" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\RegisterPlayers\SitOut.cshtml" />
                     </Component>
                 </Directory>
                 <Directory Id="dirF158A82677051AFDA5CCCC6065334B2B" Name="Section">
-                    <Component Id="cmp5B15017DDE5F3F931CA37EDCB215ABE0" Guid="{102E1E28-DE2B-453E-A488-07F50F13A7CD}">
+                    <Component Id="cmp5B15017DDE5F3F931CA37EDCB215ABE0" Guid="{76C328DF-8FFC-4E93-B407-497DED76FB24}">
                         <File Id="fil75E3D8E5CF8BB26795A317E63D412184" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\Section\Index.cshtml" />
                     </Component>
                 </Directory>
                 <Directory Id="dirB4A16442810203D8E035DC3D358EFDE1" Name="Shared">
-                    <Component Id="cmp1774EFC71E8C9C644826E057F0E7F430" Guid="{2AF1C3ED-30ED-4575-A900-EEAA34058892}">
-                        <File Id="filAD16EBEA119B01629E636C19F8A876E5" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\Shared\OneWinnerRankingList.cshtml" />
-                    </Component>
-                    <Component Id="cmpAA22A61930EBA9DAF9F0B1FBD0C64C46" Guid="{340E6014-2276-4D84-AC3E-8C4AD99E3B8C}">
-                        <File Id="fil26B548D5F4728565A0BBA3F48BDDFDCF" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\Shared\TwoWinnersRankingList.cshtml" />
-                    </Component>
-                    <Component Id="cmp2077E59E5B23D8DA9A1D02C4DB9F074C" Guid="{782E6119-B8E0-4357-9FDA-6F6EFCAC1EA0}">
+                    <Component Id="cmp2077E59E5B23D8DA9A1D02C4DB9F074C" Guid="{FAB1103A-44D5-443A-8147-18C7A42560C6}">
                         <File Id="fil90CCEECD4BD52C36A6E4FAFB221AFCE7" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\Shared\_MainLayout.cshtml" />
                     </Component>
                 </Directory>
                 <Directory Id="dir8A37ABDBEE938C8E0838DC12509E8013" Name="StartScreen">
-                    <Component Id="cmp161B6EBB96633AFFD8FBA5B1F60217FF" Guid="{9EB1FC11-47E0-4CE2-AD4E-229FB95E2610}">
+                    <Component Id="cmp161B6EBB96633AFFD8FBA5B1F60217FF" Guid="{18102199-6517-4AAD-9705-B33F7C6B290F}">
                         <File Id="fil7F90D54B012342287876BADEBA0AD7E0" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\StartScreen\Index.cshtml" />
                     </Component>
                 </Directory>
                 <Directory Id="dir549DA53FA722CBED209CBD117D15EE85" Name="TableNumber">
-                    <Component Id="cmp02FF04F9E4214FD1D00B7A0215026280" Guid="{CF167CC7-74E3-48F3-8BA4-32D388919D09}">
+                    <Component Id="cmp02FF04F9E4214FD1D00B7A0215026280" Guid="{D27DFFB7-9C0B-4848-97C5-C2E98006E475}">
                         <File Id="fil646A74AF2C98AB55A257B4690CB5E121" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\TableNumber\Index.cshtml" />
                     </Component>
                 </Directory>
                 <Directory Id="dirB7BC2C2EA1FCE96AAB32A9926F8A4327" Name="Traveller">
-                    <Component Id="cmpE787169FD77C4D04C70827C54B282F3E" Guid="{EF012A71-8877-4256-AA52-EA14C189F80E}">
+                    <Component Id="cmpE787169FD77C4D04C70827C54B282F3E" Guid="{538B06AA-B035-4E3E-8340-EAA55A593897}">
                         <File Id="filE2B4BC77CE7975B5B816F97D85D1D5EB" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\Traveller\Individual.cshtml" />
                     </Component>
-                    <Component Id="cmp8786679B1C2590B37D1EF26F1FD5FC6A" Guid="{8EE53DDF-924E-4529-930E-BA28354907C8}">
+                    <Component Id="cmp8786679B1C2590B37D1EF26F1FD5FC6A" Guid="{AF2B78C5-EDD6-43D9-9B84-B9A1F98D7ED2}">
                         <File Id="fil22FA590F7BD84115F6E7545C3B1FD31A" KeyPath="yes" Source="$(var.TabPlayWebAppSourceDir)\Views\Traveller\Pairs.cshtml" />
                     </Component>
                 </Directory>
@@ -691,6 +696,7 @@
     </Fragment>
     <Fragment>
         <ComponentGroup Id="WebAppComponents">
+            <ComponentRef Id="cmpB66DFE206993B97FC1B3584C2B2B2B03" />
             <ComponentRef Id="cmp26D5BF17F9C9EA498D79D41207B54AA7" />
             <ComponentRef Id="cmp5F26B87B91EBA7A6543C03F9E9BA2FA4" />
             <ComponentRef Id="cmp8763F03EFC8E7D2E1629E4858F54831D" />
@@ -892,11 +898,11 @@
             <ComponentRef Id="cmpB3599690E2B91C3CA94557BFA40501E2" />
             <ComponentRef Id="cmp483280C653FAEA0FDF0D8DEDC8015ED4" />
             <ComponentRef Id="cmp18C298D54ABEA492C94F4224133BFB0D" />
+            <ComponentRef Id="cmpAAB60A6BB33F2138E235BDF4505111E0" />
+            <ComponentRef Id="cmpA059CF352FEF4E69DFAC094C56D43F60" />
             <ComponentRef Id="cmpAEE04C1DEFD1F317B519A98861384AD7" />
             <ComponentRef Id="cmp86571A95DC77936E0FFC8D47E05701F4" />
             <ComponentRef Id="cmp5B15017DDE5F3F931CA37EDCB215ABE0" />
-            <ComponentRef Id="cmp1774EFC71E8C9C644826E057F0E7F430" />
-            <ComponentRef Id="cmpAA22A61930EBA9DAF9F0B1FBD0C64C46" />
             <ComponentRef Id="cmp2077E59E5B23D8DA9A1D02C4DB9F074C" />
             <ComponentRef Id="cmp161B6EBB96633AFFD8FBA5B1F60217FF" />
             <ComponentRef Id="cmp02FF04F9E4214FD1D00B7A0215026280" />

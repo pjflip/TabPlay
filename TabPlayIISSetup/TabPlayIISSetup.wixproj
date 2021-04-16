@@ -22,6 +22,10 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
+    <WixExtension Include="WixUIExtension">
+      <HintPath>..\packages\WiX.3.11.2\tools\WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension</Name>
+    </WixExtension>
     <WixExtension Include="WixUtilExtension">
       <HintPath>..\packages\WiX.3.11.2\tools\WixUtilExtension.dll</HintPath>
       <Name>WixUtilExtension</Name>

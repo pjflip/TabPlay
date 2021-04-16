@@ -4,16 +4,20 @@
   xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension">
 
   <!-- File source definitions -->
-  <?define TabPlayStarterSourceDir = "C:\Users\Peter\source\repos\TabPlay\TabPlayStarter\bin\x86\Release" ?>
+  <?define TabPlayStarterSourceDir = "C:\Users\Peter\source\repos\TabPlay\TabPlayStarter\bin\Release" ?>
   <?define TabPlayDocumentsSourceDir = "C:\Users\Peter\source\repos\TabPlay\TabPlay Documents" ?>
 
-  <Product Id="{0AB6D3E2-0E85-4C76-B6F2-27E108BA448A}" Name="TabPlaySetup" Language="1033" Version="1.0.0" Manufacturer="TabPlay" UpgradeCode="{F379C55E-A0E1-408F-92FE-3E7444D89BAE}">
+  <Product Id="{0AB6D3E2-0E85-4C76-B6F2-27E108BA448A}" Name="TabPlaySetup" Language="1033" Version="1.0.1" Manufacturer="TabPlay" UpgradeCode="{F379C55E-A0E1-408F-92FE-3E7444D89BAE}">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of TabPlay is already installed." />
-
     <MediaTemplate EmbedCab="yes" />
 
+    <UIRef Id="WixUI_Minimal" />
+    <WixVariable Id="WixUILicenseRtf" Value="C:\Users\Peter\source\repos\TabPlay\TabPlay Documents\InstallerNotice TabPlaySetup.rtf" />
+    <WixVariable Id="WixUIBannerBmp" Value="C:\Users\Peter\source\repos\TabPlay\TabPlay Documents\TabPlay 493x58.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="C:\Users\Peter\source\repos\TabPlay\TabPlay Documents\TabPlay 493x312.bmp" />
+    
     <!-- Common documents folder for TabPlayDB.txt install -->
     <SetDirectory Id="UsersPublicFolder" Value="[%PUBLIC]" Sequence="both" />
 
